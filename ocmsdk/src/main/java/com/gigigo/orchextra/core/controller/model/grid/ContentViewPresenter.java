@@ -15,6 +15,7 @@ import com.gigigo.orchextra.core.controller.dto.CellGridContentData;
 import com.gigigo.orchextra.core.domain.OcmController;
 import com.gigigo.orchextra.core.domain.entities.contentdata.ContentItem;
 import com.gigigo.orchextra.core.domain.entities.contentdata.ContentItemPattern;
+import com.gigigo.orchextra.core.domain.entities.contentdata.ContentItemTypeLayout;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCache;
 import com.gigigo.orchextra.core.domain.entities.elements.Element;
 import com.gigigo.orchextra.core.domain.entities.menus.RequiredAuthoritation;
@@ -79,7 +80,7 @@ public class ContentViewPresenter extends Presenter<ContentView> {
           listedCellContentDataList = checkTypeAndCalculateCelListedContent(contentItem);;
 
           if (listedCellContentDataList.size() != 0) {
-            getView().setData(listedCellContentDataList, contentItem.getLayout().getType());
+            getView().setData(listedCellContentDataList, ContentItemTypeLayout.CAROUSEL); //contentItem.getLayout().getType());
           } else {
             getView().showEmptyView();
           }
@@ -103,13 +104,13 @@ public class ContentViewPresenter extends Presenter<ContentView> {
   }
 
   private List<Cell> checkTypeAndCalculateCelListedContent(ContentItem contentItem) {
-    switch (contentItem.getLayout().getType()) {
-      case CAROUSEL:
+    //switch (contentItem.getLayout().getType()) {
+    //  case CAROUSEL:
         return calculateCarouselCells(contentItem);
-      case GRID:
-      default:
-        return calculateGridCells(contentItem);
-    }
+      //case GRID:
+      //default:
+      //  return calculateGridCells(contentItem);
+    //}
   }
 
   private List<Cell> calculateCarouselCells(ContentItem contentItem) {
@@ -199,7 +200,7 @@ public class ContentViewPresenter extends Presenter<ContentView> {
         imageUrlToExpandInPreview = cachedElement.getPreview().getImageUrl();
       }
 
-      if (element != null && checkLoginAuth(element.getSegmentation().getRequiredAuth())) {
+      if (checkLoginAuth(element.getSegmentation().getRequiredAuth())) {
         getView().navigateToDetailView(element.getElementUrl(), imageUrlToExpandInPreview, activity,
             view);
       } else {

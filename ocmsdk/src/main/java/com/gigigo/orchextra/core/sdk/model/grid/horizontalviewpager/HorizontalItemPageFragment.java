@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.gigigo.orchextra.core.controller.dto.CellCarouselContentData;
+import com.gigigo.orchextra.core.domain.entities.elements.ElementSectionView;
 import com.gigigo.orchextra.ocmsdk.R;
 import com.gigigo.ui.imageloader.ImageLoader;
 
@@ -16,6 +17,7 @@ public class HorizontalItemPageFragment extends Fragment {
   private ImageLoader imageLoader;
   private CellCarouselContentData cell;
   private ImageView horizontalItemImageView;
+  private OnClickItemListener onClickItemListener;
 
   public static HorizontalItemPageFragment newInstance() {
     return new HorizontalItemPageFragment();
@@ -31,8 +33,15 @@ public class HorizontalItemPageFragment extends Fragment {
     return view;
   }
 
-  private void initViews(View view) {
+  private void initViews(final View view) {
     horizontalItemImageView = (ImageView) view.findViewById(R.id.horizontalItemImageView);
+    view.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (onClickItemListener != null) {
+          onClickItemListener.onClickItem(view);
+        }
+      }
+    });
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -42,8 +51,12 @@ public class HorizontalItemPageFragment extends Fragment {
   }
 
   private void setImage() {
-    String imageUrl = cell.getData().getSectionView().getImageUrl();
-    imageLoader.load(imageUrl).into(horizontalItemImageView);
+    if (cell != null && cell.getData() != null && cell.getData().getSectionView() != null) {
+      ElementSectionView sectionView = cell.getData().getSectionView();
+
+      String imageUrl = sectionView.getImageUrl();
+      imageLoader.load(imageUrl).into(horizontalItemImageView);
+    }
   }
 
   public void setImageLoader(ImageLoader imageLoader) {
@@ -52,5 +65,13 @@ public class HorizontalItemPageFragment extends Fragment {
 
   public void setCell(CellCarouselContentData cell) {
     this.cell = cell;
+  }
+
+  public void setOnClickItemListener(OnClickItemListener onClickItemListener) {
+    this.onClickItemListener = onClickItemListener;
+  }
+
+  public interface OnClickItemListener {
+    void onClickItem(View view);
   }
 }
