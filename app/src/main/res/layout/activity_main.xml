@@ -19,8 +19,8 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_collapseMode="pin"
-        />
+
+        /> <!--app:layout_collapseMode="pin" -->
 
   </android.support.design.widget.AppBarLayout>
 
@@ -28,9 +28,9 @@
       android:id="@+id/contentLayout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior"
-      />
 
+      />
+  <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
   <ProgressBar
       android:id="@+id/progressbar"
       android:layout_width="wrap_content"

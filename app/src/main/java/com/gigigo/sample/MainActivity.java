@@ -99,15 +99,17 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void loadFragment(TabLayout.Tab tab) {
-    UiGridBaseContentData uiGridBaseContentData =
-        Ocm.generateGridView(uiMenu.get(tab.getPosition()).getElementUrl(), null);
+    if(tab!=null) {
+      UiGridBaseContentData uiGridBaseContentData =
+          Ocm.generateGridView(uiMenu.get(tab.getPosition()).getElementUrl(), null);
 
-    uiGridBaseContentData.setProgressView(progressbar);
-    uiGridBaseContentData.setClipToPaddingBottomSize(ClipToPadding.PADDING_NONE);
+      uiGridBaseContentData.setProgressView(progressbar);
+      uiGridBaseContentData.setClipToPaddingBottomSize(ClipToPadding.PADDING_NONE);
 
-    getSupportFragmentManager().beginTransaction()
-        .replace(R.id.contentLayout, uiGridBaseContentData)
-        .commitAllowingStateLoss();
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.contentLayout, uiGridBaseContentData)
+          .commitAllowingStateLoss();
+    }
   }
 
   private void selectFirstTab() {

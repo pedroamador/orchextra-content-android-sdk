@@ -1,24 +1,6 @@
 package com.gigigo.orchextra.core.domain.interactors.home;
 
-import com.gigigo.interactorexecutor.interactors.InteractorResponse;
-import com.gigigo.interactorexecutor.responses.BusinessError;
-import com.gigigo.interactorexecutor.responses.BusinessObject;
-import com.gigigo.orchextra.core.domain.data.DataBaseDataSource;
-import com.gigigo.orchextra.core.domain.data.MenuNetworkDataSource;
-import com.gigigo.orchextra.core.domain.entities.menus.MenuContentData;
-import com.gigigo.orchextra.core.domain.interactors.errors.GenericResponseDataError;
-import com.gigigo.orchextra.core.domain.interactors.errors.NoNetworkConnectionError;
-import com.gigigo.orchextra.core.domain.services.MenuNetworkDomainService;
-import com.gigigo.orchextra.core.domain.utils.ConnectionUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
+/*
 @RunWith(MockitoJUnitRunner.class)
 public class RetrieveSectionUiMenuInteractorTest {
 
@@ -79,4 +61,4 @@ public class RetrieveSectionUiMenuInteractorTest {
   private BusinessObject<MenuContentData> getFakeFailedMenuContentData() {
     return new BusinessObject<>(null, BusinessError.createKOInstance(""));
   }
-}
+}*/

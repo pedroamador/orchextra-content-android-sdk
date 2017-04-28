@@ -22,13 +22,14 @@ android {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:25.1.0'
+  compile 'com.android.support:appcompat-v7:25.3.1'
 
-  compile project(path: ':ocmsdk')
-//  compile 'com.github.Nuborisar:orchextra-content-android-sdk:v1.0RC7'
+  //play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
+
+  compile project(path: ':ocmsdk', configuration:'ocmPrerelease')
+  //compile 'com.android.support:multidex:1.0.0'
 
 //  compile 'com.squareup.leakcanary:leakcanary-android:1.5'
 
   compile 'com.android.support:multidex:1.0.1'
-
 }

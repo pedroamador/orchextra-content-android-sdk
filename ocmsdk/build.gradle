@@ -98,16 +98,12 @@ android {
     }
   }
 
-  //flavorDimensions "play"
-
   productFlavors {
-    ocm {
-      //dimension "play"
-    }
+    ocm {}
   }
 
   // true to publish all flavour artifacts
-  publishNonDefault false
+  publishNonDefault true
   defaultPublishConfig "ocmRelease"
 }
 
@@ -127,6 +123,8 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
 
   compile rootProject.ext.libraries.androidSupportDesign
+  compile rootProject.ext.libraries.constraintLayout
+
   compile rootProject.ext.libraries.ggglib
   compile rootProject.ext.libraries.gggJavaLib
 
@@ -143,7 +141,19 @@ dependencies {
   compile rootProject.ext.libraries.imageloaderGlideBlur
 
   //compile rootProject.ext.libraries.oxvuforiaimplementation
-  compile(rootProject.ext.libraries.orchextrasdkStaging) { transitive true }
+ 
+  //old compile(rootProject.ext.libraries.orchextrasdkStaging) { transitive true }
+
+  compile(rootProject.ext.libraries.orchextrasdkDebug) { transitive = true }
+
+ /* ocmStagingCompile(rootProject.ext.libraries.orchextrasdkStaging) { transitive = true }
+  ocmDebugCompile(rootProject.ext.libraries.orchextrasdkDebug) { transitive = true }
+
+  ocmStoreCompile(rootProject.ext.libraries.orchextrasdkRelease) { transitive = true }
+ // ocmPrereleaseCompile(rootProject.ext.libraries.orchextrasdkRelease) { transitive = true }
+  ocmPrereleaseCompile(rootProject.ext.libraries.orchextrasdkDebug) { transitive = true }
+  ocmReleaseCompile(rootProject.ext.libraries.orchextrasdkRelease) { transitive = true }
+ */
 
   testCompile rootProject.ext.testLibraries.junit
   testCompile rootProject.ext.testLibraries.assertj
@@ -153,5 +163,6 @@ dependencies {
   compile rootProject.ext.libraries.playServicesLocation
   compile rootProject.ext.libraries.playServicesGcm
 
-  compile rootProject.ext.libraries.realTextView
+  compile rootProject.ext.libraries.doubleViewPager
+  compile rootProject.ext.libraries.autofitTextView
 }
