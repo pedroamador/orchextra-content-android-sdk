@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.core.data.api.dto.article.ApiArticleElement;
+import com.gigigo.orchextra.core.domain.entities.article.ArticleButtonElement;
+import com.gigigo.orchextra.core.domain.entities.article.ArticleButtonSize;
+import com.gigigo.orchextra.core.domain.entities.article.ArticleButtonType;
 import com.gigigo.orchextra.core.domain.entities.article.ArticleHeaderElement;
 import com.gigigo.orchextra.core.domain.entities.article.ArticleImageAndTextElement;
 import com.gigigo.orchextra.core.domain.entities.article.ArticleTextAndImageElement;
@@ -46,6 +49,8 @@ public class ApiArticleElementMapper implements
         return getArticleImageAndTextElement(render);
       case TEXT_AND_IMAGE:
         return getArticleTextAndImageElement(render);
+      case BUTTON:
+        return getArticleButtonElement(render);
     }
     return null;
   }
@@ -96,4 +101,16 @@ public class ApiArticleElementMapper implements
     return element;
   }
 
+
+  @NonNull private ArticleElement getArticleButtonElement(ApiArticleElementRender render) {
+    ArticleButtonElement articleButtonElement = new ArticleButtonElement();
+    articleButtonElement.setType(ArticleButtonType.convertStringToEnum(render.getType()));
+    articleButtonElement.setSize(ArticleButtonSize.convertStringToEnum(render.getSize()));
+    articleButtonElement.setElementUrl(render.getElementUrl());
+    articleButtonElement.setText(render.getText());
+    articleButtonElement.setTextColor(render.getTextColor());
+    articleButtonElement.setBgColor(render.getBgColor());
+    articleButtonElement.setImageUrl(render.getImageUrl());
+    return articleButtonElement;
+  }
 }

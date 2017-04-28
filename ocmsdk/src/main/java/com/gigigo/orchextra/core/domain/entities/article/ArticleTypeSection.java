@@ -7,6 +7,7 @@ public enum ArticleTypeSection {
   RICH_TEXT("richText"),
   IMAGE_AND_TEXT("imageText"),
   TEXT_AND_IMAGE("textImage"),
+  BUTTON("button"),
   NONE("");
 
   private final String typeSection;
