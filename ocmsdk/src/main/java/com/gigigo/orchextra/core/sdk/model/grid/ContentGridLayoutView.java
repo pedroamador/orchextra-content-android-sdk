@@ -168,7 +168,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
 
       uiListedBaseContentData = SpannedGridRecyclerView.newInstance();
 
-      uiListedBaseContentData.setClipToPadding(clipToPadding);
+ uiListedBaseContentData.setClipToPadding(clipToPadding);
       uiListedBaseContentData.setImageLoader(imageLoader);
       uiListedBaseContentData.setAuthoritation(authoritation);
       setEmptyViewLayout(appEmptyView != null ? appEmptyView : emptyView);
@@ -178,8 +178,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
 
       fragmentManager.beginTransaction()
           .replace(R.id.listedDataContainer, uiListedBaseContentData)
-          .commit();
-    }
+          .commit();    }
     uiListedBaseContentData.setData(cellDataList);
   }
 
