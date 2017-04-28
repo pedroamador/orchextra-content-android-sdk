@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,15 @@ import com.gigigo.orchextra.ocmsdk.R;
 import java.util.List;
 
 public class HorizontalViewPager extends UiListedBaseContentData {
+
+  HorizontalViewPagerAdapter.OnClickItemListener onClickItem =
+      new HorizontalViewPagerAdapter.OnClickItemListener() {
+        @Override public void onClickItem(int position, View view) {
+          if (listedContentListener != null) {
+            listedContentListener.onItemClicked(position, view);
+          }
+        }
+      };
 
   private ViewPager listedHorizontalViewPager;
   private HorizontalViewPagerAdapter adapter;
@@ -46,7 +54,8 @@ public class HorizontalViewPager extends UiListedBaseContentData {
   }
 
   private void initViewPager() {
-    adapter = new HorizontalViewPagerAdapter(fragmentManager, imageLoader);
+    adapter = new HorizontalViewPagerAdapter(fragmentManager, imageLoader, cellDataList);
+    adapter.setOnClickItemListener(onClickItem);
     listedHorizontalViewPager.setAdapter(adapter);
   }
 

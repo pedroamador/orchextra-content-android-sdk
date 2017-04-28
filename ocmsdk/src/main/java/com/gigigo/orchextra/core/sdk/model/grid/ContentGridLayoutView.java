@@ -215,7 +215,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
     ImageView imageViewToExpandInDetail =
         (ImageView) view.findViewById(R.id.image_to_expand_in_detail);
 
-    if (urlImageToExpand != null) {
+    if (imageViewToExpandInDetail != null && urlImageToExpand != null) {
       String imageUrl = ImageGenerator.generateImageUrl(urlImageToExpand,
           DeviceUtils.calculateRealWidthDevice(context),
           DeviceUtils.calculateRealHeightDevice(context));

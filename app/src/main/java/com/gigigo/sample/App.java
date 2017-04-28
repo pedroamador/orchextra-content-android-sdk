@@ -23,6 +23,7 @@ public class App extends MultiDexApplication {
   //public static String API_KEY = "adfc8ba4340828a054bf061f692707a197af96cb";    // UAT][CSE] - WOAH SITC
   //public static String API_SECRET = "677cf75a17aeec144ee402c281ad3a732d736a8a";
 
+ 
   private OnRequiredLoginCallback onDoRequiredLoginCallback = new OnRequiredLoginCallback() {
     @Override public void doRequiredLogin() {
 

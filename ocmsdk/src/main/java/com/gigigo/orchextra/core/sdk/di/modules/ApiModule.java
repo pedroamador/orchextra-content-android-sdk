@@ -34,8 +34,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module public class ApiModule {
 
   @Provides @Singleton @EndpointOcm String provideEndpoint() {
-   // return BuildConfig.API_URL;
-    return "https://cm.q.orchextra.io/";
   }
 
   @Provides @Singleton @RetrofitLog boolean provideRetrofitLog() {
