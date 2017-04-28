@@ -80,7 +80,7 @@ public class ContentViewPresenter extends Presenter<ContentView> {
           listedCellContentDataList = checkTypeAndCalculateCelListedContent(contentItem);;
 
           if (listedCellContentDataList.size() != 0) {
-            getView().setData(listedCellContentDataList, ContentItemTypeLayout.CAROUSEL); //contentItem.getLayout().getType());
+            getView().setData(listedCellContentDataList, contentItem.getLayout().getType());
           } else {
             getView().showEmptyView();
           }
@@ -104,13 +104,13 @@ public class ContentViewPresenter extends Presenter<ContentView> {
   }
 
   private List<Cell> checkTypeAndCalculateCelListedContent(ContentItem contentItem) {
-    //switch (contentItem.getLayout().getType()) {
-    //  case CAROUSEL:
+    switch (contentItem.getLayout().getType()) {
+      case CAROUSEL:
         return calculateCarouselCells(contentItem);
-      //case GRID:
-      //default:
-      //  return calculateGridCells(contentItem);
-    //}
+      case GRID:
+      default:
+        return calculateGridCells(contentItem);
+    }
   }
 
   private List<Cell> calculateCarouselCells(ContentItem contentItem) {
