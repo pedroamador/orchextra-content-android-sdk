@@ -152,3 +152,8 @@ dependencies {
   testCompile project.testLibraries.mockito
 }
 
+configurations.all {
+  exclude group:'com.android.support', module:'design'
+  exclude group:'com.github.GigigoGreenLabs.gggUtilsSuite', module:'ggglib'
+}
+
