@@ -4,6 +4,8 @@ import android.app.Application;
 import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
+import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
+import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
 import com.gigigo.orchextra.ocm.views.UiDetailBaseContentData;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
@@ -14,20 +16,22 @@ import java.util.Map;
 public final class Ocm {
 
   public static void initialize(Application app) {
-    OcmBuilder ocmBuilder = new OcmBuilder(app);
-
-    String oxKey = "novalidKey";
-    String oxSecret = "novalidSecret";
-    Class notificationActivityClass = ocmBuilder.getNotificationActivityClass();
-
     OCManager.initSdk(app);
-    OCManager.setContentLanguage(ocmBuilder.getContentLanguage());
-    OCManager.setDoRequiredLoginCallback(ocmBuilder.getOnRequiredLoginCallback());
-    OCManager.setEventCallback(ocmBuilder.getOnEventCallback());
-    OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass, ocmBuilder.getOxSenderId());
+    OCManager.initOrchextra("novalidKey", "novalidSecret", null, "invalidasenderid");
   }
 
+  public static void initialize(Application app,String senderId, Class notificationActivityClass) {
+    OCManager.initSdk(app);
+    OCManager.initOrchextra("novalidKey", "novalidSecret", notificationActivityClass,senderId);
+  }
 
+  public static void setDoRequiredLoginCallback(OnRequiredLoginCallback onRequiredLoginCallback) {
+    OCManager.setDoRequiredLoginCallback(onRequiredLoginCallback);
+  }
+
+  public static void setEventCallback(OnEventCallback onEventCallback) {
+    OCManager.setEventCallback(onEventCallback);
+  }
 
   /**
    * Initialize the sdk. This method must be initialized in the onCreate method of the Application
@@ -45,6 +49,9 @@ public final class Ocm {
     OCManager.setContentLanguage(ocmBuilder.getContentLanguage());
     OCManager.setDoRequiredLoginCallback(ocmBuilder.getOnRequiredLoginCallback());
     OCManager.setEventCallback(ocmBuilder.getOnEventCallback());
+   if(ocmBuilder.getVuforiaImpl()!=null)
+     OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass, ocmBuilder.getOxSenderId(),ocmBuilder.getVuforiaImpl());
+   else
     OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass, ocmBuilder.getOxSenderId());
   }
 
@@ -79,8 +86,7 @@ public final class Ocm {
 
   /**
    * Clear cached data
-   * @param images
-   * @param data
+   *
    * @param clear callback
    */
   public static void clearData(boolean images, boolean data, final OCManagerCallbacks.Clear clear) {
@@ -102,15 +108,14 @@ public final class Ocm {
    * @param filter To filter the content by a word
    * @param sectionCallbacks callback
    */
-  public static void generateSectionView(String viewId, String filter, OcmCallbacks.Section sectionCallbacks) {
+  public static void generateSectionView(String viewId, String filter,
+      OcmCallbacks.Section sectionCallbacks) {
     OCManager.generateSectionView(viewId, filter, new OCManagerCallbacks.Section() {
-      @Override
-      public void onSectionLoaded(UiGridBaseContentData uiGridBaseContentData) {
+      @Override public void onSectionLoaded(UiGridBaseContentData uiGridBaseContentData) {
         sectionCallbacks.onSectionLoaded(uiGridBaseContentData);
       }
 
-      @Override
-      public void onSectionFails(Exception e) {
+      @Override public void onSectionFails(Exception e) {
         sectionCallbacks.onSectionFails(e);
       }
     });
