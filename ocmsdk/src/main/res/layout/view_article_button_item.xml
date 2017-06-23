@@ -23,9 +23,11 @@
       />
 
   <ImageView
+      android:layout_marginLeft="@dimen/oc_spacing_12"
+      android:layout_marginRight="@dimen/oc_spacing_12"
       android:id="@+id/articleImageButton"
-      android:layout_width="wrap_content"
-      android:layout_height="160dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:adjustViewBounds="true"
       android:gravity="center"
