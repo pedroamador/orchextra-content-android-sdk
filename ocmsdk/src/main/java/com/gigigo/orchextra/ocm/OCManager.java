@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 import android.widget.ImageView;
+import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
@@ -33,11 +34,12 @@ import com.gigigo.orchextra.ocm.dto.UiMenu;
 import com.gigigo.orchextra.ocm.views.UiDetailBaseContentData;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
 import com.gigigo.orchextra.ocm.views.UiSearchBaseContentData;
-//import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import orchextra.javax.inject.Inject;
+
+//import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 //import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
@@ -195,6 +197,14 @@ public final class OCManager {
       OCManager.instance.initOrchextra(app, oxKey, oxSecret, notificationActivityClass, senderId);
     }
   }
+  static void initOrchextra(String oxKey, String oxSecret, Class notificationActivityClass,
+      String senderId,ImageRecognition vuforia) {
+    if (OCManager.instance != null) {
+      Application app = (Application) instance.ocmContextProvider.getApplicationContext();
+      OCManager.instance.initOrchextra(app, oxKey, oxSecret, notificationActivityClass, senderId,vuforia);
+    }
+  }
+
 
   static void setOrchextraBusinessUnit(String businessUnit) {
     List<String> bussinessUnits = new ArrayList();
@@ -322,7 +332,6 @@ public final class OCManager {
     OrchextraBuilder builder = new OrchextraBuilder(app);
     builder.setApiKeyAndSecret(oxKey, oxSecret)
         .setLogLevel(OrchextraLogLevel.NETWORK)
-        //.setGcmSenderId("117687721829")       //TODO Test sender Id nuborisar
        // .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
         .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE)
         .setOrchextraCompletionCallback(new OrchextraCompletionCallback() {
@@ -360,6 +369,55 @@ public final class OCManager {
       builder.setGcmSenderId(senderId);
     }
 
+    Orchextra.initialize(builder);
+
+    Orchextra.setCustomSchemeReceiver(onOxCustomSchemeReceiver);
+  }
+
+  private void initOrchextra(Application app, String oxKey, String oxSecret,
+      Class notificationActivityClass, String senderId,ImageRecognition vuforia) {
+
+    OrchextraBuilder builder = new OrchextraBuilder(app);
+    builder.setApiKeyAndSecret(oxKey, oxSecret)
+        .setLogLevel(OrchextraLogLevel.NETWORK)
+        .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE)
+        .setOrchextraCompletionCallback(new OrchextraCompletionCallback() {
+          @Override public void onSuccess() {
+            Log.d("WOAH", "Orchextra initialized successfully");
+          }
+
+          @Override public void onError(String error) {
+            Log.d("WOAH", "onError: " + error);
+
+            if (error.equals("401") && instance.ocmCredentialCallback != null) {
+              ocmCredentialCallback.onCredentailError(error);
+            }
+          }
+
+          @Override public void onInit(String s) {
+            Log.d("WOAH", "onInit: " + s);
+          }
+
+          @Override public void onConfigurationReceive(String accessToken) {
+            Log.d("WOAH", "onConfigurationReceive: " + accessToken);
+
+            instance.oxSession.setToken(accessToken);
+
+            if (instance.ocmCredentialCallback != null) {
+              ocmCredentialCallback.onCredentialReceiver(accessToken);
+            }
+          }
+        });
+
+    if (notificationActivityClass != null) {
+      builder.setNotificationActivityClass(notificationActivityClass.toString());
+    }
+    if (senderId != null && senderId != "") {
+      builder.setGcmSenderId(senderId);
+    }
+    if (vuforia != null ) {
+      builder.setImageRecognitionModule(vuforia);
+    }
     Orchextra.initialize(builder);
 
     Orchextra.setCustomSchemeReceiver(onOxCustomSchemeReceiver);

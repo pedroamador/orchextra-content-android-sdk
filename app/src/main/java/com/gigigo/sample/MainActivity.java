@@ -1,16 +1,20 @@
 package com.gigigo.sample;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
+import com.gigigo.orchextra.ocm.OcmEvent;
+import com.gigigo.orchextra.ocm.OcmStyleUiBuilder;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
+import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
+import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
 import java.util.List;
 
@@ -41,7 +45,13 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initViews();
+    findViewById(R.id.btnStart).setOnClickListener(new View.OnClickListener() {
+  @Override public void onClick(View v) {
     startCredentials();
+    v.setVisibility(View.GONE);
+  }
+});
+
   }
 
   private void initViews() {
@@ -52,8 +62,35 @@ public class MainActivity extends AppCompatActivity {
     viewpager.setAdapter(adapter);
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
   }
+  //region new reinit ocm/ox
+
+  private OnRequiredLoginCallback onDoRequiredLoginCallback = new OnRequiredLoginCallback() {
+    @Override public void doRequiredLogin() {
+
+    }
+  };
+  private OnEventCallback onEventCallback = new OnEventCallback() {
+    @Override public void doEvent(OcmEvent event, Object data) {
+    }
+
+    @Override public void doEvent(OcmEvent event) {
+    }
+  };
 
   private void startCredentials() {
+
+    //configure sdk when we are inside app login
+    Ocm.setDoRequiredLoginCallback(onDoRequiredLoginCallback);
+    Ocm.setEventCallback(onEventCallback);
+    Ocm.setContentLanguage("EN");
+    Ocm.setBusinessUnit("it");
+
+    OcmStyleUiBuilder ocmStyleUiBuilder = new OcmStyleUiBuilder().setTitleToolbarEnabled(true)
+        .setThumbnailEnabled(true)
+        .setEnabledStatusBar(true);
+
+    Ocm.setStyleUi(ocmStyleUiBuilder);
+
     Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
       @Override public void onCredentialReceiver(String accessToken) {
         //TODO Fix in Orchextra
@@ -67,17 +104,20 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout, "No Internet Connection: " + code, Snackbar.LENGTH_INDEFINITE)
-            .show();
+        Toast.makeText(MainActivity.this, "No Internet Connection: "+code, Toast.LENGTH_LONG).show();
       }
     });
 
     Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
       @Override public void onReceive(String customScheme) {
+        //for example
         Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
         Orchextra.startScannerActivity();
       }
     });
+
+    Ocm.setUserIsAuthorizated(true);//asv new in sample
+
   }
 
   private void getContent() {
