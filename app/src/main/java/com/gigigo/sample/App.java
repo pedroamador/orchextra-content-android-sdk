@@ -22,6 +22,10 @@ public class App extends MultiDexApplication {
   //public static String API_KEY = "adfc8ba4340828a054bf061f692707a197af96cb";    //[UAT][CSE] - WOAH SITC project --- Staging
   //public static String API_SECRET = "677cf75a17aeec144ee402c281ad3a732d736a8a";
 
+  //WOAH MARKETS
+  //public static String API_KEY = "ef08c4dccb7649b9956296a863db002a68240be2";    //Woah project
+  //public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
+
   //REPSOL RELEASE
   //public static String API_KEY = "7bb9fa0f9b7a02846383fd6284d3c74b8155644c";
   //public static String API_SECRET = "3295dc8de90300e2977e6cec5b28b614fc644934";
