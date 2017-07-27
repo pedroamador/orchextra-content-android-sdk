@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
+import com.gigigo.orchextra.core.data.rxExecutor.PriorityObservable;
 import com.gigigo.orchextra.core.domain.entities.menus.MenuContentData;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
@@ -22,7 +23,7 @@ public class GetMenus extends UseCase<MenuContentData, GetMenus.Params> {
   }
 
   @Override Observable<MenuContentData> buildUseCaseObservable(Params params) {
-    return this.ocmRepository.getMenu(params.forceReload);
+    return PriorityObservable.concat(this.ocmRepository.getMenu(params.forceReload), Observable.empty());
   }
 
   public static final class Params {

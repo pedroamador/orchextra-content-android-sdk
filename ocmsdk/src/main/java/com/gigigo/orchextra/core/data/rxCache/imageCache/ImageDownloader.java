@@ -4,6 +4,7 @@ import android.content.Context;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.core.data.rxCache.imageCache.loader.OcmImageLoader;
+import com.gigigo.orchextra.core.data.rxExecutor.PriorityWorker;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,7 +20,7 @@ import java.net.URLConnection;
 
 //asv jajaja no me jodas, las inner class a no ser q sea static conservan una instancia del fader,
 // así = x esta chuminá se va de memoria
-public class ImageDownloader implements LowPriorityRunnable {
+public class ImageDownloader implements Runnable, PriorityWorker {
   private final ImageData imageData;
   private final Context mContext;
   private final OcmImageCacheImp.Callback callback;

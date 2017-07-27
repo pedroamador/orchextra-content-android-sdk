@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
 import com.fernandocejas.arrow.checks.Preconditions;
+import com.gigigo.orchextra.core.data.rxExecutor.PriorityObservable;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
 import io.reactivex.Observable;

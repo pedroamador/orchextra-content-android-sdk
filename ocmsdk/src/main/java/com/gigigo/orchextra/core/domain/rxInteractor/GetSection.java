@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
+import com.gigigo.orchextra.core.data.rxExecutor.PriorityObservable;
 import com.gigigo.orchextra.core.domain.entities.contentdata.ContentData;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCache;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
@@ -23,7 +24,9 @@ public class GetSection extends UseCase<ContentData, GetSection.Params> {
   }
 
   @Override Observable<ContentData> buildUseCaseObservable(Params params) {
-    return this.ocmRepository.getSectionElements(params.forceReload, params.section, params.imagestodownload);
+    return PriorityObservable.concat(
+        this.ocmRepository.getSectionElements(params.forceReload, params.section,
+            params.imagestodownload), Observable.empty());
   }
 
   public static final class Params {

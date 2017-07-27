@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
-import com.gigigo.orchextra.core.domain.entities.contentdata.ContentData;
+import com.gigigo.orchextra.core.data.rxExecutor.PriorityObservable;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
 import com.gigigo.orchextra.core.domain.rxRepository.OcmRepository;
@@ -22,7 +22,7 @@ public class ClearCache extends UseCase<Void, ClearCache.Params> {
   }
 
   @Override Observable<Void> buildUseCaseObservable(Params params) {
-    return this.ocmRepository.clear(params.images, params.data);
+    return PriorityObservable.concat(this.ocmRepository.clear(params.images, params.data), Observable.empty());
   }
 
   public static final class Params {

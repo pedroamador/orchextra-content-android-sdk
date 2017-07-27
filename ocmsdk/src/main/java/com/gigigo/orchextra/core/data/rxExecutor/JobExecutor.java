@@ -1,12 +1,9 @@
 package com.gigigo.orchextra.core.data.rxExecutor;
 
 import android.util.Log;
-import com.gigigo.orchextra.core.data.rxCache.imageCache.ImageDownloader;
-import com.gigigo.orchextra.core.data.rxCache.imageCache.LowPriorityRunnable;
 import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
 import java.util.Comparator;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -33,13 +30,13 @@ import orchextra.javax.inject.Singleton;
     initCores();
     this.workQueue = new PriorityBlockingQueue<>(INITIAL_POOL_SIZE, new Comparator<Runnable>() {
       @Override public int compare(Runnable o1, Runnable o2) {
-        Log.v("Priority-o1", o1.getClass().getName() + " | " + (o1 instanceof LowPriorityRunnable));
-        Log.v("Priority-o2", o2.getClass().getName() + " | " + (o2 instanceof LowPriorityRunnable));
+        Log.v("Priority-o1", o1.getClass().getName() + " | " + (o1 instanceof PriorityWorker));
+        Log.v("Priority-o2", o2.getClass().getName() + " | " + (o2 instanceof PriorityWorker));
 
         int priority1 = 0;
         int priority2 = 0;
-        if (o1 instanceof LowPriorityRunnable) priority1 = 1;
-        if (o2 instanceof LowPriorityRunnable) priority2 = 1;
+        if (o1 instanceof PriorityWorker) priority1 = 1;
+        if (o2 instanceof PriorityWorker) priority2 = 1;
 
         return priority1 - priority2;
       }
@@ -69,11 +66,13 @@ import orchextra.javax.inject.Singleton;
       if (Runtime.getRuntime().availableProcessors() - 1 < 2) {
         MAX_POOL_SIZE = 2;
       } else {
-        MAX_POOL_SIZE = Runtime.getRuntime().availableProcessors() - 1;
+        MAX_POOL_SIZE = Runtime.getRuntime().availableProcessors();
       }
     } catch (IllegalArgumentException exception) {
       MAX_POOL_SIZE = 2;
     }
+
+    MAX_POOL_SIZE = Runtime.getRuntime().availableProcessors();
   }
 
   @Override public void execute(Runnable runnable) {

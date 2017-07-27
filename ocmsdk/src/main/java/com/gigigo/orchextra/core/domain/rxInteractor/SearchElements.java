@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
+import com.gigigo.orchextra.core.data.rxExecutor.PriorityObservable;
 import com.gigigo.orchextra.core.domain.entities.contentdata.ContentData;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
@@ -22,7 +23,7 @@ public class SearchElements extends UseCase<ContentData, SearchElements.Params> 
   }
 
   @Override Observable<ContentData> buildUseCaseObservable(Params params) {
-    return this.ocmRepository.doSearch(params.textToSearch);
+    return PriorityObservable.concat(this.ocmRepository.doSearch(params.textToSearch), Observable.empty());
   }
 
   public static final class Params {
