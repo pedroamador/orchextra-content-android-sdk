@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
@@ -30,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
       new TabLayout.OnTabSelectedListener() {
         @Override public void onTabSelected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ScreenSlidePageFragment frag=  ((ScreenSlidePageFragment)adapter.getItem(viewpager.getCurrentItem()));
+          ScreenSlidePageFragment frag =
+              ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem()));
           frag.reloadSection();
         }
 
@@ -39,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override public void onTabReselected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ((ScreenSlidePageFragment)adapter.getItem(viewpager.getCurrentItem())).reloadSection();
-
+          ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem())).reloadSection();
         }
       };
 
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
       Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled"
           + OCManager.getShowReadedArticlesInGrayScale(), Toast.LENGTH_LONG).show();
     }
-
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initViews() {
+    initToolbar();
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
     viewpager = (ViewPager) findViewById(R.id.viewpager);
     View fabReload = findViewById(R.id.fabReload);
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     fabClean.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
-         clearDataAndGoToChangeCountryView();
+        clearDataAndGoToChangeCountryView();
       }
     });
 
@@ -100,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
     viewpager.setAdapter(adapter);
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+  }
+
+  private void initToolbar() {
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
   }
 
   static String country = "it";
@@ -117,8 +123,9 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout, "No Internet Connection: " + code +"\n check Credentials-Enviroment", Snackbar.LENGTH_INDEFINITE)
-            .show();
+        Snackbar.make(tabLayout,
+            "No Internet Connection: " + code + "\n check Credentials-Enviroment",
+            Snackbar.LENGTH_INDEFINITE).show();
       }
     });
 
