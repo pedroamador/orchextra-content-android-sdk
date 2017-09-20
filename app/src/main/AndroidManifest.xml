@@ -18,14 +18,18 @@
       tools:replace="android:allowBackup">
 
     <activity
-        android:name="com.gigigo.sample.MainActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:name=".SplashActivity"
+        android:theme="@style/SplashTheme">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
+    <activity
+        android:name="com.gigigo.sample.MainActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"/>
   </application>
 </manifest>
