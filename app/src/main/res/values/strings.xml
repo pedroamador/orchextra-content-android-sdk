@@ -1,3 +1,7 @@
 <resources>
   <string name="app_name" translatable="false">Orchextra Content Android Sdk</string>
+  <string name="init_sdk">Init SDK</string>
+  <string name="refresh">Refresh</string>
+  <string name="init_clean">Clean</string>
+  <string name="loading">Loading</string>
 </resources>

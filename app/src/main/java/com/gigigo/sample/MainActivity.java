@@ -5,7 +5,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
@@ -22,7 +23,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+  private static final Boolean AUTO_INIT = true;
+  static final String COUNTRY = "it";
   private TabLayout tabLayout;
+  private View loadingView;
   private ViewPager viewpager;
   private ScreenSlidePagerAdapter adapter;
   private View newContentMainContainer;
@@ -51,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    initViews();
+    showLoading();
+
+    Ocm.setOnDoRequiredLoginCallback(onDoRequiredLoginCallback);
+
+    if (AUTO_INIT) {
+      startCredentials();
+    }
+  }
+
   @Override protected void onResume() {
     super.onResume();
     //ReadedArticles
@@ -61,57 +78,43 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    initViews();
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    if (!AUTO_INIT) {
+      getMenuInflater().inflate(R.menu.menu_main, menu);
+    }
+    return true;
+  }
 
-    Ocm.setOnDoRequiredLoginCallback(onDoRequiredLoginCallback);
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+    switch (item.getItemId()) {
+      case R.id.action_init:
+        startCredentials();
+        return true;
+      case R.id.action_refresh:
+        adapter.reloadSections();
+        return true;
+      case R.id.action_clean:
+        Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
+        clearDataAndGoToChangeCountryView();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 
   private void initViews() {
-    initToolbar();
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
     viewpager = (ViewPager) findViewById(R.id.viewpager);
-    View fabReload = findViewById(R.id.fabReload);
-    View fabChange = findViewById(R.id.fabChange);
-    View fabClean = findViewById(R.id.fabClean);
-
-    fabChange.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        startCredentials();
-      }
-    });
-
-    fabClean.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
-        clearDataAndGoToChangeCountryView();
-      }
-    });
-
-    newContentMainContainer = findViewById(R.id.newContentMainContainer);
-
-    fabReload.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        adapter.reloadSections();
-      }
-    });
+    loadingView = findViewById(R.id.loading_view);
 
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
     viewpager.setAdapter(adapter);
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
   }
 
-  private void initToolbar() {
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-  }
-
-  static String country = "it";
-
   private void startCredentials() {
-    Ocm.setBusinessUnit(country);
+    Ocm.setBusinessUnit(COUNTRY);
     Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
       @Override public void onCredentialReceiver(String accessToken) {
         //TODO Fix in Orchextra
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(tabLayout,
             "No Internet Connection: " + code + "\n check Credentials-Enviroment",
             Snackbar.LENGTH_INDEFINITE).show();
+        hideLoading();
       }
     });
 
@@ -187,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         if (uiMenu == null) {
           Toast.makeText(MainActivity.this, "menu is null", Toast.LENGTH_SHORT).show();
         } else {
+          hideLoading();
           viewpager.setOffscreenPageLimit(uiMenu.size());
           onGoDetailView(uiMenu);
           adapter.setDataItems(uiMenu);
@@ -230,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         newContentMainContainer.setVisibility(View.GONE);
 
         adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        hideLoading();
         adapter.setDataItems(newMenus);
         viewpager.removeAllViews();
         viewpager.setAdapter(adapter);
@@ -250,5 +256,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     tabLayout.addOnTabSelectedListener(onTabSelectedListener);
+  }
+
+  private void showLoading() {
+    loadingView.setVisibility(View.VISIBLE);
+    viewpager.setVisibility(View.GONE);
+  }
+
+  private void hideLoading() {
+    loadingView.setVisibility(View.GONE);
+    viewpager.setVisibility(View.VISIBLE);
   }
 }
