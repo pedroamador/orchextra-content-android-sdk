@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
   private void initViews() {
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
     viewpager = (ViewPager) findViewById(R.id.viewpager);
+    newContentMainContainer = findViewById(R.id.newContentMainContainer);
     loadingView = findViewById(R.id.loading_view);
 
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
