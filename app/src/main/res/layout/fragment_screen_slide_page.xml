@@ -3,25 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     >
 
   <FrameLayout
       android:id="@+id/emptyViewLayout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical"
       android:layout_gravity="center"
+      android:orientation="vertical"
       android:visibility="gone"
       >
     <TextView
-        android:layout_gravity="center"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_margin="100dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="100dp"
+        android:gravity="center"
         android:text="Empty View"
-        android:textSize="20dp"
         android:textColor="#FFF"
+        android:textSize="20dp"
         />
   </FrameLayout>
 
@@ -29,19 +30,19 @@
       android:id="@+id/errorViewLayout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical"
       android:layout_gravity="center"
+      android:orientation="vertical"
       android:visibility="gone"
       >
     <TextView
-        android:layout_gravity="center"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_margin="100dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="100dp"
+        android:gravity="center"
         android:text="Error getting content..."
-        android:textSize="20dp"
         android:textColor="#FFF"
+        android:textSize="20dp"
         />
   </FrameLayout>
 

@@ -6,4 +6,6 @@
   <string name="loading">Loading</string>
   <string name="empty_view_title">Sorry!</string>
   <string name="empty_view_content">It does\'t have content jet</string>
+  <string name="error_view_title">Ups!</string>
+  <string name="error_view_content">We have a mistake</string>
 </resources>

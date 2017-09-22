@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
   static final String COUNTRY = "it";
   private TabLayout tabLayout;
   private View loadingView;
-  private View emptyiew;
+  private View emptyView;
+  private View errorView;
   private ViewPager viewpager;
   private ScreenSlidePagerAdapter adapter;
   private View newContentMainContainer;
@@ -109,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
     viewpager = (ViewPager) findViewById(R.id.viewpager);
     newContentMainContainer = findViewById(R.id.newContentMainContainer);
     loadingView = findViewById(R.id.loading_view);
-    emptyiew = findViewById(R.id.empty_view);
+    emptyView = findViewById(R.id.empty_view);
+    errorView = findViewById(R.id.error_view);
 
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
     viewpager.setAdapter(adapter);
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(tabLayout,
             "No Internet Connection: " + code + "\n check Credentials-Enviroment",
             Snackbar.LENGTH_INDEFINITE).show();
-        hideLoading();
+        showErrorView();
       }
     });
 
@@ -193,13 +195,12 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onMenusLoaded(List<UiMenu> uiMenu) {
         if (uiMenu == null) {
           Toast.makeText(MainActivity.this, "menu is null", Toast.LENGTH_SHORT).show();
+          showErrorView();
         } else {
-          hideLoading();
-
           if (uiMenu.isEmpty()) {
             showEmptyView();
           } else {
-            hideEmptyView();
+            showContentView();
             viewpager.setOffscreenPageLimit(uiMenu.size());
             onGoDetailView(uiMenu);
             adapter.setDataItems(uiMenu);
@@ -210,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
       @Override public void onMenusFails(Throwable e) {
         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        showErrorView();
       }
     });
   }
@@ -244,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         newContentMainContainer.setVisibility(View.GONE);
 
         adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        hideLoading();
+        showContentView();
         adapter.setDataItems(newMenus);
         viewpager.removeAllViews();
         viewpager.setAdapter(adapter);
@@ -270,24 +272,28 @@ public class MainActivity extends AppCompatActivity {
   private void showLoading() {
     loadingView.setVisibility(View.VISIBLE);
     viewpager.setVisibility(View.GONE);
-    emptyiew.setVisibility(View.GONE);
-  }
-
-  private void hideLoading() {
-    loadingView.setVisibility(View.GONE);
-    emptyiew.setVisibility(View.GONE);
-    viewpager.setVisibility(View.VISIBLE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.GONE);
   }
 
   private void showEmptyView() {
     loadingView.setVisibility(View.GONE);
     viewpager.setVisibility(View.GONE);
-    emptyiew.setVisibility(View.VISIBLE);
+    errorView.setVisibility(View.GONE);
+    emptyView.setVisibility(View.VISIBLE);
   }
 
-  private void hideEmptyView() {
+  private void showErrorView() {
     loadingView.setVisibility(View.GONE);
-    emptyiew.setVisibility(View.GONE);
+    viewpager.setVisibility(View.GONE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.VISIBLE);
+  }
+
+  private void showContentView() {
+    loadingView.setVisibility(View.GONE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.GONE);
     viewpager.setVisibility(View.VISIBLE);
   }
 }
