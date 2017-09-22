@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initViews();
-    showLoading();
 
     Ocm.setOnDoRequiredLoginCallback(onDoRequiredLoginCallback);
 
@@ -116,9 +115,15 @@ public class MainActivity extends AppCompatActivity {
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
     viewpager.setAdapter(adapter);
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    errorView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        startCredentials();
+      }
+    });
   }
 
   private void startCredentials() {
+    showLoading();
     Ocm.setBusinessUnit(COUNTRY);
     Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
       @Override public void onCredentialReceiver(String accessToken) {
@@ -130,11 +135,15 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-      @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout,
-            "No Internet Connection: " + code + "\n check Credentials-Enviroment",
-            Snackbar.LENGTH_INDEFINITE).show();
-        showErrorView();
+      @Override public void onCredentailError(final String code) {
+        runOnUiThread(new Runnable() {
+          @Override public void run() {
+            Snackbar.make(tabLayout,
+                "No Internet Connection: " + code + "\n check Credentials-Enviroment",
+                Snackbar.LENGTH_LONG).show();
+            showErrorView();
+          }
+        });
       }
     });
 
@@ -144,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         Orchextra.startScannerActivity();
       }
     });
-    Ocm.start();//likewoah
+    Ocm.start();
   }
 
   //region clear all data
