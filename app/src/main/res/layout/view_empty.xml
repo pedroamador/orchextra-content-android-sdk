@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/loading_view"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/empty_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
+    android:visibility="gone"
+    tools:visibility="visible"
     >
 
   <LinearLayout
@@ -13,11 +16,11 @@
       android:gravity="center"
       android:orientation="vertical"
       >
-    <ProgressBar
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/CircularProgress"
-        style="@style/Widget.AppCompat.ProgressBar"
+        android:src="@drawable/ic_info"
         />
 
     <TextView
@@ -25,9 +28,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:gravity="center"
-        android:text="@string/loading"
+        android:text="@string/empty_view_title"
         android:textColor="@color/icons"
         android:textSize="@dimen/font_larger"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/empty_view_content"
+        android:textColor="@color/icons"
+        android:textSize="@dimen/font_normal"
         />
   </LinearLayout>
 </FrameLayout>

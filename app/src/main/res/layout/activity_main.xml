@@ -18,6 +18,8 @@
 
   <include layout="@layout/view_loading"/>
 
+  <include layout="@layout/view_empty"/>
+
   <include
       layout="@layout/ocm_new_content"
       android:id="@+id/newContentMainContainer"

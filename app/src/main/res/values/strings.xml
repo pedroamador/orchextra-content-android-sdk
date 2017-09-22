@@ -4,4 +4,6 @@
   <string name="refresh">Refresh</string>
   <string name="init_clean">Clean</string>
   <string name="loading">Loading</string>
+  <string name="empty_view_title">Sorry!</string>
+  <string name="empty_view_content">It does\'t have content jet</string>
 </resources>

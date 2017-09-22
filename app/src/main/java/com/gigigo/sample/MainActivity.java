@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
   static final String COUNTRY = "it";
   private TabLayout tabLayout;
   private View loadingView;
+  private View emptyiew;
   private ViewPager viewpager;
   private ScreenSlidePagerAdapter adapter;
   private View newContentMainContainer;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     viewpager = (ViewPager) findViewById(R.id.viewpager);
     newContentMainContainer = findViewById(R.id.newContentMainContainer);
     loadingView = findViewById(R.id.loading_view);
+    emptyiew = findViewById(R.id.empty_view);
 
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
     viewpager.setAdapter(adapter);
@@ -193,10 +195,16 @@ public class MainActivity extends AppCompatActivity {
           Toast.makeText(MainActivity.this, "menu is null", Toast.LENGTH_SHORT).show();
         } else {
           hideLoading();
-          viewpager.setOffscreenPageLimit(uiMenu.size());
-          onGoDetailView(uiMenu);
-          adapter.setDataItems(uiMenu);
-          checkIfMenuHasChanged(uiMenu);
+
+          if (uiMenu.isEmpty()) {
+            showEmptyView();
+          } else {
+            hideEmptyView();
+            viewpager.setOffscreenPageLimit(uiMenu.size());
+            onGoDetailView(uiMenu);
+            adapter.setDataItems(uiMenu);
+            checkIfMenuHasChanged(uiMenu);
+          }
         }
       }
 
@@ -262,10 +270,24 @@ public class MainActivity extends AppCompatActivity {
   private void showLoading() {
     loadingView.setVisibility(View.VISIBLE);
     viewpager.setVisibility(View.GONE);
+    emptyiew.setVisibility(View.GONE);
   }
 
   private void hideLoading() {
     loadingView.setVisibility(View.GONE);
+    emptyiew.setVisibility(View.GONE);
+    viewpager.setVisibility(View.VISIBLE);
+  }
+
+  private void showEmptyView() {
+    loadingView.setVisibility(View.GONE);
+    viewpager.setVisibility(View.GONE);
+    emptyiew.setVisibility(View.VISIBLE);
+  }
+
+  private void hideEmptyView() {
+    loadingView.setVisibility(View.GONE);
+    emptyiew.setVisibility(View.GONE);
     viewpager.setVisibility(View.VISIBLE);
   }
 }
