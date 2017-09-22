@@ -268,9 +268,12 @@ public class MainActivity extends AppCompatActivity {
 
   private void onGoDetailView(List<UiMenu> uiMenu) {
     if (uiMenu.size() > 0) {
+      UiMenu menu;
+      TabLayout.Tab tab;
+
       for (int i = 0; i < uiMenu.size(); i++) {
-        UiMenu menu = uiMenu.get(i);
-        TabLayout.Tab tab = tabLayout.newTab().setText(menu.getText());
+        menu = uiMenu.get(i);
+        tab = tabLayout.newTab().setText(menu.getText());
         tabLayout.addTab(tab);
       }
     }
