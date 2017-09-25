@@ -1,11 +1,11 @@
 <resources>
   <string name="app_name" translatable="false">OCM Demo</string>
-  <string name="init_sdk">Init SDK</string>
-  <string name="refresh">Refresh</string>
-  <string name="init_clean">Clean</string>
-  <string name="loading">Loading</string>
-  <string name="empty_view_title">Sorry!</string>
-  <string name="empty_view_content">It does\'t have content jet</string>
-  <string name="error_view_title">Ups!</string>
-  <string name="error_view_content">We have a mistake</string>
+  <string name="init_sdk" translatable="false">Init SDK</string>
+  <string name="refresh" translatable="false">Refresh</string>
+  <string name="init_clean" translatable="false">Clean</string>
+  <string name="loading" translatable="false">Loading</string>
+  <string name="empty_view_title" translatable="false">Sorry!</string>
+  <string name="empty_view_content" translatable="false">It does\'t have content jet</string>
+  <string name="error_view_title" translatable="false">Ups!</string>
+  <string name="error_view_content" translatable="false">We have a mistake</string>
 </resources>
