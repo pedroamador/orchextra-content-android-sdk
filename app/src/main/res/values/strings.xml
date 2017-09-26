@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name" translatable="false">OCM Demo</string>
+  <string name="app_name" translatable="false">Orchextra</string>
   <string name="init_sdk" translatable="false">Init SDK</string>
   <string name="refresh" translatable="false">Refresh</string>
   <string name="init_clean" translatable="false">Clean</string>
@@ -8,4 +8,6 @@
   <string name="empty_view_content" translatable="false">It does\'t have content jet</string>
   <string name="error_view_title" translatable="false">Ups!</string>
   <string name="error_view_content" translatable="false">We have a mistake</string>
+  <string name="network_error_view_title">Ups!</string>
+  <string name="network_error_view_content">Without internet connection</string>
 </resources>

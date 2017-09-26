@@ -22,6 +22,8 @@
 
   <include layout="@layout/view_error"/>
 
+  <include layout="@layout/view_network_error"/>
+
   <include
       layout="@layout/ocm_new_content"
       android:id="@+id/newContentMainContainer"

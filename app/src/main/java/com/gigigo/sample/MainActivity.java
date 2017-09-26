@@ -1,5 +1,8 @@
 package com.gigigo.sample;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
   private View loadingView;
   private View emptyView;
   private View errorView;
+  private View networkErrorView;
   private ViewPager viewpager;
   private ScreenSlidePagerAdapter adapter;
   private View newContentMainContainer;
@@ -111,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
     loadingView = findViewById(R.id.loading_view);
     emptyView = findViewById(R.id.empty_view);
     errorView = findViewById(R.id.error_view);
+    networkErrorView = findViewById(R.id.network_error_view);
 
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
     viewpager.setAdapter(adapter);
@@ -120,9 +125,20 @@ public class MainActivity extends AppCompatActivity {
         startCredentials();
       }
     });
+    networkErrorView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        startCredentials();
+      }
+    });
   }
 
   private void startCredentials() {
+
+    if (!isOnline()) {
+      showNetworkErrorView();
+      return;
+    }
+
     showLoading();
     Ocm.setBusinessUnit(COUNTRY);
     Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
@@ -138,8 +154,7 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onCredentailError(final String code) {
         runOnUiThread(new Runnable() {
           @Override public void run() {
-            Snackbar.make(tabLayout,
-                "No Internet Connection: " + code + "\n check Credentials-Enviroment",
+            Snackbar.make(tabLayout, "Code: " + code + ". check Credentials-Enviroment",
                 Snackbar.LENGTH_LONG).show();
             showErrorView();
           }
@@ -281,11 +296,18 @@ public class MainActivity extends AppCompatActivity {
     tabLayout.addOnTabSelectedListener(onTabSelectedListener);
   }
 
+  public boolean isOnline() {
+    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+    return netInfo != null && netInfo.isConnectedOrConnecting();
+  }
+
   private void showLoading() {
     loadingView.setVisibility(View.VISIBLE);
     viewpager.setVisibility(View.GONE);
     emptyView.setVisibility(View.GONE);
     errorView.setVisibility(View.GONE);
+    networkErrorView.setVisibility(View.GONE);
   }
 
   private void showEmptyView() {
@@ -293,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
     viewpager.setVisibility(View.GONE);
     errorView.setVisibility(View.GONE);
     emptyView.setVisibility(View.VISIBLE);
+    networkErrorView.setVisibility(View.GONE);
   }
 
   private void showErrorView() {
@@ -300,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
     viewpager.setVisibility(View.GONE);
     emptyView.setVisibility(View.GONE);
     errorView.setVisibility(View.VISIBLE);
+    networkErrorView.setVisibility(View.GONE);
   }
 
   private void showContentView() {
@@ -307,5 +331,14 @@ public class MainActivity extends AppCompatActivity {
     emptyView.setVisibility(View.GONE);
     errorView.setVisibility(View.GONE);
     viewpager.setVisibility(View.VISIBLE);
+    networkErrorView.setVisibility(View.GONE);
+  }
+
+  private void showNetworkErrorView() {
+    loadingView.setVisibility(View.GONE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.GONE);
+    viewpager.setVisibility(View.GONE);
+    networkErrorView.setVisibility(View.VISIBLE);
   }
 }

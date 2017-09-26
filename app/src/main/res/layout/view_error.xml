@@ -4,7 +4,7 @@
     android:id="@+id/error_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/accent"
+    android:background="@drawable/background_views"
     android:visibility="gone"
     tools:visibility="visible"
     >
@@ -20,26 +20,30 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_error"
+        android:src="@drawable/ic_mistake"
         />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:gravity="center"
+        android:gravity="center_horizontal"
+        android:letterSpacing="0.17"
+        android:lineSpacingExtra="-16sp"
         android:text="@string/error_view_title"
         android:textColor="@color/icons"
-        android:textSize="@dimen/font_larger"
+        android:textSize="42sp"
         />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center_horizontal"
+        android:letterSpacing="0.17"
+        android:lineSpacingExtra="8sp"
         android:text="@string/error_view_content"
         android:textColor="@color/icons"
-        android:textSize="@dimen/font_normal"
+        android:textSize="18sp"
         />
   </LinearLayout>
 </FrameLayout>

@@ -10,7 +10,7 @@
   <application
       android:name="com.gigigo.sample.App"
       android:allowBackup="false"
-      android:icon="@mipmap/ic_launcher"
+      android:icon="@drawable/logo"
       android:label="@string/app_name"
       android:largeHeap="true"
       android:supportsRtl="true"
