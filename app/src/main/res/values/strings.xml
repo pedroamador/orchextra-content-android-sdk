@@ -8,6 +8,6 @@
   <string name="empty_view_content" translatable="false">It does\'t have content jet</string>
   <string name="error_view_title" translatable="false">Ups!</string>
   <string name="error_view_content" translatable="false">We have a mistake</string>
-  <string name="network_error_view_title">Ups!</string>
-  <string name="network_error_view_content">Without internet connection</string>
+  <string name="network_error_view_title" translatable="false">Ups!</string>
+  <string name="network_error_view_content" translatable="false">Without internet connection</string>
 </resources>
