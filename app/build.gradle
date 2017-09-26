@@ -51,10 +51,13 @@ dependencies {
 
 applivery {
   try {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('applivery.properties').newDataInputStream())
+
     appId = "59c9197a48563b7721347736"
-    apiKey = API_KEY
+    apiKey = properties.getProperty("API_KEY")
   } catch (ex) {
-    throw new InvalidUserDataException("You should define API_KEY in gradle.properties.")
+    throw new InvalidUserDataException("You should define API_KEY in applivery.properties.")
   }
 }
 
