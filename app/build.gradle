@@ -19,7 +19,7 @@ android {
     minSdkVersion 18
     targetSdkVersion 25
     versionCode computeVersionCode()
-    versionName "1.0.0-rc." + computeVersionCode()
+    versionName "1.0." + computeVersionCode()
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     multiDexEnabled true
