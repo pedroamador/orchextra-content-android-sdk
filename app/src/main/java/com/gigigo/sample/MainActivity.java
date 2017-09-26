@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
   private View errorView;
   private View networkErrorView;
   private ViewPager viewpager;
-  private ScreenSlidePagerAdapter adapter;
+  private ScreenSlidePagerAdapter pagerAdapter;
   private View newContentMainContainer;
 
   private TabLayout.OnTabSelectedListener onTabSelectedListener =
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         @Override public void onTabSelected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
           ScreenSlidePageFragment frag =
-              ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem()));
+              ((ScreenSlidePageFragment) pagerAdapter.getItem(viewpager.getCurrentItem()));
           frag.reloadSection();
         }
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override public void onTabReselected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem())).reloadSection();
+          ((ScreenSlidePageFragment) pagerAdapter.getItem(viewpager.getCurrentItem())).reloadSection();
         }
       };
 
@@ -76,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
   @Override protected void onResume() {
     super.onResume();
     //ReadedArticles
-    if (OCManager.getShowReadedArticlesInGrayScale() && adapter != null) {
-      adapter.reloadSections();
+    if (OCManager.getShowReadedArticlesInGrayScale() && pagerAdapter != null) {
       Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled"
           + OCManager.getShowReadedArticlesInGrayScale(), Toast.LENGTH_LONG).show();
     }
@@ -95,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
     switch (item.getItemId()) {
       case R.id.action_init:
         startCredentials();
-        return true;
-      case R.id.action_refresh:
-        adapter.reloadSections();
         return true;
       case R.id.action_clean:
         Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
@@ -117,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
     errorView = findViewById(R.id.error_view);
     networkErrorView = findViewById(R.id.network_error_view);
 
-    adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-    viewpager.setAdapter(adapter);
+    pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+    viewpager.setAdapter(pagerAdapter);
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     errorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -225,9 +221,10 @@ public class MainActivity extends AppCompatActivity {
             showEmptyView();
           } else {
             showContentView();
+            tabLayout.removeAllTabs();
             viewpager.setOffscreenPageLimit(uiMenu.size());
             onGoDetailView(uiMenu);
-            adapter.setDataItems(uiMenu);
+            pagerAdapter.setDataItems(uiMenu);
             checkIfMenuHasChanged(uiMenu);
           }
         }
@@ -269,11 +266,10 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         newContentMainContainer.setVisibility(View.GONE);
 
-        adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         showContentView();
-        adapter.setDataItems(newMenus);
+        pagerAdapter.setDataItems(newMenus);
         viewpager.removeAllViews();
-        viewpager.setAdapter(adapter);
+        viewpager.setAdapter(pagerAdapter);
 
         tabLayout.removeAllTabs();
         onGoDetailView(newMenus);
