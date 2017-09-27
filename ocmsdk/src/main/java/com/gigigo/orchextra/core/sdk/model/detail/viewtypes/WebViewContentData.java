@@ -28,6 +28,7 @@ import com.gigigo.orchextra.core.domain.entities.elementcache.FederatedAuthoriza
 import com.gigigo.orchextra.core.sdk.ui.views.TouchyWebView;
 import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.Ocm;
+import com.gigigo.orchextra.ocmsdk.BuildConfig;
 import com.gigigo.orchextra.ocmsdk.R;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
@@ -128,9 +129,14 @@ public class WebViewContentData extends UiBaseContentData {
     loadUrl();
   }
 
-  @TargetApi(Build.VERSION_CODES.JELLY_BEAN) private void initWebView() {
+  @TargetApi(Build.VERSION_CODES.KITKAT) private void initWebView() {
     jsInterface = new JsHandler(webView);
+
     webView.setClickable(true);
+
+    if (AndroidSdkVersion.hasKitKat19() && BuildConfig.DEBUG) {
+      WebView.setWebContentsDebuggingEnabled(true);
+    }
 
     webView.getSettings().setJavaScriptEnabled(true);
     webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
