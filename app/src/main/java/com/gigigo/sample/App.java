@@ -3,6 +3,7 @@ package com.gigigo.sample;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmBuilder;
 import com.gigigo.orchextra.ocm.OcmEvent;
@@ -11,8 +12,13 @@ import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 import com.squareup.leakcanary.LeakCanary;
+import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 public class App extends MultiDexApplication {
+
+  // DEMO 
+  public static String API_KEY = "9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3";
+  public static String API_SECRET = "6a4d8072f2a519c67b0124656ce6cb857a55276a";
 
   //public static String API_KEY = "a2966ba69f4ead1a4f1550bfda450e9fd07e6762";   //Asv project
   //public static String API_SECRET = "f79713d7e9b0fcd69fedfb94f471106cb85d8ca4";
@@ -20,10 +26,6 @@ public class App extends MultiDexApplication {
   //WOAH RELEASE
   //public static String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
   //public static String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
-
-  // DEMO
-  public static String API_KEY = "9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3";
-  public static String API_SECRET = "6a4d8072f2a519c67b0124656ce6cb857a55276a";
 
   //[UAT][CSE] - WOAH SITC STAGING
   //public static String API_KEY = "adfc8ba4340828a054bf061f692707a197af96cb";
@@ -73,8 +75,11 @@ public class App extends MultiDexApplication {
     LeakCanary.install(this);
     MultiDex.install(this);
 
-    OcmBuilder ocmBuilder = new OcmBuilder(this).setNotificationActivityClass(MainActivity.class)
-        .setShowReadedArticlesInGrayScale(false)
+    OcmBuilder ocmBuilder = new OcmBuilder(this)
+        .setNotificationActivityClass(MainActivity.class)
+        .setShowReadArticles(true)
+        .setTransformReadArticleMode(ImageTransformReadArticle.OVERLAY)
+        .setMaxReadArticles(100)
         .setOrchextraCredentials(API_KEY, API_SECRET)
         .setContentLanguage("EN")
         .setVuforiaImpl(new ImageRecognitionVuforiaImpl())

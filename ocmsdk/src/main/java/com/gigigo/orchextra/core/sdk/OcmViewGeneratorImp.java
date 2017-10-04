@@ -12,6 +12,7 @@ import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCachePrevie
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheRender;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheShare;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheType;
+import com.gigigo.orchextra.core.domain.entities.elementcache.FederatedAuthorization;
 import com.gigigo.orchextra.core.domain.entities.elementcache.cards.ElementCachePreviewCard;
 import com.gigigo.orchextra.core.domain.entities.elements.Element;
 import com.gigigo.orchextra.core.domain.entities.menus.MenuContentData;
@@ -116,11 +117,6 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
             getSectionViewGeneratorCallback.onSectionViewLoaded(
                 generateWebContentDataWithFederated(elementCache.getRender()));
           } else {
-            System.out.println("Main generateWebContentData" + elementCache.getRender()
-                .getFederatedAuth()
-                .getKeys()
-                .toString());
-
             getSectionViewGeneratorCallback.onSectionViewLoaded(
                 generateWebContentData(elementCache.getRender().getUrl()));
           }
@@ -141,11 +137,11 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
   }
 
   private UiGridBaseContentData generateWebContentData(String url) {
-    return ContentWebViewGridLayoutView.newInstance(url);
+    return WebViewContentData.newInstance(url);
   }
 
   private UiGridBaseContentData generateWebContentDataWithFederated(ElementCacheRender render) {
-    return ContentWebViewGridLayoutView.newInstance(render);
+    return WebViewContentData.newInstance(render);
   }
 
   @NonNull
@@ -208,11 +204,11 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
         }
       case BROWSER:
         if (render != null) {
-          return generateCustomTabsDetailView(render.getUrl());
+          return generateCustomTabsDetailView(render.getUrl(), render.getFederatedAuth());
         }
       case EXTERNAL_BROWSER:
         if (render != null) {
-          return generateBrowserDetailView(render.getUrl());
+          return generateBrowserDetailView(render.getUrl(), render.getFederatedAuth());
         }
       case VIDEO:
         if (render != null) {
@@ -262,8 +258,9 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
     return WebViewContentData.newInstance(render);
   }
 
-  private UiBaseContentData generateCustomTabsDetailView(String url) {
-    return CustomTabsContentData.newInstance(url);
+  private UiBaseContentData generateCustomTabsDetailView(String url,
+      FederatedAuthorization federatedAuthorization) {
+    return CustomTabsContentData.newInstance(url, federatedAuthorization);
   }
 
   private UiBaseContentData generateVuforiaDetailView() {
@@ -274,12 +271,12 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
     return ScanContentData.newInstance();
   }
 
-  private UiBaseContentData generateBrowserDetailView(String url) {
-    return BrowserContentData.newInstance(url);
+  private UiBaseContentData generateBrowserDetailView(String url, FederatedAuthorization federatedAuthorization) {
+    return BrowserContentData.newInstance(url,federatedAuthorization);
   }
 
-  private UiBaseContentData generateYoutubeDetailView(String url) {
-    return YoutubeContentData.newInstance(url);
+  private UiBaseContentData generateYoutubeDetailView(String videoId) {
+    return YoutubeContentData.newInstance(videoId);
   }
 
   private UiBaseContentData generateDeepLinkView(String uri) {

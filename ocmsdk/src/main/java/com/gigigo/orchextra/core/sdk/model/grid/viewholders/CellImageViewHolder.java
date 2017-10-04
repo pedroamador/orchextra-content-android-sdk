@@ -18,7 +18,6 @@ import com.gigigo.orchextra.core.sdk.utils.ImageGenerator;
 import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocmsdk.R;
 import java.lang.ref.WeakReference;
-import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 public class CellImageViewHolder extends BaseViewHolder<CellGridContentData> {
 
@@ -27,6 +26,7 @@ public class CellImageViewHolder extends BaseViewHolder<CellGridContentData> {
   private final Context context;
 
   private WeakReference<ImageView> imageViewWeakReference;
+  private WeakReference<ImageView> imageViewOverlayWeakReference;
   private Authoritation authoritation;
 
   public CellImageViewHolder(Context context, ViewGroup parent, Authoritation authoritation) {
@@ -36,7 +36,7 @@ public class CellImageViewHolder extends BaseViewHolder<CellGridContentData> {
     this.authoritation = authoritation;
 
     new WeakReference<>(itemView);
-
+    imageViewOverlayWeakReference=new WeakReference<>((ImageView) itemView.findViewById(R.id.cell_image_view_overlay));
     imageViewWeakReference =
         new WeakReference<>((ImageView) itemView.findViewById(R.id.cell_image_view));
     padlockViewWeakReference = new WeakReference<>(itemView.findViewById(R.id.padlock_layout));
@@ -68,18 +68,30 @@ public class CellImageViewHolder extends BaseViewHolder<CellGridContentData> {
                       .priority(Priority.NORMAL)
                       .diskCacheStrategy(DiskCacheStrategy.ALL)
                       .dontAnimate();
+
                 } else {
+
                   requestBuilder = OcmImageLoader.load(context, generatedImageUrl)
                       .priority(Priority.NORMAL)
                       .diskCacheStrategy(DiskCacheStrategy.ALL)
-                      .bitmapTransform(new GrayscaleTransformation(context))
                       .dontAnimate();
+                  if(OCManager.getBitmapTransformReadArticles()!=null) {
+
+                    requestBuilder.bitmapTransform(OCManager.getBitmapTransformReadArticles());
+                  } else {
+                    //todo overlay, image.setForeground only api23, or ovelary with other image
+                    //now change de image for test
+                    ImageView imageViewOverlay = imageViewOverlayWeakReference.get();
+                    imageViewOverlay.setVisibility(View.VISIBLE);
+                  }
                 }
+                requestBuilder.into(imageView);
                 //if (thumbnailEnabled) {
                 //requestBuilder = requestBuilder.thumbnail(Glide.with(context).load(imageByteArray));
                 //}
 
-                requestBuilder.into(imageView);
+
+               // requestBuilder.into(imageView);
               }
 
               mainLayout.getViewTreeObserver().removeOnPreDrawListener(this);

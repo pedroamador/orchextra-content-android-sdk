@@ -17,9 +17,9 @@ project.ext {
                ggglogger                  : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglogger:2c184f2ed7',
                ggglib                     : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:2c184f2ed7',
 
-               orchextrasdkStaging        : 'com.github.orchextra.orchextra-android-sdk:orchextrasdk:509Test:play10Staging@aar',
-               orchextrasdkDebug          : 'com.github.orchextra.orchextra-android-sdk:orchextrasdk:509Test:play10Debug@aar',
-               orchextrasdkRelease        : 'com.github.orchextra.orchextra-android-sdk:orchextrasdk:509Test:play10Release@aar',
+               orchextrasdkStaging        : 'com.github.orchextra.orchextra-android-sdk:orchextrasdk:510Test:play10Staging@aar',
+               orchextrasdkDebug          : 'com.github.orchextra.orchextra-android-sdk:orchextrasdk:510Test:play10Debug@aar',
+               orchextrasdkRelease        : 'com.github.orchextra.orchextra-android-sdk:orchextrasdk:510Test:play10Release@aar',
 
                playServicesBase           : "com.google.android.gms:play-services-base:10.0.1",
                playServicesLocation       : "com.google.android.gms:play-services-location:10.0.1",
@@ -27,7 +27,7 @@ project.ext {
 
                imageloaderGlideBlur       : 'com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-glide-blur:2.01',
 
-               multipleGridRecyclerView   : 'com.github.Gigigo-Android-Devs:gigigo-multipleGridRecyclerView-library-android:2.5.5',
+               multipleGridRecyclerView   : 'com.github.Gigigo-Android-Devs:gigigo-multipleGridRecyclerView-library-android:2.5.6',
 
                oxvuforiaimplementation    : 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6',
 

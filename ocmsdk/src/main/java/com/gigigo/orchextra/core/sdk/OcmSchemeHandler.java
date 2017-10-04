@@ -1,10 +1,12 @@
 package com.gigigo.orchextra.core.sdk;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 import com.gigigo.orchextra.core.domain.OcmController;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCache;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheRender;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheType;
+import com.gigigo.orchextra.core.domain.entities.elementcache.FederatedAuthorization;
 import com.gigigo.orchextra.core.sdk.actions.ActionHandler;
 import com.gigigo.orchextra.core.sdk.application.OcmContextProvider;
 import com.gigigo.orchextra.core.sdk.model.detail.DetailActivity;
@@ -85,17 +87,22 @@ public class OcmSchemeHandler {
           break;
         case BROWSER:
           if (render != null) {
-            processCustomTabs(render.getUrl());
+            processCustomTabs(render.getUrl(), render.getFederatedAuth());
           }
           break;
         case EXTERNAL_BROWSER:
           if (render != null) {
-            processExternalBrowser(render.getUrl());
+            processExternalBrowser(render.getUrl(), render.getFederatedAuth());
           }
           break;
         case DEEP_LINK:
           if (render != null) {
             processDeepLink(render.getUri());
+          }
+          break;
+        case VIDEO:
+          if (render != null) {
+            processVideo(render.getFormat(), render.getSource());
           }
           break;
         default:
@@ -108,8 +115,16 @@ public class OcmSchemeHandler {
     }
   }
 
-  private void processCustomTabs(String url) {
-    DeviceUtils.openChromeTabs(contextProvider.getCurrentActivity(), url);
+  private void processVideo(String format, String source) {
+    if (TextUtils.isEmpty(source)) {
+      return;
+    }
+
+    actionHandler.launchYoutubePlayer(source);
+  }
+
+  private void processCustomTabs(String url, FederatedAuthorization federatedAuthorization) {
+    DeviceUtils.openChromeTabs(contextProvider.getCurrentActivity(), url, federatedAuthorization);
   }
 
   private void processImageRecognitionAction() {
@@ -120,8 +135,8 @@ public class OcmSchemeHandler {
     actionHandler.lauchOxScan();
   }
 
-  private void processExternalBrowser(String url) {
-    actionHandler.launchExternalBrowser(url);
+  private void processExternalBrowser(String url, FederatedAuthorization federatedAuth) {
+    actionHandler.launchExternalBrowser(url,federatedAuth);
   }
 
   private void processDeepLink(String uri) {

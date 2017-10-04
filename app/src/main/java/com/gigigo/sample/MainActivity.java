@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
   @Override protected void onResume() {
     super.onResume();
     //ReadedArticles
-    if (OCManager.getShowReadedArticlesInGrayScale() && pagerAdapter != null) {
-      Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled"
-          + OCManager.getShowReadedArticlesInGrayScale(), Toast.LENGTH_LONG).show();
-    }
+    //if (OCManager.getShowReadedArticlesInGrayScale() && pagerAdapter != null) {
+    //  Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled"
+    //      + OCManager.getShowReadedArticlesInGrayScale(), Toast.LENGTH_LONG).show();
+    //}
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -278,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void onGoDetailView(List<UiMenu> uiMenu) {
+    tabLayout.removeAllTabs();
     if (uiMenu.size() > 0) {
       UiMenu menu;
       TabLayout.Tab tab;
