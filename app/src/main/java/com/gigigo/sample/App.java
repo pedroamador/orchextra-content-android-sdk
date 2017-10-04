@@ -16,7 +16,7 @@ import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 public class App extends MultiDexApplication {
 
-  // DEMO 
+  // DEMO
   public static String API_KEY = "9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3";
   public static String API_SECRET = "6a4d8072f2a519c67b0124656ce6cb857a55276a";
 
