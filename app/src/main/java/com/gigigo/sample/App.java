@@ -123,7 +123,6 @@ public class App extends MultiDexApplication {
         .setShowReadArticles(true)
         .setTransformReadArticleMode(ImageTransformReadArticle.OVERLAY)
         .setMaxReadArticles(100)
-
         .setOrchextraCredentials(API_KEY, API_SECRET)
         .setContentLanguage("EN")
         .setOnEventCallback(onEventCallback);

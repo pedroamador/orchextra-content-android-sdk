@@ -2,7 +2,6 @@ package com.gigigo.orchextra.core.controller.model.detail;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.core.controller.OcmViewGenerator;
 import com.gigigo.orchextra.core.controller.dto.DetailViewInfo;
 import com.gigigo.orchextra.core.controller.views.UiBaseContentData;
@@ -15,6 +14,7 @@ import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheShare;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheType;
 import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.OcmEvent;
+import com.gigigo.orchextra.oxlegacy.Presenter;
 
 public class DetailElementsViewPresenter extends Presenter<DetailElementsView> {
 

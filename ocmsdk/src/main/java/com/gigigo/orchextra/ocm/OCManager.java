@@ -16,6 +16,7 @@ import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.core.controller.OcmViewGenerator;
 import com.gigigo.orchextra.core.domain.OcmController;
+import com.gigigo.orchextra.core.domain.entities.OxCRM;
 import com.gigigo.orchextra.core.domain.entities.ocm.Authoritation;
 import com.gigigo.orchextra.core.domain.entities.ocm.OxSession;
 import com.gigigo.orchextra.core.sdk.OcmSchemeHandler;
@@ -232,7 +233,7 @@ public final class OCManager {
     Orchextra.updateSDKCredentials(apiKey, apiSecret, true);
   }
 
-  static void bindUser(CrmUser crmUser) {
+  static void bindUser(OxCRM crmUser) {
     Orchextra.bindUser(crmUser);
     Orchextra.commitConfiguration();
   }

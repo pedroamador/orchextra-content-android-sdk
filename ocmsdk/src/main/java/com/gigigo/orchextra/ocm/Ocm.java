@@ -3,9 +3,8 @@ package com.gigigo.orchextra.ocm;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.gigigo.orchextra.CrmUser;
-import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle;
+import com.gigigo.orchextra.core.domain.entities.OxCRM;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
@@ -79,16 +78,11 @@ public final class Ocm {
         OCManager.setBitmapTransformReadArticles(ocmBuilder.getCustomBitmapTransformReadArticle());
       }
     }
-    if (ocmBuilder.getShowReadArticles())
+    if (ocmBuilder.getShowReadArticles()) {
       OCManager.setMaxReadArticles(ocmBuilder.getMaxReadArticles());
-
-    if (ocmBuilder.getVuforiaImpl() != null) {
-      OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass,
-          ocmBuilder.getOxSenderId(), ocmBuilder.getVuforiaImpl());
-    } else {
-      OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass,
-          ocmBuilder.getOxSenderId());
     }
+
+    OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass, ocmBuilder.getOxSenderId());
 
     Ocm.start();
   }
@@ -121,19 +115,12 @@ public final class Ocm {
       }
     }
 
-    if (ocmBuilder.getShowReadArticles())
+    if (ocmBuilder.getShowReadArticles()) {
       OCManager.setMaxReadArticles(ocmBuilder.getMaxReadArticles());
-
-    if (ocmBuilder.getVuforiaImpl() != null) {
-      OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass,
-          ocmBuilder.getOxSenderId(), ocmBuilder.getVuforiaImpl());
-    } else {
-      OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass,
-          ocmBuilder.getOxSenderId());
     }
+
+    OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass, ocmBuilder.getOxSenderId());
   }
-
-
 
   /**
    * Stylize the library Ui
@@ -257,7 +244,7 @@ public final class Ocm {
   /**
    * Set a custom app user
    */
-  public static void bindUser(CrmUser crmUser) {
+  public static void bindUser(OxCRM crmUser) {
     OCManager.bindUser(crmUser);
   }
 

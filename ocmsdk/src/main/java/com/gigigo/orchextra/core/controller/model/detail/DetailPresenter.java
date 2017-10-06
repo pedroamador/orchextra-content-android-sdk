@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.core.controller.model.detail;
 
-import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.callbacks.OnFinishViewListener;
 import com.gigigo.orchextra.ocm.views.UiDetailBaseContentData;
+import com.gigigo.orchextra.oxlegacy.Presenter;
 
 public class DetailPresenter extends Presenter<DetailView> {
 

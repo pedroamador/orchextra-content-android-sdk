@@ -3,7 +3,6 @@ package com.gigigo.orchextra.ocm;
 import android.app.Application;
 import android.graphics.Bitmap;
 import com.bumptech.glide.load.Transformation;
-import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle;
 import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
@@ -20,10 +19,9 @@ public final class OcmBuilder {
   private OnEventCallback onEventCallback;
 
   private String oxSenderId;
-  private ImageRecognition vuforiaImpl;
   private boolean showReadArticles = false;
   private ImageTransformReadArticle transformReadArticleMode = ImageTransformReadArticle.OVERLAY;
-  private int maxReadArticles=100;
+  private int maxReadArticles = 100;
 
   public int getMaxReadArticles() {
     return maxReadArticles;
@@ -44,19 +42,7 @@ public final class OcmBuilder {
     return this;
   }
 
-  private com.bumptech.glide.load.Transformation<Bitmap> customBitmapTransformReadArticle =null;
-
-  /**
-   * setter for do vuforia optional in ocm, setted from intetragion app
-   */
-  public OcmBuilder setVuforiaImpl(ImageRecognition vuforiaImpl) {
-    this.vuforiaImpl = vuforiaImpl;
-    return this;
-  }
-
-  public ImageRecognition getVuforiaImpl() {
-    return vuforiaImpl;
-  }
+  private com.bumptech.glide.load.Transformation<Bitmap> customBitmapTransformReadArticle = null;
 
   public ImageTransformReadArticle getTransformReadArticleMode() {
     return transformReadArticleMode;

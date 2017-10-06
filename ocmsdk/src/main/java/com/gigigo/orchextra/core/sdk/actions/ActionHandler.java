@@ -7,7 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.data.api.utils.ConnectionUtilsImp;
 import com.gigigo.orchextra.core.domain.entities.elementcache.FederatedAuthorization;
 import com.gigigo.orchextra.core.domain.utils.ConnectionUtils;
@@ -38,11 +38,13 @@ public class ActionHandler {
   }
 
   public void launchOxVuforia() {
-    Orchextra.startImageRecognition();
+    //Orchextra.startImageRecognition();
+    Orchextra.INSTANCE.openImageRecognition();
   }
 
   public void lauchOxScan() {
-    Orchextra.startScannerActivity();
+    //Orchextra.startScannerActivity();
+    Orchextra.INSTANCE.openScanner();
   }
 
   public void launchExternalBrowser(final String url, FederatedAuthorization federatedAuth) {
@@ -67,7 +69,7 @@ public class ActionHandler {
                 intent.setData(Uri.parse(url));
                 currentActivity.startActivity(intent);
               }
-            }  else {
+            } else {
               intent.setData(Uri.parse(url));
               currentActivity.startActivity(intent);
             }
@@ -81,16 +83,15 @@ public class ActionHandler {
         currentActivity.startActivity(intent);
       }
       //currentActivity.startActivity(intent);
-    }
-    else
-    {
+    } else {
       //todo falta que si no hay currentactivity lo lanze en webview
     }
   }
 
   public void launchCustomTabs(String url, FederatedAuthorization federatedAuthorization) {
     if (connectionUtils.hasConnection()) {
-      DeviceUtils.openChromeTabs(ocmContextProvider.getCurrentActivity(), url, federatedAuthorization);
+      DeviceUtils.openChromeTabs(ocmContextProvider.getCurrentActivity(), url,
+          federatedAuthorization);
     } else {
       View rootView = ((ViewGroup) ocmContextProvider.getCurrentActivity()
           .findViewById(android.R.id.content)).getChildAt(0);
