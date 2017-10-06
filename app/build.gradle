@@ -13,9 +13,9 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     multiDexEnabled true
     //asv mandatory for gpu filters of glide
-//    ndk {
-//            abiFilters "armeabi-v7a"
-//          }
+    //    ndk {
+    //            abiFilters "armeabi-v7a"
+    //          }
   }
   buildTypes {
     release {
@@ -26,13 +26,11 @@ android {
   lintOptions {
     abortOnError false
   }
-
 }
 
 dependencies {
-  compile project(path: ':ocmsdk')
+  compile project(':ocmsdk')
   compile 'com.android.support:multidex:1.0.1'
   compile 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
   compile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-
 }
