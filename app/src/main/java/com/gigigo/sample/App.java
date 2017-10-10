@@ -11,7 +11,6 @@ import com.gigigo.orchextra.ocm.OcmStyleUiBuilder;
 import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.squareup.leakcanary.LeakCanary;
-import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 public class App extends MultiDexApplication {
 
@@ -27,8 +26,12 @@ public class App extends MultiDexApplication {
   //public static String API_SECRET = "677cf75a17aeec144ee402c281ad3a732d736a8a";
 
   //WOAH MARKETS RELEASE
-  public static String API_KEY = "ef08c4dccb7649b9956296a863db002a68240be2";    //Woah project
-  public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
+  //public static String API_KEY = "ef08c4dccb7649b9956296a863db002a68240be2";    //Woah project
+  //public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
+
+  //Android Staging
+  public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
+  public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
 
   //WOAH QA RELEASE
   //public static String API_KEY = "ad46332237cbb9fd38ad38470a9bee6d4892d770";    //Woah project

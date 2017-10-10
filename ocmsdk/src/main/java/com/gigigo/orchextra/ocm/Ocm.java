@@ -23,11 +23,9 @@ public final class Ocm {
   public static final String OCM_PREFERENCES = "OCMpreferencez";
   public static final String OCM_CHANGE_CREDENTIALS_DONE = "ChangeCredentialsDONE";
 
-  public static void initialize(Application app) {
+  public static void initialize(Application app, String apiKey, String apiSecret) {
 
     OcmBuilder ocmBuilder = new OcmBuilder(app);
-    String oxKey = "FAKE_KEY";
-    String oxSecret = "FAKE_SECRET";
     Class notificationActivityClass = ocmBuilder.getNotificationActivityClass();
 
     OCManager.initSdk(ocmBuilder.getApp());
@@ -51,40 +49,9 @@ public final class Ocm {
     boolean IsCredentialsChanged = prefs.getBoolean(OCM_CHANGE_CREDENTIALS_DONE, false);
 
     if (!IsCredentialsChanged) {
-      OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass,
+      OCManager.initOrchextra(apiKey, apiSecret, notificationActivityClass,
           ocmBuilder.getOxSenderId());
-      Orchextra.start();
     }
-  }
-
-  public static void initializeWithChangeCredentials(OcmBuilder ocmBuilder) {
-    String oxKey = "FAKE_KEY";
-    String oxSecret = "FAKE_SECRET";
-
-    Class notificationActivityClass = ocmBuilder.getNotificationActivityClass();
-
-    OCManager.initSdk(ocmBuilder.getApp());
-    OCManager.setContentLanguage(ocmBuilder.getContentLanguage());
-    OCManager.setDoRequiredLoginCallback(ocmBuilder.getOnRequiredLoginCallback());
-    OCManager.setEventCallback(ocmBuilder.getOnEventCallback());
-
-    OCManager.setShowReadArticles(ocmBuilder.getShowReadArticles());
-    if (ocmBuilder.getShowReadArticles() && ocmBuilder.getTransformReadArticleMode()
-        .equals(ImageTransformReadArticle.BITMAP_TRANSFORM)) {
-      if (ocmBuilder.getCustomBitmapTransformReadArticle() == null) {
-        OCManager.setBitmapTransformReadArticles(
-            new GrayscaleTransformation(ocmBuilder.getApp().getApplicationContext()));
-      } else {
-        OCManager.setBitmapTransformReadArticles(ocmBuilder.getCustomBitmapTransformReadArticle());
-      }
-    }
-    if (ocmBuilder.getShowReadArticles()) {
-      OCManager.setMaxReadArticles(ocmBuilder.getMaxReadArticles());
-    }
-
-    OCManager.initOrchextra(oxKey, oxSecret, notificationActivityClass, ocmBuilder.getOxSenderId());
-
-    Ocm.start();
   }
 
   /**
@@ -229,9 +196,8 @@ public final class Ocm {
   /**
    * Start or restart the sdk with a new credentials
    */
-  public static void startWithCredentials(String apiKey, String apiSecret,
-      OcmCredentialCallback onCredentialCallback) {
-    OCManager.setNewOrchextraCredentials(apiKey, apiSecret, onCredentialCallback);
+  public static void setOcmCredentialCallback(OcmCredentialCallback onCredentialCallback) {
+    OCManager.setOcmCredentialCallback(onCredentialCallback);
   }
 
   /**
@@ -246,13 +212,6 @@ public final class Ocm {
    */
   public static void bindUser(OxCRM crmUser) {
     OCManager.bindUser(crmUser);
-  }
-
-  /**
-   * Start the sdk with the last provided credentials.
-   */
-  public static void start() {
-    OCManager.start();
   }
 
   public static void stop() {

@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
       new TabLayout.OnTabSelectedListener() {
         @Override public void onTabSelected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ScreenSlidePageFragment frag=  ((ScreenSlidePageFragment)adapter.getItem(viewpager.getCurrentItem()));
+          ScreenSlidePageFragment frag =
+              ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem()));
           frag.reloadSection();
         }
 
@@ -39,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override public void onTabReselected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ((ScreenSlidePageFragment)adapter.getItem(viewpager.getCurrentItem())).reloadSection();
-
+          ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem())).reloadSection();
         }
       };
 
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
       //    + OCManager.transform, Toast.LENGTH_LONG).show();
       //OCManager.transform+=1;
     }
-
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     fabClean.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
-         clearDataAndGoToChangeCountryView();
+        clearDataAndGoToChangeCountryView();
       }
     });
 
@@ -113,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
   static String country = "it";
 
   private void startCredentials() {
-    Ocm.setBusinessUnit(country);
-    Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
+    Ocm.setOcmCredentialCallback(new OcmCredentialCallback() {
       @Override public void onCredentialReceiver(String accessToken) {
         //TODO Fix in Orchextra
         runOnUiThread(new Runnable() {
@@ -125,24 +123,28 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout, "No Internet Connection: " + code +"\n check Credentials-Enviroment", Snackbar.LENGTH_INDEFINITE)
-            .show();
+        Snackbar.make(tabLayout,
+            "No Internet Connection: " + code + "\n check Credentials-Enviroment",
+            Snackbar.LENGTH_INDEFINITE).show();
       }
     });
+
+    Ocm.initialize(getApplication(), App.API_KEY, App.API_SECRET);
+    Ocm.setBusinessUnit(country);
 
     Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
       @Override public void onReceive(String customScheme) {
         Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
-        Orchextra.startScannerActivity();
+        Orchextra.INSTANCE.openScanner();
       }
     });
-    Ocm.start();//likewoah
   }
 
   //region clear all data
   private void clearDataAndGoToChangeCountryView() {
     clearApplicationData();
-    Orchextra.stop(); //asv V.I.Code
+    Orchextra.INSTANCE.finish();
+
     Ocm.clearData(true, true, new OCManagerCallbacks.Clear() {
       @Override public void onDataClearedSuccessfull() {
 

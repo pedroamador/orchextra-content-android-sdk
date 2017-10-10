@@ -3,7 +3,7 @@ package com.gigigo.orchextra.core.sdk.application;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import com.gigigo.orchextra.sdk.application.applifecycle.ActivityLifecyleWrapper;
+import com.gigigo.orchextra.oxlegacy.ActivityLifecyleWrapper;
 import java.util.Iterator;
 import java.util.Stack;
 
