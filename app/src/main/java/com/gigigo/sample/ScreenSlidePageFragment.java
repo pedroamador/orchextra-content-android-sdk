@@ -18,8 +18,8 @@ public class ScreenSlidePageFragment extends Fragment {
   private static final String EXTRA_IMAGES_TO_DOWNLOAD = "EXTRA_IMAGES_TO_DOWNLOAD";
 
   private Bundle arguments;
-  private View emptyViewLayout;
-  private View errorViewLayout;
+  private View emptyView;
+  private View errorView;
   private UiGridBaseContentData contentView;
 
   public static ScreenSlidePageFragment newInstance(String section, int imagesToDownload) {
@@ -42,7 +42,6 @@ public class ScreenSlidePageFragment extends Fragment {
     super.onActivityCreated(savedInstanceState);
     loadArguments();
   }
-
 
   private void saveArguments() {
     arguments = getArguments();
@@ -69,8 +68,8 @@ public class ScreenSlidePageFragment extends Fragment {
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
 
-    emptyViewLayout = view.findViewById(R.id.emptyViewLayout);
-    errorViewLayout = view.findViewById(R.id.errorViewLayout);
+    emptyView = view.findViewById(R.id.empty_view);
+    errorView = view.findViewById(R.id.error_view);
 
     return view;
   }
@@ -80,8 +79,8 @@ public class ScreenSlidePageFragment extends Fragment {
       this.contentView = contentView;
 
       contentView.setClipToPaddingBottomSize(ClipToPadding.PADDING_BIG);
-      contentView.setEmptyView(emptyViewLayout);
-      contentView.setErrorView(errorViewLayout);
+      contentView.setEmptyView(emptyView);
+      contentView.setErrorView(errorView);
 
       if (contentView instanceof ContentGridLayoutView) {
         ((ContentGridLayoutView) contentView).setViewPagerAutoSlideTime(3000);
@@ -96,9 +95,7 @@ public class ScreenSlidePageFragment extends Fragment {
   public void reloadSection() {
     if (contentView != null) {
       contentView.reloadSection();
-    }
-    else
-    {
+    } else {
       loadArguments();
       //contentView.reloadSection();
     }

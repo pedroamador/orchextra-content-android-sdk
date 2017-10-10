@@ -14,6 +14,10 @@ import com.squareup.leakcanary.LeakCanary;
 
 public class App extends MultiDexApplication {
 
+  // DEMO
+  //public static String API_KEY = "9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3";
+  //public static String API_SECRET = "6a4d8072f2a519c67b0124656ce6cb857a55276a";
+
   //public static String API_KEY = "a2966ba69f4ead1a4f1550bfda450e9fd07e6762";   //Asv project
   //public static String API_SECRET = "f79713d7e9b0fcd69fedfb94f471106cb85d8ca4";
 
@@ -22,16 +26,12 @@ public class App extends MultiDexApplication {
   //public static String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
 
   //[UAT][CSE] - WOAH SITC STAGING
-  //public static String API_KEY = "adfc8ba4340828a054bf061f692707a197af96cb";
-  //public static String API_SECRET = "677cf75a17aeec144ee402c281ad3a732d736a8a";
+  public static String API_KEY = "adfc8ba4340828a054bf061f692707a197af96cb";
+  public static String API_SECRET = "677cf75a17aeec144ee402c281ad3a732d736a8a";
 
   //WOAH MARKETS RELEASE
   //public static String API_KEY = "ef08c4dccb7649b9956296a863db002a68240be2";    //Woah project
   //public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
-
-  //Android Staging
-  public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
-  public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
 
   //WOAH QA RELEASE
   //public static String API_KEY = "ad46332237cbb9fd38ad38470a9bee6d4892d770";    //Woah project
@@ -66,61 +66,12 @@ public class App extends MultiDexApplication {
     enableStrictMode();
     super.onCreate();
     if (LeakCanary.isInAnalyzerProcess(this)) {
-      //This process is dedicated to LeakCanary for heap analysis.
-      //You should not init your app in this process.
+      // This process is dedicated to LeakCanary for heap analysis.
+      // You should not init your app in this process.
       return;
     }
     LeakCanary.install(this);
-    //// Normal app init code...
-
     MultiDex.install(this);
-    //region normal Filters., perfect 4 documentation
-/*
-    switch (transform) {
-      case 0:
-        return new GrayscaleTransformation(mApplication);
-      case 1:
-        return new BlurTransformation(mApplication);
-      case 2:
-        return new ColorFilterTransformation(mApplication, Color.RED);
-      case 3:
-        return new CropCircleTransformation(mApplication);
-      case 4:
-        return new CropSquareTransformation(mApplication);
-      case 5:
-        return new RoundedCornersTransformation(mApplication, 25,
-            25);//return new MaskTransformation(mApplication, 50); //fails
-      case 6:
-        return new RoundedCornersTransformation(mApplication, 25, 25);
-      case 7:
-        return new BrightnessFilterTransformation(mApplication);
-      case 8:
-        return new ContrastFilterTransformation(mApplication);
-      case 9:
-        return new InvertFilterTransformation(mApplication);
-      case 10:
-        return new KuwaharaFilterTransformation(mApplication);
-      case 11:
-        return new PixelationFilterTransformation(mApplication);
-      case 12:
-        return new SepiaFilterTransformation(mApplication);
-      case 13:
-        return new SketchFilterTransformation(mApplication);
-      case 14:
-        return new SwirlFilterTransformation(mApplication);
-      case 15:
-        return new ToonFilterTransformation(mApplication);
-      default:
-        transform = -1;
-        return new VignetteFilterTransformation(mApplication);
-    }
-     */
-    //endregion
-
-    //asv READ ARTICLES DOCU
-    // x defecto el transform es overlay si no se setea el mode
-    //x defecto es grayscale si se pone mode bitmap xo no se alimenta un bitmaptransform
-    //x defecto se guardarán hasta 100? articulos, y pueden ser un maximo de 200
 
     OcmBuilder ocmBuilder = new OcmBuilder(this).setNotificationActivityClass(MainActivity.class)
         .setShowReadArticles(true)
@@ -137,7 +88,7 @@ public class App extends MultiDexApplication {
 
     Ocm.setStyleUi(ocmStyleUiBuilder);
 
-    Ocm.setBusinessUnit("rs");
+    Ocm.setBusinessUnit("ro");
   }
 
   private void enableStrictMode() {

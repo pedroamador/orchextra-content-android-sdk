@@ -8,12 +8,8 @@ import android.webkit.WebStorage;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.core.OrchextraErrorListener;
-import com.gigigo.orchextra.core.OrchextraStatusListener;
-import com.gigigo.orchextra.core.OrchextraTokenReceiver;
 import com.gigigo.orchextra.core.controller.OcmViewGenerator;
 import com.gigigo.orchextra.core.domain.OcmController;
-import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.core.domain.entities.OxCRM;
 import com.gigigo.orchextra.core.domain.entities.ocm.Authoritation;
 import com.gigigo.orchextra.core.domain.entities.ocm.OxSession;
@@ -324,35 +320,29 @@ public final class OCManager {
       Class notificationActivityClass, String senderId) {
 
     orchextra = Orchextra.INSTANCE;
-    orchextra.setStatusListener(new OrchextraStatusListener() {
-      @Override public void onStatusChange(boolean isReady) {
-        if (isReady) {
-          orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(app));
-          orchextra.getTriggerManager()
-              .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(app));
+    orchextra.setStatusListener(isReady -> {
+      if (isReady) {
+        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(app));
+        orchextra.getTriggerManager()
+            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(app));
 
-          Toast.makeText(app, "SDK ready", Toast.LENGTH_SHORT).show();
-        } else {
-          Toast.makeText(app, "SDK finished", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(app, "SDK ready", Toast.LENGTH_SHORT).show();
+      } else {
+        Toast.makeText(app, "SDK finished", Toast.LENGTH_SHORT).show();
       }
     });
     orchextra.init(app, oxKey, oxSecret, true);
 
-    orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(Error error) {
-        if (instance.ocmCredentialCallback != null) {
-          instance.ocmCredentialCallback.onCredentailError(Integer.toString(error.getCode()));
-        }
+    orchextra.setErrorListener(error -> {
+      if (instance.ocmCredentialCallback != null) {
+        instance.ocmCredentialCallback.onCredentailError(Integer.toString(error.getCode()));
       }
     });
 
-    orchextra.getToken(new OrchextraTokenReceiver() {
-      @Override public void onGetToken(String oxToken) {
-        instance.oxSession.setToken(oxToken);
-        if (instance.ocmCredentialCallback != null) {
-          instance.ocmCredentialCallback.onCredentialReceiver(oxToken);
-        }
+    orchextra.getToken(oxToken -> {
+      instance.oxSession.setToken(oxToken);
+      if (instance.ocmCredentialCallback != null) {
+        instance.ocmCredentialCallback.onCredentialReceiver(oxToken);
       }
     });
 

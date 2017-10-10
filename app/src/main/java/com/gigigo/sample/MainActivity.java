@@ -1,14 +1,18 @@
 package com.gigigo.sample;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
@@ -21,9 +25,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+  private static final Boolean AUTO_INIT = true;
+  static final String COUNTRY = "it";
   private TabLayout tabLayout;
+  private View loadingView;
+  private View emptyView;
+  private View errorView;
+  private View networkErrorView;
   private ViewPager viewpager;
-  private ScreenSlidePagerAdapter adapter;
+  private ScreenSlidePagerAdapter pagerAdapter;
   private View newContentMainContainer;
 
   private TabLayout.OnTabSelectedListener onTabSelectedListener =
@@ -31,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         @Override public void onTabSelected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
           ScreenSlidePageFragment frag =
-              ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem()));
+              ((ScreenSlidePageFragment) pagerAdapter.getItem(viewpager.getCurrentItem()));
           frag.reloadSection();
         }
 
@@ -40,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override public void onTabReselected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ((ScreenSlidePageFragment) adapter.getItem(viewpager.getCurrentItem())).reloadSection();
+          ((ScreenSlidePageFragment) pagerAdapter.getItem(
+              viewpager.getCurrentItem())).reloadSection();
         }
       };
 
@@ -50,69 +61,77 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
-  @Override protected void onResume() {
-    super.onResume();
-    //ReadedArticles
-    if (OCManager.getShowReadArticles() && adapter != null) {
-      adapter.reloadSections();
-
-      //Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled transform number"
-      //    + OCManager.transform, Toast.LENGTH_LONG).show();
-      //OCManager.transform+=1;
-    }
-  }
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initViews();
 
     Ocm.setOnDoRequiredLoginCallback(onDoRequiredLoginCallback);
+
+    if (AUTO_INIT) {
+      startCredentials();
+    }
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    //ReadedArticles
+    //if (OCManager.getShowReadedArticlesInGrayScale() && pagerAdapter != null) {
+    //  Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled"
+    //      + OCManager.getShowReadedArticlesInGrayScale(), Toast.LENGTH_LONG).show();
+    //}
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    if (!AUTO_INIT) {
+      getMenuInflater().inflate(R.menu.menu_main, menu);
+    }
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+    switch (item.getItemId()) {
+      case R.id.action_init:
+        startCredentials();
+        return true;
+      case R.id.action_clean:
+        Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
+        clearDataAndGoToChangeCountryView();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 
   private void initViews() {
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
     viewpager = (ViewPager) findViewById(R.id.viewpager);
-    View fabReload = findViewById(R.id.fabReload);
-    View fabChange = findViewById(R.id.fabChange);
-    View fabClean = findViewById(R.id.fabClean);
+    newContentMainContainer = findViewById(R.id.newContentMainContainer);
+    loadingView = findViewById(R.id.loading_view);
+    emptyView = findViewById(R.id.empty_view);
+    errorView = findViewById(R.id.error_view);
+    networkErrorView = findViewById(R.id.network_error_view);
 
-    fabChange.setOnClickListener(new View.OnClickListener() {
+    pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+    viewpager.setAdapter(pagerAdapter);
+    viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    errorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         startCredentials();
-        if (OCManager.getShowReadArticles() && adapter != null) {
-          //OCManager.transform+=1;
-          adapter.reloadSections();
-          //Toast.makeText(MainActivity.this, "Refresh grid from integratied app if readed articles are enabled transform number"
-          //    + OCManager.transform, Toast.LENGTH_LONG).show();
-        }
       }
     });
-
-    fabClean.setOnClickListener(new View.OnClickListener() {
+    networkErrorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
-        clearDataAndGoToChangeCountryView();
+        startCredentials();
       }
     });
-
-    newContentMainContainer = findViewById(R.id.newContentMainContainer);
-
-    fabReload.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        adapter.reloadSections();
-      }
-    });
-
-    adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-    viewpager.setAdapter(adapter);
-    viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
   }
 
-  static String country = "it";
-
   private void startCredentials() {
+
     Ocm.setOcmCredentialCallback(new OcmCredentialCallback() {
+
       @Override public void onCredentialReceiver(String accessToken) {
         //TODO Fix in Orchextra
         runOnUiThread(new Runnable() {
@@ -130,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     });
 
     Ocm.initialize(getApplication(), App.API_KEY, App.API_SECRET);
-    Ocm.setBusinessUnit(country);
+    Ocm.setBusinessUnit(COUNTRY);
 
     Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
       @Override public void onReceive(String customScheme) {
@@ -189,16 +208,24 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onMenusLoaded(List<UiMenu> uiMenu) {
         if (uiMenu == null) {
           Toast.makeText(MainActivity.this, "menu is null", Toast.LENGTH_SHORT).show();
+          showErrorView();
         } else {
-          viewpager.setOffscreenPageLimit(uiMenu.size());
-          onGoDetailView(uiMenu);
-          adapter.setDataItems(uiMenu);
-          checkIfMenuHasChanged(uiMenu);
+          if (uiMenu.isEmpty()) {
+            showEmptyView();
+          } else {
+            showContentView();
+            tabLayout.removeAllTabs();
+            viewpager.setOffscreenPageLimit(uiMenu.size());
+            onGoDetailView(uiMenu);
+            pagerAdapter.setDataItems(uiMenu);
+            checkIfMenuHasChanged(uiMenu);
+          }
         }
       }
 
       @Override public void onMenusFails(Throwable e) {
         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        showErrorView();
       }
     });
   }
@@ -232,10 +259,10 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         newContentMainContainer.setVisibility(View.GONE);
 
-        adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        adapter.setDataItems(newMenus);
+        showContentView();
+        pagerAdapter.setDataItems(newMenus);
         viewpager.removeAllViews();
-        viewpager.setAdapter(adapter);
+        viewpager.setAdapter(pagerAdapter);
 
         tabLayout.removeAllTabs();
         onGoDetailView(newMenus);
@@ -246,13 +273,62 @@ public class MainActivity extends AppCompatActivity {
   private void onGoDetailView(List<UiMenu> uiMenu) {
     tabLayout.removeAllTabs();
     if (uiMenu.size() > 0) {
+      UiMenu menu;
+      TabLayout.Tab tab;
+
       for (int i = 0; i < uiMenu.size(); i++) {
-        UiMenu menu = uiMenu.get(i);
-        TabLayout.Tab tab = tabLayout.newTab().setText(menu.getText());
+        menu = uiMenu.get(i);
+        tab = tabLayout.newTab().setText(menu.getText());
         tabLayout.addTab(tab);
       }
     }
 
     tabLayout.addOnTabSelectedListener(onTabSelectedListener);
+  }
+
+  public boolean isOnline() {
+    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+    return netInfo != null && netInfo.isConnectedOrConnecting();
+  }
+
+  private void showLoading() {
+    loadingView.setVisibility(View.VISIBLE);
+    viewpager.setVisibility(View.GONE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.GONE);
+    networkErrorView.setVisibility(View.GONE);
+  }
+
+  private void showEmptyView() {
+    loadingView.setVisibility(View.GONE);
+    viewpager.setVisibility(View.GONE);
+    errorView.setVisibility(View.GONE);
+    emptyView.setVisibility(View.VISIBLE);
+    networkErrorView.setVisibility(View.GONE);
+  }
+
+  private void showErrorView() {
+    loadingView.setVisibility(View.GONE);
+    viewpager.setVisibility(View.GONE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.VISIBLE);
+    networkErrorView.setVisibility(View.GONE);
+  }
+
+  private void showContentView() {
+    loadingView.setVisibility(View.GONE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.GONE);
+    viewpager.setVisibility(View.VISIBLE);
+    networkErrorView.setVisibility(View.GONE);
+  }
+
+  private void showNetworkErrorView() {
+    loadingView.setVisibility(View.GONE);
+    emptyView.setVisibility(View.GONE);
+    errorView.setVisibility(View.GONE);
+    viewpager.setVisibility(View.GONE);
+    networkErrorView.setVisibility(View.VISIBLE);
   }
 }

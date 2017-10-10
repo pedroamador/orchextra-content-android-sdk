@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
@@ -12,6 +14,7 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
 
   public ScreenSlidePagerAdapter(FragmentManager fm) {
     super(fm);
+    menuContent = new ArrayList<>();
   }
 
   @Override public Fragment getItem(int position) {
@@ -21,8 +24,9 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         getNumberOfImagesToDownload(position));
   }
 
-  public void setDataItems(List<UiMenu> menuContent) {
-    this.menuContent = menuContent;
+  public void setDataItems(Collection<UiMenu> collection) {
+    menuContent.clear();
+    menuContent.addAll(collection);
     notifyDataSetChanged();
   }
 
@@ -34,11 +38,7 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
   }
 
   @Override public int getCount() {
-    return (menuContent != null) ? menuContent.size() : 0;
-  }
-
-  public void reloadSections() {
-    notifyDataSetChanged();
+    return menuContent.size();
   }
 
   private int getNumberOfImagesToDownload(int position) {

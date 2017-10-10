@@ -1,11 +1,29 @@
 <resources>
 
-  <!-- Base application theme. -->
-  <style name="AppTheme" parent="Theme.AppCompat">
-    <!-- Customize your theme here. -->
-    <item name="colorPrimary">#084545</item>
-    <item name="colorPrimaryDark">#31644c</item>
-    <item name="colorAccent">#039e91</item>
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary</item>
+    <item name="colorAccent">@color/accent</item>
   </style>
 
+  <style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
+
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+  <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <item name="android:windowBackground">@drawable/background_splash</item>
+  </style>
+
+  <style name="CircularProgress" parent="Theme.AppCompat.Light">
+    <item name="colorAccent">@color/icons</item>
+  </style>
+
+  <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+    <item name="tabIndicatorColor">@color/icons</item>
+  </style>
 </resources>
