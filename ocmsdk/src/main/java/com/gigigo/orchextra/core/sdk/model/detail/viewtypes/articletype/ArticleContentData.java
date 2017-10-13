@@ -68,7 +68,7 @@ public class ArticleContentData extends UiGridBaseContentData {
         "----onDestroy------------------------------------------artivcle content data");
     if (articleItemViewContainer != null) {
       unbindDrawables(articleItemViewContainer);
-      System.gc();
+      //System.gc();
 
       Glide.get(this.getContext()).clearMemory();
       articleItemViewContainer.removeAllViews();
@@ -84,8 +84,8 @@ public class ArticleContentData extends UiGridBaseContentData {
   }
 
   private void unbindDrawables(View view) {
-    System.gc();
-    Runtime.getRuntime().gc();
+    //System.gc();
+    //Runtime.getRuntime().gc();
     if (view.getBackground() != null) {
       view.getBackground().setCallback(null);
     }

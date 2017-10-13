@@ -37,11 +37,9 @@ public class GetMenus extends UseCase<MenuContentData, GetMenus.Params> {
       }
 
       @Override public void onNext(@NonNull MenuContentData menuContentData) {
-
       }
 
       @Override public void onError(@NonNull Throwable e) {
-
       }
 
       @Override public void onComplete() {

@@ -37,11 +37,9 @@ public class ClearCache extends UseCase<Void, ClearCache.Params> {
       }
 
       @Override public void onNext(@NonNull Void aVoid) {
-
       }
 
       @Override public void onError(@NonNull Throwable e) {
-
       }
 
       @Override public void onComplete() {

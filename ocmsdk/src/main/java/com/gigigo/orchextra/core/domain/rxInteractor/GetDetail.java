@@ -37,11 +37,9 @@ public class GetDetail extends UseCase<ElementData, GetDetail.Params> {
       }
 
       @Override public void onNext(@NonNull ElementData elementData) {
-
       }
 
       @Override public void onError(@NonNull Throwable e) {
-
       }
 
       @Override public void onComplete() {

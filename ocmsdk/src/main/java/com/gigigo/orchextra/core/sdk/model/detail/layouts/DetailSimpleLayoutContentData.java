@@ -79,7 +79,7 @@ public class DetailSimpleLayoutContentData extends DetailParentContentData {
     if (contentMainLayout != null) unbindDrawables(contentMainLayout);
 
     ((ViewGroup) contentMainLayout).removeAllViews();
-    System.gc();
+    //System.gc();
 
     Glide.get(this.getContext()).clearMemory();
 
@@ -98,8 +98,8 @@ public class DetailSimpleLayoutContentData extends DetailParentContentData {
   }
 
   private void unbindDrawables(View view) {
-    System.gc();
-    Runtime.getRuntime().gc();
+    //System.gc();
+    //Runtime.getRuntime().gc();
     if (view.getBackground() != null) {
       view.getBackground().setCallback(null);
     }

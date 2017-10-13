@@ -206,7 +206,7 @@ public class PreviewContentData extends UiBaseContentData {
   @Override public void onDestroy() {
     if (previewContentMainLayout != null) {
       unbindDrawables(previewContentMainLayout);
-      System.gc();
+      //System.gc();
 
       Glide.get(this.getContext()).clearMemory();
       previewImage = null;
@@ -224,8 +224,8 @@ public class PreviewContentData extends UiBaseContentData {
   }
 
   private void unbindDrawables(View view) {
-    System.gc();
-    Runtime.getRuntime().gc();
+    //System.gc();
+    //Runtime.getRuntime().gc();
     if (view.getBackground() != null) {
       view.getBackground().setCallback(null);
     }

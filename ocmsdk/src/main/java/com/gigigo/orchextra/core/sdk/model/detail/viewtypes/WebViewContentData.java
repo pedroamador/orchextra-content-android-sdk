@@ -132,7 +132,7 @@ public class WebViewContentData extends UiGridBaseContentData {
 
     if (mView != null) {
       unbindDrawables(mView);
-      System.gc();
+      //System.gc();
       Glide.get(this.getContext()).clearMemory();
       webView = null;
       progress = null;
@@ -141,15 +141,15 @@ public class WebViewContentData extends UiGridBaseContentData {
       Glide.get(this.getContext()).clearMemory();
 
       mView = null;
-      System.gc();
+      //System.gc();
     }
 
     super.onDestroy();
   }
 
   private void unbindDrawables(View view) {
-    System.gc();
-    Runtime.getRuntime().gc();
+    //System.gc();
+    //Runtime.getRuntime().gc();
     if (view.getBackground() != null) {
       view.getBackground().setCallback(null);
     }

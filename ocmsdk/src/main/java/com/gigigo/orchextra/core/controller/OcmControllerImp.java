@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.core.controller;
 
+import android.content.Context;
 import com.gigigo.orchextra.core.data.rxException.ApiDetailNotFoundException;
 import com.gigigo.orchextra.core.data.rxException.ApiMenuNotFoundException;
 import com.gigigo.orchextra.core.data.rxException.ApiSearchNotFoundException;
@@ -28,7 +29,7 @@ public class OcmControllerImp implements OcmController {
       PriorityScheduler.Priority.MEDIUM;
 
   private static final PriorityScheduler.Priority PRIORITY_DETAIL =
-      PriorityScheduler.Priority.HIGH;
+      PriorityScheduler.Priority.HIGHEST;
 
   private static final PriorityScheduler.Priority PRIORITY_SEARCH =
       PriorityScheduler.Priority.MEDIUM;
@@ -42,7 +43,7 @@ public class OcmControllerImp implements OcmController {
   private final ClearCache clearCache;
   private final ConnectionUtils connectionUtils;
 
-  public OcmControllerImp(GetMenus getMenus, GetSection getSection, GetDetail getDetail,
+  public OcmControllerImp(Context context, GetMenus getMenus, GetSection getSection, GetDetail getDetail,
       SearchElements searchElements, ClearCache clearCache, ConnectionUtils connectionUtils) {
 
     this.getMenus = getMenus;
@@ -66,7 +67,7 @@ public class OcmControllerImp implements OcmController {
   //region new
   @Override public void getMenu(boolean forceReload, GetMenusControllerCallback getMenusCallback) {
     getMenus.execute(new MenuObserver(getMenusCallback),
-        GetMenus.Params.forForceReload(forceReload), forceReload ? PRIORITY_MENUS : PriorityScheduler.Priority.HIGHEST);
+        GetMenus.Params.forForceReload(forceReload), forceReload ? PRIORITY_MENUS : PriorityScheduler.Priority.HIGH);
   }
 
   @Override
@@ -82,7 +83,7 @@ public class OcmControllerImp implements OcmController {
           if (url != null) {
             getSection.execute(new SectionObserver(getSectionControllerCallback),
                 GetSection.Params.forSection(forceReload, url, imagesToDownload),
-                forceReload ? PRIORITY_SECTIONS : PriorityScheduler.Priority.HIGHEST);
+                forceReload ? PRIORITY_SECTIONS : PriorityScheduler.Priority.HIGH);
           } else {
             getSectionControllerCallback.onGetSectionFails(new ApiSectionNotFoundException(
                 "elementCache.getRender().getContentUrl() IS NULL"));
@@ -101,7 +102,7 @@ public class OcmControllerImp implements OcmController {
       GetDetailControllerCallback getDetailControllerCallback) {
     String slug = getSlug(elementUrl);
     getDetail.execute(new DetailObserver(getDetailControllerCallback),
-        GetDetail.Params.forDetail(forceReload, slug), forceReload ? PRIORITY_DETAIL : PriorityScheduler.Priority.HIGHEST);
+        GetDetail.Params.forDetail(forceReload, slug), PRIORITY_DETAIL);
   }
 
   @Override
@@ -127,7 +128,6 @@ public class OcmControllerImp implements OcmController {
     }
 
     @Override public void onComplete() {
-
     }
 
     @Override public void onError(Throwable e) {
@@ -148,7 +148,6 @@ public class OcmControllerImp implements OcmController {
     }
 
     @Override public void onComplete() {
-
     }
 
     @Override public void onError(Throwable e) {
@@ -203,7 +202,6 @@ public class OcmControllerImp implements OcmController {
     }
 
     @Override public void onComplete() {
-
     }
 
     @Override public void onError(Throwable e) {

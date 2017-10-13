@@ -1,5 +1,13 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
+import com.gigigo.orchextra.core.controller.Foreground;
+import io.reactivex.Scheduler;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.schedulers.ScheduledRunnable;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,44 +17,30 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.Scheduler;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.schedulers.ScheduledRunnable;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
+ * https://github.com/skyLiao/rxjava-priority-scheduler/blob/rxjava2/src/main/java/me/ronshapiro/rx/priority/PriorityScheduler.java
  * A class to be used with RxJava's {@link Scheduler} interface. Though this class is not a {@link
- * Scheduler} itself, calling {@link #priority(int)} will return one. E.x.: {@code PriorityScheduler
+ * Scheduler} itself, calling {@link #priority(int)} will return one. E.x.: {@code
+ * PriorityScheduler
  * scheduler = new PriorityScheduler(); Observable.just(1, 2, 3) .subscribeOn(scheduler.priority(10))
  * .subscribe(); }
  */
 public final class PriorityScheduler {
 
-  public enum Priority {
-    LOWEST(0),
-    LOW(1),
-    MEDIUM(2),
-    HIGH(3),
-    HIGHEST(4);
-
-    private final int priority;
-
-    Priority(int priority) {
-      this.priority = priority;
-    }
-
-    public int getPriority() {
-      return priority;
-    }
-  }
-
-  private final PriorityBlockingQueue<ComparableRunnable> queue = new PriorityBlockingQueue<>();
-  private final AtomicInteger workerCount = new AtomicInteger();
+  private final PriorityBlockingQueue<ComparableRunnable> queue;
+  private final AtomicInteger workerCount;
   private final int concurrency;
   private ExecutorService executorService;
+
+
+  private PriorityScheduler(int concurrency) {
+    this.executorService = Executors.newFixedThreadPool(concurrency);
+    this.concurrency = concurrency;
+    this.workerCount = new AtomicInteger();
+    this.queue = new PriorityBlockingQueue<>();
+  }
 
   /**
    * Creates a {@link PriorityScheduler} with as many threads as the machine's available
@@ -75,17 +69,8 @@ public final class PriorityScheduler {
     return new PriorityScheduler(concurrency);
   }
 
-  private PriorityScheduler(int concurrency) {
-    this.executorService = Executors.newFixedThreadPool(concurrency);
-    this.concurrency = concurrency;
-  }
-
   public static PriorityScheduler get() {
     return Holder.INSTANCE;
-  }
-
-  private static class Holder {
-    static PriorityScheduler INSTANCE = create();
   }
 
   /**
@@ -96,37 +81,22 @@ public final class PriorityScheduler {
     return new InnerPriorityScheduler(priority);
   }
 
-  private final class InnerPriorityScheduler extends Scheduler {
+  public enum Priority {
+    LOWEST(0), LOW(1), MEDIUM(2), HIGH(3), HIGHEST(4);
 
     private final int priority;
 
-    private InnerPriorityScheduler(int priority) {
+    Priority(int priority) {
       this.priority = priority;
     }
 
-    @Override
-    public Worker createWorker() {
-      synchronized (workerCount) {
-        if (workerCount.get() < concurrency) {
-          workerCount.incrementAndGet();
-          executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-              while (true) {
-                try {
-                  ComparableRunnable runnable = queue.take();
-                  runnable.run();
-                } catch (InterruptedException e) {
-                  Thread.currentThread().interrupt();
-                  break;
-                }
-              }
-            }
-          });
-        }
-      }
-      return new PriorityWorker(queue, priority);
+    public int getPriority() {
+      return priority;
     }
+  }
+
+  private static class Holder {
+    static PriorityScheduler INSTANCE = create();
   }
 
   private static final class PriorityWorker extends Scheduler.Worker {
@@ -140,8 +110,7 @@ public final class PriorityScheduler {
       this.priority = priority;
     }
 
-    @Override
-    public Disposable schedule(Runnable action) {
+    @Override public Disposable schedule(Runnable action) {
       return schedule(action, 0, MILLISECONDS);
     }
 
@@ -149,30 +118,27 @@ public final class PriorityScheduler {
     public Disposable schedule(@NonNull Runnable run, long delayTime, @NonNull TimeUnit unit) {
       final ComparableRunnable comparableRunnable = new ComparableRunnable(run, priority);
 
-      final ScheduledRunnable scheduledRunnable = new ScheduledRunnable(comparableRunnable, compositeDisposable);
+      final ScheduledRunnable scheduledRunnable =
+          new ScheduledRunnable(comparableRunnable, compositeDisposable);
       scheduledRunnable.setFuture(new Future<Object>() {
-        @Override
-        public boolean cancel(boolean b) {
+        @Override public boolean cancel(boolean b) {
           return queue.remove(comparableRunnable);
         }
 
-        @Override
-        public boolean isCancelled() {
+        @Override public boolean isCancelled() {
           return false;
         }
 
-        @Override
-        public boolean isDone() {
+        @Override public boolean isDone() {
           return false;
         }
 
-        @Override
-        public Object get() throws InterruptedException, ExecutionException {
+        @Override public Object get() throws InterruptedException, ExecutionException {
           return null;
         }
 
-        @Override
-        public Object get(long l, @NonNull TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
+        @Override public Object get(long l, @NonNull TimeUnit timeUnit)
+            throws InterruptedException, ExecutionException, TimeoutException {
           return null;
         }
       });
@@ -182,19 +148,17 @@ public final class PriorityScheduler {
       return scheduledRunnable;
     }
 
-    @Override
-    public void dispose() {
+    @Override public void dispose() {
       compositeDisposable.dispose();
     }
 
-    @Override
-    public boolean isDisposed() {
+    @Override public boolean isDisposed() {
       return compositeDisposable.isDisposed();
     }
-
   }
 
-  private static final class ComparableRunnable implements Runnable, Comparable<ComparableRunnable> {
+  private static final class ComparableRunnable
+      implements Runnable, Comparable<ComparableRunnable> {
 
     private final Runnable runnable;
     private final int priority;
@@ -204,14 +168,46 @@ public final class PriorityScheduler {
       this.priority = priority;
     }
 
-    @Override
-    public void run() {
+    @Override public void run() {
       runnable.run();
     }
 
-    @Override
-    public int compareTo(ComparableRunnable o) {
+    @Override public int compareTo(ComparableRunnable o) {
       return o.priority - priority;
+    }
+  }
+
+  private final class InnerPriorityScheduler extends Scheduler {
+
+    private final int priority;
+
+    private InnerPriorityScheduler(int priority) {
+      this.priority = priority;
+    }
+
+    @Override public Worker createWorker() {
+      synchronized (workerCount) {
+        if (workerCount.get() < concurrency) {
+          workerCount.incrementAndGet();
+
+          executorService.submit(new Runnable() {
+            @Override public void run() {
+              while (true) {
+                try {
+                  ComparableRunnable runnable = queue.take();
+                  runnable.run();
+
+                  System.out.println("PRIORITY: " + runnable.priority);
+                } catch (InterruptedException e) {
+                  Thread.currentThread().interrupt();
+                  break;
+                }
+              }
+            }
+          });
+        }
+      }
+      return new PriorityWorker(queue, priority);
     }
   }
 }

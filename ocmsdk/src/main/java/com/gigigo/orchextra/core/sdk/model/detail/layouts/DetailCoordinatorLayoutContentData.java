@@ -163,7 +163,7 @@ public class DetailCoordinatorLayoutContentData extends DetailParentContentData 
     //if (collapsingToolbar != null) unbindDrawables(collapsingToolbar);
     //if (appbarLayout != null) unbindDrawables(appbarLayout);
     if (coordinatorLayout != null) unbindDrawables(coordinatorLayout);
-    System.gc();
+    //System.gc();
 
     Glide.get(this.getContext()).clearMemory();
     coordinatorLayout.removeAllViews();

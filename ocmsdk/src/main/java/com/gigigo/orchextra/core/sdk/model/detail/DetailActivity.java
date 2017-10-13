@@ -204,7 +204,7 @@ public class DetailActivity extends BaseInjectionActivity<DetailActivityComponen
 
 
     unbindDrawables(parentContainer);
-    System.gc();
+    //System.gc();
     Glide.get((Context) presenter.getView()).clearMemory();
     if (animationImageView != null) animationImageView = null;
 

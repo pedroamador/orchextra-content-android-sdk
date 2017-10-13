@@ -191,7 +191,7 @@ public abstract class DetailParentContentData extends UiBaseContentData {
     if (mView != null) unbindDrawables(mView);
 
     ((ViewGroup) mView).removeAllViews();
-    System.gc();
+    //System.gc();
 
     Glide.get(this.getContext()).clearMemory();
 
@@ -206,8 +206,8 @@ public abstract class DetailParentContentData extends UiBaseContentData {
   }
 
   private void unbindDrawables(View view) {
-    System.gc();
-    Runtime.getRuntime().gc();
+    //System.gc();
+    //Runtime.getRuntime().gc();
     if (view.getBackground() != null) {
       view.getBackground().setCallback(null);
     }

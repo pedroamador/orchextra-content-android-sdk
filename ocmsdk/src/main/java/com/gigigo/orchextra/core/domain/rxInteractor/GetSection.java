@@ -37,18 +37,15 @@ public class GetSection extends UseCase<ContentData, GetSection.Params> {
       }
 
       @Override public void onNext(@NonNull ContentData contentData) {
-
       }
 
       @Override public void onError(@NonNull Throwable e) {
-
       }
 
       @Override public void onComplete() {
         disposables.clear();
       }
     });
-
 
     return sectionElements;
   }
