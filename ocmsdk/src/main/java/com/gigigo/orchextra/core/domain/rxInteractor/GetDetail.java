@@ -1,11 +1,14 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
-import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCache;
 import com.gigigo.orchextra.core.domain.entities.elements.ElementData;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
-import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
 import com.gigigo.orchextra.core.domain.rxRepository.OcmRepository;
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import javax.inject.Singleton;
 import orchextra.javax.inject.Inject;
 
 /**
@@ -15,15 +18,38 @@ import orchextra.javax.inject.Inject;
 public class GetDetail extends UseCase<ElementData, GetDetail.Params> {
 
   private final OcmRepository ocmRepository;
+  private final CompositeDisposable disposables;
 
-  @Inject GetDetail(OcmRepository ocmRepository, PriorityScheduler threadExecutor,
+  @Singleton @Inject GetDetail(OcmRepository ocmRepository, PriorityScheduler threadExecutor,
       PostExecutionThread postExecutionThread) {
     super(threadExecutor, postExecutionThread);
     this.ocmRepository = ocmRepository;
+    this.disposables = new CompositeDisposable();
   }
 
   @Override Observable<ElementData> buildUseCaseObservable(Params params) {
-    return this.ocmRepository.getDetail(params.forceReload, params.content);
+    Observable<ElementData> detail =
+        this.ocmRepository.getDetail(params.forceReload, params.content);
+
+    detail.subscribe(new Observer<ElementData>() {
+      @Override public void onSubscribe(@NonNull Disposable d) {
+        disposables.add(d);
+      }
+
+      @Override public void onNext(@NonNull ElementData elementData) {
+
+      }
+
+      @Override public void onError(@NonNull Throwable e) {
+
+      }
+
+      @Override public void onComplete() {
+        disposables.clear();
+      }
+    });
+
+    return detail;
   }
 
   public static final class Params {

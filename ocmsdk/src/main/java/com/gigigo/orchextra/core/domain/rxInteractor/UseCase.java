@@ -4,6 +4,8 @@ import com.fernandocejas.arrow.checks.Preconditions;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -21,12 +23,12 @@ public abstract class UseCase<T, Params> {
 
   private final PriorityScheduler threadExecutor;
   private final PostExecutionThread postExecutionThread;
-  private final CompositeDisposable disposables;
+
 
   protected UseCase(PriorityScheduler threadExecutor, PostExecutionThread postExecutionThread) {
     this.threadExecutor = threadExecutor;
     this.postExecutionThread = postExecutionThread;
-    this.disposables = new CompositeDisposable();
+
   }
 
   /**
@@ -47,24 +49,44 @@ public abstract class UseCase<T, Params> {
     final Observable<T> observable = this.buildUseCaseObservable(params)
         .subscribeOn(threadExecutor.priority(priority.getPriority()))
         .observeOn(postExecutionThread.getScheduler());
-    addDisposable(observable.subscribeWith(observer));
+
+    observable.subscribeWith(observer);
+
+    //observable.subscribe(new Observer<T>() {
+    //      @Override public void onSubscribe(@NonNull Disposable d) {
+    //        disposables.add(d);
+    //      }
+    //
+    //      @Override public void onNext(@NonNull T t) {
+    //
+    //      }
+    //
+    //      @Override public void onError(@NonNull Throwable e) {
+    //
+    //      }
+    //
+    //      @Override public void onComplete() {
+    //        disposables.dispose();
+    //      }
+    //    });
+    //addDisposable(observable.subscribeWith(observer));
   }
 
-  /**
-   * Dispose from current {@link CompositeDisposable}.
-   */
-  public void dispose() {
-    if (!disposables.isDisposed()) {
-      disposables.dispose();
-    }
-  }
+  ///**
+  // * Dispose from current {@link CompositeDisposable}.
+  // */
+  //public void dispose() {
+  //  if (!disposables.isDisposed()) {
+  //    disposables.dispose();
+  //  }
+  //}
 
-  /**
-   * Dispose from current {@link CompositeDisposable}.
-   */
-  private void addDisposable(Disposable disposable) {
-    Preconditions.checkNotNull(disposable);
-    Preconditions.checkNotNull(disposables);
-    disposables.add(disposable);
-  }
+  ///**
+  // * Dispose from current {@link CompositeDisposable}.
+  // */
+  //private void addDisposable(Disposable disposable) {
+  //  Preconditions.checkNotNull(disposable);
+  //  Preconditions.checkNotNull(disposables);
+  //  disposables.add(disposable);
+  //}
 }
