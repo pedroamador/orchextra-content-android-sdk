@@ -47,7 +47,10 @@ dependencies {
   compile 'com.android.support:design:25.3.1'
   compile 'com.android.support:support-v13:25.3.1'
 
-  compile project(path: ':ocmsdk')
+  releaseCompile project(path: ':ocmsdk', configuration: 'ocmRelease')
+  debugCompile project(path: ':ocmsdk', configuration: 'ocmStaging')
+  //  compile project(path: ':ocmsdk')
+
   compile 'com.android.support:multidex:1.0.1'
   compile 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'

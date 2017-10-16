@@ -125,10 +125,10 @@ dependencies {
   compile project.libraries.imageloaderGlideBlur
 
   //Orchextra
-  compile 'com.gigigo.orchextra:core:0.0.6'
-  compile 'com.gigigo.orchextra:geofence:0.0.6'
-  compile 'com.gigigo.orchextra:indoorpositioning:0.0.6'
-  compile 'com.gigigo.orchextra:scanner:0.0.6'
+  compile 'com.gigigo.orchextra:core:0.0.7'
+  compile 'com.gigigo.orchextra:geofence:0.0.7'
+  compile 'com.gigigo.orchextra:indoorpositioning:0.0.7'
+  compile 'com.gigigo.orchextra:scanner:0.0.7'
 
   //customs Views
   compile project.libraries.doubleViewPager

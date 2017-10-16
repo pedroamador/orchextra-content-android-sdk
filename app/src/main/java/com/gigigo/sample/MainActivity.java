@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -118,12 +117,12 @@ public class MainActivity extends AppCompatActivity {
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     errorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        startCredentials();
+        getContent();
       }
     });
     networkErrorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        startCredentials();
+        getContent();
       }
     });
   }
@@ -141,10 +140,8 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-      @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout,
-            "No Internet Connection: " + code + "\n check Credentials-Enviroment",
-            Snackbar.LENGTH_INDEFINITE).show();
+      @Override public void onCredentailError(final String code) {
+        Toast.makeText(MainActivity.this, "Error: " + code, Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -216,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
             showContentView();
             tabLayout.removeAllTabs();
             viewpager.setOffscreenPageLimit(uiMenu.size());
-            onGoDetailView(uiMenu);
+            //onGoDetailView(uiMenu);
             pagerAdapter.setDataItems(uiMenu);
             checkIfMenuHasChanged(uiMenu);
           }
