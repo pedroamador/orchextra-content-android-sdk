@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     super.onResume();
     //ReadedArticles
     if (OCManager.getShowReadArticles() && pagerAdapter != null) {
-      pagerAdapter.reloadSections();
+      //pagerAdapter.reloadSections();
 
       //Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled transform number"
       //    + OCManager.transform, Toast.LENGTH_LONG).show();
@@ -83,15 +83,6 @@ public class MainActivity extends AppCompatActivity {
     if (AUTO_INIT) {
       startCredentials();
     }
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    //ReadedArticles
-    //if (OCManager.getShowReadedArticlesInGrayScale() && pagerAdapter != null) {
-    //  Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled"
-    //      + OCManager.getShowReadedArticlesInGrayScale(), Toast.LENGTH_LONG).show();
-    //}
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
