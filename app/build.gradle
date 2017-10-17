@@ -11,8 +11,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'applivery-plugin'
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "26"
+  compileSdkVersion 26
+  buildToolsVersion "26.0.1"
 
   defaultConfig {
     applicationId "com.gigigo.sample"

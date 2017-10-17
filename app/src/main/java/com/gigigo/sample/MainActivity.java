@@ -61,6 +61,18 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
+  @Override protected void onResume() {
+    super.onResume();
+    //ReadedArticles
+    if (OCManager.getShowReadArticles() && pagerAdapter != null) {
+      pagerAdapter.reloadSections();
+
+      //Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled transform number"
+      //    + OCManager.transform, Toast.LENGTH_LONG).show();
+      //OCManager.transform+=1;
+    }
+  }
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -123,7 +135,20 @@ public class MainActivity extends AppCompatActivity {
     });
     networkErrorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        startCredentials();
+        //oldcode
+        //Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
+        //clearDataAndGoToChangeCountryView();
+
+        final String CLIENT_ID = "084c3b59bac4ed2e8a08698d3d28071f8bd4f3bf";
+        final String CLIENTE_SECRET =
+            "gLURPc2Cpcc5nj8ck3DYBt/avOhaYy0mcFTxCsmsyfVa9kJrXOFx6Cxau/CUOX4vZrYS2Y5/9rUJDtSMNgc4rjTNT55dTFlk9q51hlNOAnjg9hjV1UIYZo9cGYS54UON";
+        final String SCOPE = "private public video_files";
+
+        final String VERTICAL_VIDEO="237059608";
+        final String VIDEO_ID ="234291582";// "236232109";
+        final String ACCESS_TOKEN = "50163590b4402cceefb2c78a7aba7093";
+
+        Ocm.TestVimeoVideoFeature(MainActivity.this, ACCESS_TOKEN, VERTICAL_VIDEO);
       }
     });
   }
@@ -147,20 +172,16 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-      @Override public void onCredentailError(final String code) {
-        runOnUiThread(new Runnable() {
-          @Override public void run() {
-            Snackbar.make(tabLayout, "Code: " + code + ". check Credentials-Enviroment",
-                Snackbar.LENGTH_LONG).show();
-            showErrorView();
-          }
-        });
+      @Override public void onCredentailError(String code) {
+        Snackbar.make(tabLayout,
+            "No Internet Connection: " + code + "\n check Credentials-Enviroment",
+            Snackbar.LENGTH_INDEFINITE).show();
       }
     });
 
     Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
       @Override public void onReceive(String customScheme) {
-        Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
         Orchextra.startScannerActivity();
       }
     });
