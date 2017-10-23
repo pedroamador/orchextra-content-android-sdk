@@ -21,7 +21,6 @@ import com.gigigo.orchextra.core.data.rxCache.imageCache.loader.OcmImageLoader;
 import com.gigigo.orchextra.core.domain.entities.contentdata.ContentItemTypeLayout;
 import com.gigigo.orchextra.core.domain.entities.ocm.Authoritation;
 import com.gigigo.orchextra.core.sdk.di.injector.Injector;
-import com.gigigo.orchextra.core.sdk.model.grid.dto.ClipToPadding;
 import com.gigigo.orchextra.core.sdk.model.grid.horizontalviewpager.HorizontalViewPager;
 import com.gigigo.orchextra.core.sdk.model.grid.spannedgridrecyclerview.SpannedGridRecyclerView;
 import com.gigigo.orchextra.core.sdk.utils.DeviceUtils;
@@ -55,7 +54,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
         }
       };
   private UiListedBaseContentData uiListedBaseContentData;
-  private ClipToPadding clipToPadding = ClipToPadding.PADDING_NONE;
+  private int clipToPaddingBottom;
   private Context context;
   private View retryButton;
   private View moreButton;
@@ -145,7 +144,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
 
   @Override public void initUi() {
     if (viewId != null && presenter != null) {
-      presenter.setPadding(clipToPadding.getPadding());
+      //presenter.setPadding(clipToPaddingBottom);
       presenter.setImagesToDownload(imagesToDownload);
       //presenter.loadSection(viewId, emotion);
       presenter.loadSectionWithCacheAndAfterNetwork(viewId, emotion);
@@ -173,7 +172,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
       uiListedBaseContentData = new SpannedGridRecyclerView(context);
 
       uiListedBaseContentData.setListedContentListener(listedContentListener);
-      uiListedBaseContentData.setParams(clipToPadding, authoritation);
+      uiListedBaseContentData.setParams(clipToPaddingBottom, authoritation);
       uiListedBaseContentData.setData(cellDataList);
 
       listedDataContainer.removeAllViews();
@@ -189,7 +188,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
     if (this.bIsSliderActive) this.setViewPagerAutoSlideTime(this.mTime);
 
     uiListedBaseContentData.setListedContentListener(listedContentListener);
-    uiListedBaseContentData.setParams(ClipToPadding.PADDING_NONE, authoritation);
+    uiListedBaseContentData.setParams(0, authoritation);
     uiListedBaseContentData.setData(cellDataList);
 
     listedDataContainer.removeAllViews();
@@ -268,8 +267,8 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
     }
   }
 
-  @Override public void setClipToPaddingBottomSize(ClipToPadding clipToPadding) {
-    this.clipToPadding = clipToPadding;
+  @Override public void setClipToPaddingBottomSize(int clipToPaddingBottom) {
+    this.clipToPaddingBottom = clipToPaddingBottom;
   }
 
   @Override public void scrollToTop() {

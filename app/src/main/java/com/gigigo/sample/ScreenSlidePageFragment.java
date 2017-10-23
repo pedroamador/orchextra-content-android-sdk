@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gigigo.orchextra.core.sdk.model.grid.ContentGridLayoutView;
-import com.gigigo.orchextra.core.sdk.model.grid.dto.ClipToPadding;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
@@ -42,7 +41,6 @@ public class ScreenSlidePageFragment extends Fragment {
     super.onActivityCreated(savedInstanceState);
     loadArguments();
   }
-
 
   private void saveArguments() {
     arguments = getArguments();
@@ -79,7 +77,7 @@ public class ScreenSlidePageFragment extends Fragment {
     if (contentView != null) {
       this.contentView = contentView;
 
-      contentView.setClipToPaddingBottomSize(ClipToPadding.PADDING_BIG);
+      contentView.setClipToPaddingBottomSize(300);
       contentView.setEmptyView(emptyViewLayout);
       contentView.setErrorView(errorViewLayout);
 
@@ -96,9 +94,7 @@ public class ScreenSlidePageFragment extends Fragment {
   public void reloadSection() {
     if (contentView != null) {
       contentView.reloadSection();
-    }
-    else
-    {
+    } else {
       loadArguments();
       //contentView.reloadSection();
     }

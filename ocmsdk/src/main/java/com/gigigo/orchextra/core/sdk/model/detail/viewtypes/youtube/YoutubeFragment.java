@@ -192,7 +192,7 @@ public class YoutubeFragment extends UiGridBaseContentData {
 
   }
 
-  @Override public void setClipToPaddingBottomSize(ClipToPadding clipToPadding) {
+  @Override public void setClipToPaddingBottomSize(int clipToPadding) {
 
   }
 

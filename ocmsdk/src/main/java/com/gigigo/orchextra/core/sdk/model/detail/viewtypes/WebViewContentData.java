@@ -45,7 +45,7 @@ public class WebViewContentData extends UiGridBaseContentData {
   private View mView;
   private TouchyWebView webView;
   private View progress;
-  private ClipToPadding clipToPadding = ClipToPadding.PADDING_NONE;
+  private int clipToPadding;
   private View webviewClipToPaddingContainer;
 
   public static WebViewContentData newInstance(ElementCacheRender render) {
@@ -312,12 +312,12 @@ public class WebViewContentData extends UiGridBaseContentData {
     setClipToPaddingBottomSize(clipToPadding);
   }
 
-  @Override public void setClipToPaddingBottomSize(ClipToPadding clipToPadding) {
+  @Override public void setClipToPaddingBottomSize(int clipToPadding) {
     this.clipToPadding = clipToPadding;
 
-    if (webviewClipToPaddingContainer != null && clipToPadding != ClipToPadding.PADDING_NONE) {
-      int padding = (int) (PADDING_CONTAINER / clipToPadding.getPadding());
-      webviewClipToPaddingContainer.setPadding(0, 0, 0, padding);
+    if (webviewClipToPaddingContainer != null && clipToPadding != 0) {
+      //int padding = (int) (PADDING_CONTAINER / clipToPaddingBottom.getPadding());
+      webviewClipToPaddingContainer.setPadding(0, 0, 0, clipToPadding);
     }
   }
 

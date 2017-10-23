@@ -11,7 +11,6 @@ import com.gigigo.multiplegridrecyclerview.entities.Cell;
 import com.gigigo.multiplegridrecyclerview.entities.CellBlankElement;
 import com.gigigo.multiplegridrecyclerview.viewholder.CellBlankViewHolder;
 import com.gigigo.orchextra.core.controller.dto.CellGridContentData;
-import com.gigigo.orchextra.core.sdk.model.grid.dto.ClipToPadding;
 import com.gigigo.orchextra.core.sdk.model.grid.factory.ElementsViewHolderFactory;
 import com.gigigo.orchextra.core.sdk.model.grid.viewholders.CellImageViewHolder;
 import com.gigigo.orchextra.ocm.views.UiListedBaseContentData;
@@ -55,11 +54,11 @@ public class SpannedGridRecyclerView extends UiListedBaseContentData {
     setAdapterDataViewHolders();
 
     //TODO Resolve clip to padding flashing when last row is 3 items 1x1. Remove logic in presenter
-    int padding = (clipToPadding != null) ? clipToPadding.getPadding()
-        : ClipToPadding.PADDING_NONE.getPadding();
+    //int padding = (clipToPaddingBottom != null) ? clipToPaddingBottom.getPadding()
+    //    : ClipToPadding.PADDING_NONE.getPadding();
 
-    multipleGridRecyclerView.setGridColumns(
-        clipToPadding == ClipToPadding.PADDING_NONE ? 3 : 3 * padding);
+    multipleGridRecyclerView.setGridColumns(3);
+        //clipToPaddingBottom == ClipToPadding.PADDING_NONE ? 3 : 3 * padding);
 
     multipleGridRecyclerView.setMillis(1500);
 
@@ -83,6 +82,8 @@ public class SpannedGridRecyclerView extends UiListedBaseContentData {
     multipleGridRecyclerView.setErrorViewLayout(errorView);
     multipleGridRecyclerView.setLoadingViewLayout(loadingView);
 
+    multipleGridRecyclerView.setClipToPaddingSize(clipToPaddingBottom);
+    multipleGridRecyclerView.overrideScollingVelocityY(0.4f);
   }
 
   private void setAdapterDataViewHolders() {
