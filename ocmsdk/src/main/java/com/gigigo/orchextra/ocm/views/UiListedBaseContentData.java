@@ -17,7 +17,7 @@ public abstract class UiListedBaseContentData extends LinearLayout {
   protected View emptyView;
   protected View errorView;
   protected View loadingView;
-  protected ClipToPadding clipToPadding = ClipToPadding.PADDING_NONE;
+  protected int clipToPadding;
   protected Authoritation authoritation;
 
   //4 carrusel
@@ -62,7 +62,7 @@ public abstract class UiListedBaseContentData extends LinearLayout {
     this.listedContentListener = listedContentListener;
   }
 
-  public void setParams(ClipToPadding clipToPadding,
+  public void setParams(int clipToPadding,
       Authoritation authoritation) {
     this.clipToPadding = clipToPadding;
     this.authoritation = authoritation;

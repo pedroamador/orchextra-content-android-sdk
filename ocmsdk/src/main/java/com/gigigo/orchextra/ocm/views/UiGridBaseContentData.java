@@ -11,7 +11,7 @@ public abstract class UiGridBaseContentData extends UiBaseContentData {
 
   public abstract void setFilter(String filter);
 
-  public abstract void setClipToPaddingBottomSize(ClipToPadding clipToPadding);
+  public abstract void setClipToPaddingBottomSize(int clipToPadding);
 
   public abstract void scrollToTop();
 

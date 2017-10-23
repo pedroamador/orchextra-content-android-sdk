@@ -26,7 +26,6 @@ import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.articletype.viewhold
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.articletype.viewholders.ArticleVimeoVideoView;
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.articletype.viewholders.ArticleYoutubeVideoView;
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.articletype.viewholders.dto.ArticleBlankElement;
-import com.gigigo.orchextra.core.sdk.model.grid.dto.ClipToPadding;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
 import com.gigigo.orchextra.ocmsdk.R;
 import java.util.List;
@@ -38,7 +37,7 @@ public class ArticleContentData extends UiGridBaseContentData {
   private FrameLayout flFA;
   private View faLoading;
   private BaseRecyclerAdapter<ArticleElement> adapter;
-  private ClipToPadding clipToPadding;
+  private int clipToPadding;
 
   public static ArticleContentData newInstance() {
     return new ArticleContentData();
@@ -136,13 +135,11 @@ public class ArticleContentData extends UiGridBaseContentData {
 
   }
 
-  @Override public void setClipToPaddingBottomSize(ClipToPadding clipToPadding) {
+  @Override public void setClipToPaddingBottomSize(int clipToPadding) {
     this.clipToPadding = clipToPadding;
-    if (articleItemViewContainer != null
-        && clipToPadding != null
-        && clipToPadding != ClipToPadding.PADDING_NONE) {
+    if (articleItemViewContainer != null && clipToPadding != 0) {
       articleItemViewContainer.setClipToPadding(false);
-      articleItemViewContainer.setPadding(0, 0, 0, 250 / clipToPadding.getPadding());
+      articleItemViewContainer.setPadding(0, 0, 0, clipToPadding);
     }
   }
 

@@ -55,7 +55,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
         }
       };
   private UiListedBaseContentData uiListedBaseContentData;
-  private ClipToPadding clipToPadding = ClipToPadding.PADDING_NONE;
+  private int clipToPadding;
   private Context context;
   private View retryButton;
   private View moreButton;
@@ -145,7 +145,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
 
   @Override public void initUi() {
     if (viewId != null && presenter != null) {
-      presenter.setPadding(clipToPadding.getPadding());
+      presenter.setPadding(clipToPadding);
       presenter.setImagesToDownload(imagesToDownload);
       //presenter.loadSection(viewId, emotion);
       presenter.loadSectionWithCacheAndAfterNetwork(viewId, emotion);
@@ -189,7 +189,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
     if (this.bIsSliderActive) this.setViewPagerAutoSlideTime(this.mTime);
 
     uiListedBaseContentData.setListedContentListener(listedContentListener);
-    uiListedBaseContentData.setParams(ClipToPadding.PADDING_NONE, authoritation);
+    uiListedBaseContentData.setParams(clipToPadding, authoritation);
     uiListedBaseContentData.setData(cellDataList);
 
     listedDataContainer.removeAllViews();
@@ -268,7 +268,7 @@ public class ContentGridLayoutView extends UiGridBaseContentData implements Cont
     }
   }
 
-  @Override public void setClipToPaddingBottomSize(ClipToPadding clipToPadding) {
+  @Override public void setClipToPaddingBottomSize(int clipToPadding) {
     this.clipToPadding = clipToPadding;
   }
 

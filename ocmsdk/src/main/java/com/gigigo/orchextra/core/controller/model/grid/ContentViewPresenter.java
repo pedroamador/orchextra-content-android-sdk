@@ -241,7 +241,7 @@ public class ContentViewPresenter extends Presenter<ContentView> {
 
     List<Cell> cellGridContentDataList = new ArrayList<>();
 
-    int auxPadding = padding == 0 ? 1 : padding;
+    //int auxPadding = padding == 0 ? 1 : padding;
 
     for (int i = 0; i < elements.size(); i++) {
       Element element = elements.get(i);
@@ -250,8 +250,8 @@ public class ContentViewPresenter extends Presenter<ContentView> {
 
         CellGridContentData cell = new CellGridContentData();
         cell.setData(element);
-        cell.setColumn(pattern.get(indexPattern).getRow() * auxPadding);
-        cell.setRow(pattern.get(indexPattern).getColumn() * auxPadding);
+        cell.setColumn(pattern.get(indexPattern).getRow());
+        cell.setRow(pattern.get(indexPattern).getColumn());
 
         indexPattern = ++indexPattern % pattern.size();
 
@@ -261,22 +261,22 @@ public class ContentViewPresenter extends Presenter<ContentView> {
 
     while (cellGridContentDataList.size() % 3 != 0) {
       CellBlankElement cellBlankElement = new CellBlankElement();
-      cellBlankElement.setColumn(pattern.get(indexPattern).getRow() * auxPadding);
-      cellBlankElement.setRow(pattern.get(indexPattern).getColumn() * auxPadding);
+      cellBlankElement.setColumn(pattern.get(indexPattern).getRow());
+      cellBlankElement.setRow(pattern.get(indexPattern).getColumn());
       cellGridContentDataList.add(cellBlankElement);
 
       indexPattern = ++indexPattern % pattern.size();
     }
 
-    //TODO Resolve clip to padding flashing when last row is 3 items 1x1. Remove * 2 multiplier above
-    if (cellGridContentDataList.size() > 0) {
-      for (int i = 0; i < 3 * 2 * padding; i++) {
-        CellBlankElement cellElement = new CellBlankElement();
-        cellElement.setRow(1);
-        cellElement.setColumn(1);
-        cellGridContentDataList.add(cellElement);
-      }
-    }
+    ////TODO Resolve clip to padding flashing when last row is 3 items 1x1. Remove * 2 multiplier above
+    //if (cellGridContentDataList.size() > 0) {
+    //  for (int i = 0; i < 3 * 2 * padding; i++) {
+    //    CellBlankElement cellElement = new CellBlankElement();
+    //    cellElement.setRow(1);
+    //    cellElement.setColumn(1);
+    //    cellGridContentDataList.add(cellElement);
+    //  }
+    //}
 
     return cellGridContentDataList;
   }
