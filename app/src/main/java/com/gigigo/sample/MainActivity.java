@@ -1,6 +1,8 @@
 package com.gigigo.sample;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
     settingsButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        SettingsActivity.open(MainActivity.this);
+        SettingsActivity.openForResult(MainActivity.this);
       }
     });
   }
@@ -163,7 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
     showLoading();
     Ocm.setBusinessUnit(COUNTRY);
-    Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
+    App app = (App) getApplication();
+
+    Ocm.startWithCredentials(app.getApiKey(), app.getApiSecret(), new OcmCredentialCallback() {
       @Override public void onCredentialReceiver(String accessToken) {
         //TODO Fix in Orchextra
         runOnUiThread(new Runnable() {
@@ -174,9 +178,7 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout,
-            "No Internet Connection: " + code + "\n check Credentials-Enviroment",
-            Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(tabLayout, "CredentailError: " + code, Snackbar.LENGTH_LONG).show();
       }
     });
 
@@ -313,6 +315,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     tabLayout.addOnTabSelectedListener(onTabSelectedListener);
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == SettingsActivity.RESULT_CODE) {
+      if (resultCode == Activity.RESULT_OK) {
+        startCredentials();
+      }
+    }
   }
 
   public boolean isOnline() {

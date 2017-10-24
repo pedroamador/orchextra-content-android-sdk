@@ -1,6 +1,7 @@
 package com.gigigo.sample;
 
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle;
@@ -12,13 +13,12 @@ import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 import com.squareup.leakcanary.LeakCanary;
-import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 public class App extends MultiDexApplication {
 
   // DEMO
-  public static String API_KEY = "9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3";
-  public static String API_SECRET = "6a4d8072f2a519c67b0124656ce6cb857a55276a";
+  public static final String API_KEY = "9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3";
+  public static final String API_SECRET = "6a4d8072f2a519c67b0124656ce6cb857a55276a";
 
   //public static String API_KEY = "a2966ba69f4ead1a4f1550bfda450e9fd07e6762";   //Asv project
   //public static String API_SECRET = "f79713d7e9b0fcd69fedfb94f471106cb85d8ca4";
@@ -51,6 +51,9 @@ public class App extends MultiDexApplication {
   //public static String API_KEY = "338d65a6572be208f25a9a5815861543adaa4abb";
   //public static String API_SECRET = "b29dac01598f9d8e2102aef73ac816c0786843ef";
 
+  private String apiKey = API_KEY;
+  private String apiSecret = API_SECRET;
+
   private OnRequiredLoginCallback onDoRequiredLoginCallback = new OnRequiredLoginCallback() {
     @Override public void doRequiredLogin() {
 
@@ -75,8 +78,7 @@ public class App extends MultiDexApplication {
     LeakCanary.install(this);
     MultiDex.install(this);
 
-    OcmBuilder ocmBuilder = new OcmBuilder(this)
-        .setNotificationActivityClass(MainActivity.class)
+    OcmBuilder ocmBuilder = new OcmBuilder(this).setNotificationActivityClass(MainActivity.class)
         .setShowReadArticles(true)
         .setTransformReadArticleMode(ImageTransformReadArticle.BITMAP_TRANSFORM)
         .setMaxReadArticles(100)
@@ -100,5 +102,21 @@ public class App extends MultiDexApplication {
         new StrictMode.ThreadPolicy.Builder().detectAll()   // or .detectAll() for all detectable problems
             .penaltyLog().build());
     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().build());
+  }
+
+  @NonNull public String getApiKey() {
+    return apiKey;
+  }
+
+  public void setApiKey(@NonNull String apiKey) {
+    this.apiKey = apiKey;
+  }
+
+  @NonNull public String getApiSecret() {
+    return apiSecret;
+  }
+
+  public void setApiSecret(@NonNull String apiSecret) {
+    this.apiSecret = apiSecret;
   }
 }

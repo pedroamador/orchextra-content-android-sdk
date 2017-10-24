@@ -1,22 +1,23 @@
 package com.gigigo.sample.settings;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.gigigo.sample.App;
 import com.gigigo.sample.R;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
   private static final String TAG = "SettingsActivity";
+  public static final int RESULT_CODE = 0x23;
   private EditText apiKeyEditText;
   private EditText apiSecretEditText;
   private List<ProjectData> projectDataList;
@@ -88,7 +89,13 @@ public class SettingsActivity extends AppCompatActivity {
       return;
     }
 
-    Log.d(TAG, "ApiKey: " + apiKey + " - ApiSecret: " + apiSecret);
+    App app = (App) getApplication();
+    app.setApiKey(apiKey);
+    app.setApiSecret(apiSecret);
+
+    Intent returnIntent = new Intent();
+    setResult(Activity.RESULT_OK, returnIntent);
+    finish();
   }
 
   private void initToolbar() {
@@ -105,8 +112,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
   }
 
-  public static void open(Context context) {
+  public static void openForResult(Activity context) {
     Intent intent = new Intent(context, SettingsActivity.class);
-    context.startActivity(intent);
+    context.startActivityForResult(intent, RESULT_CODE);
   }
 }

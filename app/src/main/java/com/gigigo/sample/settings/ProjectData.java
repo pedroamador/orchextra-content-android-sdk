@@ -26,9 +26,10 @@ public final class ProjectData {
 
     List<ProjectData> projectDataList = new ArrayList<>();
 
-    projectDataList.add(new ProjectData("apiKey1", "apiSecret1"));
-    projectDataList.add(new ProjectData("apiKey2", "apiSecret2"));
-    projectDataList.add(new ProjectData("apiKey3", "apiSecret3"));
+    projectDataList.add(new ProjectData("9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3",
+        "6a4d8072f2a519c67b0124656ce6cb857a55276a"));
+    projectDataList.add(new ProjectData("ef08c4dccb7649b9956296a863db002a68240be2",
+        "6bc18c500546f253699f61c11a62827679178400"));
 
     return projectDataList;
   }
