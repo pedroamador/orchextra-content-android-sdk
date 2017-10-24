@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ocm.OCManager;
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override public void onTabReselected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ((ScreenSlidePageFragment) pagerAdapter.getItem(viewpager.getCurrentItem())).reloadSection();
+          ((ScreenSlidePageFragment) pagerAdapter.getItem(
+              viewpager.getCurrentItem())).reloadSection();
         }
       };
 
@@ -135,11 +137,18 @@ public class MainActivity extends AppCompatActivity {
             "gLURPc2Cpcc5nj8ck3DYBt/avOhaYy0mcFTxCsmsyfVa9kJrXOFx6Cxau/CUOX4vZrYS2Y5/9rUJDtSMNgc4rjTNT55dTFlk9q51hlNOAnjg9hjV1UIYZo9cGYS54UON";
         final String SCOPE = "private public video_files";
 
-        final String VERTICAL_VIDEO="237059608";
-        final String VIDEO_ID ="234291582";// "236232109";
+        final String VERTICAL_VIDEO = "237059608";
+        final String VIDEO_ID = "234291582";// "236232109";
         final String ACCESS_TOKEN = "50163590b4402cceefb2c78a7aba7093";
 
         Ocm.TestVimeoVideoFeature(MainActivity.this, ACCESS_TOKEN, VERTICAL_VIDEO);
+      }
+    });
+
+    ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+    settingsButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        SettingsActivity.open(MainActivity.this);
       }
     });
   }
@@ -172,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
     Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
       @Override public void onReceive(String customScheme) {
-       // Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
         Orchextra.startScannerActivity();
       }
     });
