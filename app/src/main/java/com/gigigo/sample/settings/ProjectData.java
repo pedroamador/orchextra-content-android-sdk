@@ -32,6 +32,9 @@ public final class ProjectData {
 
     List<ProjectData> projectDataList = new ArrayList<>();
 
+    projectDataList.add(new ProjectData("Default", "33ecdcbe03d60cb530e6ae13a531a3c9cf3c150e",
+        "be772ab61e2571230c596aa95237cc618023befb"));
+
     projectDataList.add(
         new ProjectData("[PRO][ES] ORCHEXTRA DEMO", "9d9f74d0a9b293a2ea1a7263f47e01baed2cb0f3",
             "6a4d8072f2a519c67b0124656ce6cb857a55276a"));
