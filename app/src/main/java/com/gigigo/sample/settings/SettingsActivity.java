@@ -71,6 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
 
   void loadProjectData() {
 
+    Toast.makeText(this, projectDataList.get(currentProject).getName(), Toast.LENGTH_SHORT).show();
     apiKeyEditText.setText(projectDataList.get(currentProject).getApiKey());
     apiSecretEditText.setText(projectDataList.get(currentProject).getApiSecret());
   }
