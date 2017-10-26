@@ -23,10 +23,6 @@ android {
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     multiDexEnabled true
-    //asv mandatory for gpu filters of glide
-//    ndk {
-//            abiFilters "armeabi-v7a"
-//          }
   }
 
   buildTypes {
@@ -38,6 +34,10 @@ android {
 
   lintOptions {
     abortOnError false
+  }
+
+  configurations {
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
   }
 }
 
