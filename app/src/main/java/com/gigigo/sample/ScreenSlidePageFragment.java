@@ -71,6 +71,17 @@ public class ScreenSlidePageFragment extends Fragment {
     emptyView = view.findViewById(R.id.empty_view);
     errorView = view.findViewById(R.id.error_view);
 
+    errorView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        ((MainActivity) getActivity()).startCredentials();
+      }
+    });
+    emptyView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        ((MainActivity) getActivity()).startCredentials();
+      }
+    });
+
     return view;
   }
 
