@@ -165,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    Ocm.initialize(getApplication(), App.API_KEY, App.API_SECRET);
+    App app = (App) getApplication();
+    Ocm.initialize(getApplication(), app.getApiKey(), app.getApiSecret());
     Ocm.setBusinessUnit(COUNTRY);
 
     Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
