@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.gigigo.sample.settings.SettingsActivity"
+    >
+
+  <android.support.design.widget.AppBarLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:theme="@style/AppTheme.AppBarOverlay"
+      >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        />
+
+  </android.support.design.widget.AppBarLayout>
+
+  <View
+      android:id="@+id/projectsView"
+      android:layout_width="match_parent"
+      android:layout_height="200dp"
+      />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_margin="@dimen/spacing_large"
+      android:gravity="center"
+      android:orientation="vertical"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      >
+
+    <EditText
+        android:id="@+id/apiKeyEditText"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:hint="Api key"
+        style="@style/EditTextStyle"
+        />
+
+    <EditText
+        android:id="@+id/apiSecretEditText"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:hint="Api secret"
+        style="@style/EditTextStyle"
+        />
+  </LinearLayout>
+
+  <Button
+      android:id="@+id/startButton"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_alignParentBottom="true"
+      android:layout_marginBottom="40dp"
+      android:layout_marginLeft="64dp"
+      android:layout_marginRight="64dp"
+      android:layout_marginTop="40dp"
+      android:text="Start"
+      style="@style/ButtonLoginStyle"
+      />
+</RelativeLayout>

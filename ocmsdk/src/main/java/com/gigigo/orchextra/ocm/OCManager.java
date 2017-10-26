@@ -128,6 +128,7 @@ public final class OCManager {
         @Override public void onClearCacheSuccess() {
           // clearCookiesFedexAuth();
           clearCallback.onDataClearedSuccessfull();
+
         }
 
         @Override public void onClearCacheFails(Exception e) {

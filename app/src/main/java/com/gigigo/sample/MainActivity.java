@@ -1,6 +1,8 @@
 package com.gigigo.sample;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
+import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
@@ -19,6 +23,7 @@ import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
+import com.gigigo.sample.settings.SettingsActivity;
 import java.io.File;
 import java.util.List;
 
@@ -60,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
+  @Override protected void onResume() {
+    super.onResume();
+    //ReadedArticles
+    if (OCManager.getShowReadArticles() && pagerAdapter != null) {
+      //pagerAdapter.reloadSections();
+
+      //Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled transform number"
+      //    + OCManager.transform, Toast.LENGTH_LONG).show();
+      //OCManager.transform+=1;
+    }
+  }
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -70,15 +87,6 @@ public class MainActivity extends AppCompatActivity {
     if (AUTO_INIT) {
       startCredentials();
     }
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    //ReadedArticles
-    //if (OCManager.getShowReadedArticlesInGrayScale() && pagerAdapter != null) {
-    //  Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled"
-    //      + OCManager.getShowReadedArticlesInGrayScale(), Toast.LENGTH_LONG).show();
-    //}
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,12 +133,18 @@ public class MainActivity extends AppCompatActivity {
         getContent();
       }
     });
+
+    ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+    settingsButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        SettingsActivity.openForResult(MainActivity.this);
+      }
+    });
   }
 
   private void startCredentials() {
 
     Ocm.setOcmCredentialCallback(new OcmCredentialCallback() {
-
       @Override public void onCredentialReceiver(String accessToken) {
         //TODO Fix in Orchextra
         runOnUiThread(new Runnable() {
@@ -141,7 +155,13 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override public void onCredentailError(final String code) {
-        Toast.makeText(MainActivity.this, "Error: " + code, Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+          @Override public void run() {
+            Toast.makeText(MainActivity.this, "Credentails error: " + code, Toast.LENGTH_SHORT)
+                .show();
+            SettingsActivity.openForResult(MainActivity.this);
+          }
+        });
       }
     });
 
@@ -201,30 +221,35 @@ public class MainActivity extends AppCompatActivity {
   //endregion
 
   private void getContent() {
-    Ocm.getMenus(false, new OcmCallbacks.Menus() {
-      @Override public void onMenusLoaded(List<UiMenu> uiMenu) {
-        if (uiMenu == null) {
-          Toast.makeText(MainActivity.this, "menu is null", Toast.LENGTH_SHORT).show();
-          showErrorView();
-        } else {
-          if (uiMenu.isEmpty()) {
-            showEmptyView();
+    if (isOnline()) {
+      showLoading();
+      Ocm.getMenus(false, new OcmCallbacks.Menus() {
+        @Override public void onMenusLoaded(List<UiMenu> uiMenu) {
+          if (uiMenu == null) {
+            Toast.makeText(MainActivity.this, "menu is null", Toast.LENGTH_SHORT).show();
+            showErrorView();
           } else {
-            showContentView();
-            tabLayout.removeAllTabs();
-            viewpager.setOffscreenPageLimit(uiMenu.size());
-            //onGoDetailView(uiMenu);
-            pagerAdapter.setDataItems(uiMenu);
-            checkIfMenuHasChanged(uiMenu);
+            if (uiMenu.isEmpty()) {
+              showEmptyView();
+            } else {
+              showContentView();
+              tabLayout.removeAllTabs();
+              viewpager.setOffscreenPageLimit(uiMenu.size());
+              //onGoDetailView(uiMenu);
+              pagerAdapter.setDataItems(uiMenu);
+              checkIfMenuHasChanged(uiMenu);
+            }
           }
         }
-      }
 
-      @Override public void onMenusFails(Throwable e) {
-        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        showErrorView();
-      }
-    });
+        @Override public void onMenusFails(Throwable e) {
+          Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+          showErrorView();
+        }
+      });
+    } else {
+      showNetworkErrorView();
+    }
   }
 
   private void checkIfMenuHasChanged(final List<UiMenu> oldMenus) {
@@ -281,6 +306,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     tabLayout.addOnTabSelectedListener(onTabSelectedListener);
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == SettingsActivity.RESULT_CODE) {
+      if (resultCode == Activity.RESULT_OK) {
+        startCredentials();
+      }
+    }
   }
 
   public boolean isOnline() {

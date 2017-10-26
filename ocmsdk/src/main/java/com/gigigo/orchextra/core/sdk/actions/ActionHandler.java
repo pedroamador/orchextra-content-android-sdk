@@ -12,12 +12,19 @@ import com.gigigo.orchextra.core.data.api.utils.ConnectionUtilsImp;
 import com.gigigo.orchextra.core.domain.entities.elementcache.FederatedAuthorization;
 import com.gigigo.orchextra.core.domain.utils.ConnectionUtils;
 import com.gigigo.orchextra.core.sdk.application.OcmContextProvider;
+
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.youtube.YoutubeContentDataActivity;
 import com.gigigo.orchextra.core.sdk.utils.DeviceUtils;
 import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.federatedAuth.FAUtils;
+import com.gigigo.orchextra.ocmsdk.BuildConfig;
 import com.gigigo.orchextra.ocmsdk.R;
+import gigigo.com.vimeolibs.VimeoBuilder;
+import gigigo.com.vimeolibs.VimeoCallback;
+import gigigo.com.vimeolibs.VimeoExoPlayerActivity;
+import gigigo.com.vimeolibs.VimeoInfo;
+import gigigo.com.vimeolibs.VimeoManager;
 
 public class ActionHandler {
 
@@ -34,7 +41,40 @@ public class ActionHandler {
   }
 
   public void launchYoutubePlayer(String videoId) {
+
     YoutubeContentDataActivity.open(ocmContextProvider.getCurrentActivity(), videoId);
+  }
+
+  public void launchVimeoPlayer(String videoId) {
+    //todo truchingvimeo
+   /* Random r = new Random();
+    boolean random = r.nextBoolean();
+    if (random) {
+      videoId = "236232109";
+    } else {
+      videoId = "237059608";
+    }*/
+
+    if (videoId != null && !videoId.equals("")) {
+      //show loading
+      VimeoExoPlayerActivity.open(ocmContextProvider.getCurrentActivity(), null);
+      //todo this go to dagger
+      VimeoBuilder builder = new VimeoBuilder(BuildConfig.VIMEO_ACCESS_TOKEN);
+      VimeoManager vmManager = new VimeoManager(builder);
+      //more 4 dagger
+      ConnectionUtilsImp conn = new ConnectionUtilsImp(ocmContextProvider.getCurrentActivity());
+      //get vimeo data from sdk vimeo
+      vmManager.getVideoVimeoInfo(videoId, conn.isConnectedMobile(), conn.isConnectedWifi(),
+          conn.isConnectedMobile(), new VimeoCallback() {
+            @Override public void onSuccess(VimeoInfo vimeoInfo) {
+              VimeoExoPlayerActivity.open(ocmContextProvider.getCurrentActivity(), vimeoInfo);
+            }
+
+            @Override public void onError(Exception e) {
+              System.out.println("Error VimeoCallbacak" + e.toString());
+            }
+          });
+    }
   }
 
   public void launchOxVuforia() {

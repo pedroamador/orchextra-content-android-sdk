@@ -163,3 +163,6 @@ fabric.properties
 # End of https://www.gitignore.io/api/android,androidstudio
 
 applivery.properties
+.idea/sonarIssues.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml

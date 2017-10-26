@@ -13,6 +13,7 @@ import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheRender
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheShare;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCacheType;
 import com.gigigo.orchextra.core.domain.entities.elementcache.FederatedAuthorization;
+import com.gigigo.orchextra.core.domain.entities.elementcache.VideoFormat;
 import com.gigigo.orchextra.core.domain.entities.elementcache.cards.ElementCachePreviewCard;
 import com.gigigo.orchextra.core.domain.entities.elements.Element;
 import com.gigigo.orchextra.core.domain.entities.menus.MenuContentData;
@@ -27,9 +28,10 @@ import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.WebViewContentData;
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.articletype.ArticleContentData;
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.cards.CardContentData;
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.cards.PreviewCardContentData;
+import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.vimeo.VimeoContentData;
 import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.youtube.YoutubeContentData;
+import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.youtube.YoutubeFragment;
 import com.gigigo.orchextra.core.sdk.model.grid.ContentGridLayoutView;
-import com.gigigo.orchextra.core.sdk.model.grid.webview.ContentWebViewGridLayoutView;
 import com.gigigo.orchextra.core.sdk.model.searcher.SearcherLayoutView;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
 import com.gigigo.orchextra.ocm.views.UiDetailBaseContentData;
@@ -98,22 +100,31 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
 
     ocmController.getDetails(false, viewId, new OcmController.GetDetailControllerCallback() {
       @Override public void onGetDetailLoaded(ElementCache elementCache) {
-        if (elementCache.getType() == ElementCacheType.WEBVIEW
+        if (elementCache.getType() == ElementCacheType.ARTICLE
+            && elementCache.getRender() != null
+            && elementCache.getRender().getElements() != null) {
+
+          getSectionViewGeneratorCallback.onSectionViewLoaded(
+              generateArticleDetailView(elementCache.getRender().getElements()));
+
+        } else if (elementCache.getType() == ElementCacheType.VIDEO
+            && elementCache.getRender() != null) {
+
+          if (elementCache.getRender().getFormat() == VideoFormat.YOUTUBE) {
+            getSectionViewGeneratorCallback.onSectionViewLoaded(YoutubeFragment.newInstance(elementCache.getRender().getSource()));
+          } else if (elementCache.getRender().getFormat() == VideoFormat.VIMEO) {
+            //TODO Return vimeo fragment
+            getSectionViewGeneratorCallback.onSectionViewLoaded(YoutubeFragment.newInstance(elementCache.getRender().getSource()));
+          }
+
+        } else if (elementCache.getType() == ElementCacheType.WEBVIEW
             && elementCache.getRender() != null) {
 
           if (elementCache.getRender().getFederatedAuth() != null
               && elementCache.getRender().getFederatedAuth().getKeys() != null
               && elementCache.getRender().getFederatedAuth().getKeys().getSiteName() != null
               && elementCache.getRender().getFederatedAuth().isActive()) {
-            System.out.println("Main ElementCacheType.WEBVIEW" + elementCache.getRender()
-                .getFederatedAuth()
-                .getKeys()
-                .getSiteName());
 
-            System.out.println("Main generateWebContentDataWithFederated" + elementCache.getRender()
-                .getFederatedAuth()
-                .getKeys()
-                .toString());
             getSectionViewGeneratorCallback.onSectionViewLoaded(
                 generateWebContentDataWithFederated(elementCache.getRender()));
           } else {
@@ -200,7 +211,7 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
         }
       case WEBVIEW:
         if (render != null) {
-          return generateWebViewDetailView(render);
+          return generateWebContentDataWithFederated(render);
         }
       case BROWSER:
         if (render != null) {
@@ -212,7 +223,7 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
         }
       case VIDEO:
         if (render != null) {
-          return generateYoutubeDetailView(render.getSource());
+          return generateVideoDetailView(render);
         }
       case DEEP_LINK:
         if (render != null) {
@@ -242,7 +253,7 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
     });
   }
 
-  private UiBaseContentData generateArticleDetailView(List<ArticleElement> elements) {
+  private UiGridBaseContentData generateArticleDetailView(List<ArticleElement> elements) {
     ArticleContentData articleContentData = ArticleContentData.newInstance();
     articleContentData.addItems(elements);
     return articleContentData;
@@ -252,10 +263,6 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
     CardContentData cardContentData = CardContentData.newInstance();
     cardContentData.addItems(elements);
     return cardContentData;
-  }
-
-  private UiBaseContentData generateWebViewDetailView(ElementCacheRender render) {
-    return WebViewContentData.newInstance(render);
   }
 
   private UiBaseContentData generateCustomTabsDetailView(String url,
@@ -271,12 +278,28 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
     return ScanContentData.newInstance();
   }
 
-  private UiBaseContentData generateBrowserDetailView(String url, FederatedAuthorization federatedAuthorization) {
-    return BrowserContentData.newInstance(url,federatedAuthorization);
+  private UiBaseContentData generateBrowserDetailView(String url,
+      FederatedAuthorization federatedAuthorization) {
+    return BrowserContentData.newInstance(url, federatedAuthorization);
+  }
+
+  private UiBaseContentData generateVideoDetailView(ElementCacheRender render) {
+    switch (render.getFormat()) {
+      case YOUTUBE:
+        return generateYoutubeDetailView(render.getSource());
+      case VIMEO:
+        return generateVimeoDetailView(render.getSource());
+      default:
+        return null;
+    }
   }
 
   private UiBaseContentData generateYoutubeDetailView(String videoId) {
     return YoutubeContentData.newInstance(videoId);
+  }
+
+  private UiBaseContentData generateVimeoDetailView(String videoId) {
+    return VimeoContentData.newInstance(videoId);
   }
 
   private UiBaseContentData generateDeepLinkView(String uri) {
