@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -177,8 +176,14 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-      @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout, "CredentailError: " + code, Snackbar.LENGTH_LONG).show();
+      @Override public void onCredentailError(final String code) {
+        runOnUiThread(new Runnable() {
+          @Override public void run() {
+            Toast.makeText(MainActivity.this, "Credentails error: " + code, Toast.LENGTH_SHORT)
+                .show();
+            SettingsActivity.openForResult(MainActivity.this);
+          }
+        });
       }
     });
 
