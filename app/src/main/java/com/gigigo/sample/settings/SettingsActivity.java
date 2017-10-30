@@ -1,17 +1,20 @@
 package com.gigigo.sample.settings;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.gigigo.sample.App;
+import com.gigigo.sample.ContentManager;
 import com.gigigo.sample.R;
+import com.gigigo.sample.Utils;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -80,23 +83,55 @@ public class SettingsActivity extends AppCompatActivity {
     String apiKey = apiKeyEditText.getText().toString();
     String apiSecret = apiSecretEditText.getText().toString();
 
-    if (apiKey.isEmpty()) {
-      Toast.makeText(this, "Empty api key", Toast.LENGTH_SHORT).show();
+    if (apiSecret.isEmpty() || apiKey.isEmpty()) {
+      showError("Credentials empty", "Apikey and Apisecret are mandatory to start orchextra.");
       return;
     }
 
-    if (apiSecret.isEmpty()) {
-      Toast.makeText(this, "Empty api secret", Toast.LENGTH_SHORT).show();
+    getApiToken(apiKey, apiSecret);
+  }
+
+  private void getApiToken(String apiKey, String apiSecret) {
+
+    if (!Utils.isOnline(this)) {
+      showError("Connection error", "You should have internet connection");
       return;
     }
 
-    App app = (App) getApplication();
-    app.setApiKey(apiKey);
-    app.setApiSecret(apiSecret);
+    showLoading();
+    ContentManager contentManager = ContentManager.getInstance();
+    contentManager.start(apiKey, apiSecret, new ContentManager.ContentManagerCallback<String>() {
+      @Override public void onSuccess(String result) {
+        hideLoading();
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+      }
 
-    Intent returnIntent = new Intent();
-    setResult(Activity.RESULT_OK, returnIntent);
-    finish();
+      @Override public void onError(Exception exception) {
+        hideLoading();
+        showError("Credentials are not correct", "Apikey and Apisecret are invalid");
+      }
+    });
+  }
+
+  private void showLoading() {
+  }
+
+  private void hideLoading() {
+  }
+
+  private void showError(String title, String message) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle(title)
+        .setMessage(message)
+        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int which) {
+
+          }
+        })
+        .setIcon(R.drawable.ic_mistake)
+        .show();
   }
 
   private void initToolbar() {
