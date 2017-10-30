@@ -1,9 +1,10 @@
-package com.gigigo.sample;
+package com.gigigo.sample.main.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
+import com.gigigo.sample.main.ScreenSlidePageFragment;
 import java.util.List;
 
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

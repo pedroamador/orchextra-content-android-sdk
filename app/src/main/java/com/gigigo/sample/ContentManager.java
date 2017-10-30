@@ -11,6 +11,7 @@ import com.gigigo.orchextra.ocm.OcmEvent;
 import com.gigigo.orchextra.ocm.OcmStyleUiBuilder;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
+import com.gigigo.sample.main.MainActivity;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 public class ContentManager {

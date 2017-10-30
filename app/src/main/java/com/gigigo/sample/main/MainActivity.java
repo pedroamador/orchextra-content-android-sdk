@@ -1,4 +1,4 @@
-package com.gigigo.sample;
+package com.gigigo.sample.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +19,10 @@ import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
+import com.gigigo.sample.ContentManager;
+import com.gigigo.sample.R;
+import com.gigigo.sample.main.adapter.ScreenSlidePagerAdapter;
+import com.gigigo.sample.Utils;
 import com.gigigo.sample.settings.SettingsActivity;
 import java.io.File;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.gigigo.sample;
+package com.gigigo.sample.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,7 @@ import com.gigigo.orchextra.core.sdk.model.grid.dto.ClipToPadding;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
+import com.gigigo.sample.R;
 
 public class ScreenSlidePageFragment extends Fragment {
 
