@@ -3,18 +3,19 @@ package com.gigigo.sample.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gigigo.orchextra.core.sdk.model.grid.ContentGridLayoutView;
 import com.gigigo.orchextra.core.sdk.model.grid.dto.ClipToPadding;
-import com.gigigo.orchextra.ocm.Ocm;
-import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
+import com.gigigo.sample.ContentManager;
 import com.gigigo.sample.R;
 
 public class ScreenSlidePageFragment extends Fragment {
 
+  private static final String TAG = "ScreenSlidePageFragment";
   private static final String EXTRA_SCREEN_SLIDE_SECTION = "EXTRA_SCREEN_SLIDE_SECTION";
   private static final String EXTRA_IMAGES_TO_DOWNLOAD = "EXTRA_IMAGES_TO_DOWNLOAD";
 
@@ -63,15 +64,19 @@ public class ScreenSlidePageFragment extends Fragment {
   }
 
   private void loadContent(String section, int imagesToDownload) {
-    Ocm.generateSectionView(section, null, imagesToDownload, new OcmCallbacks.Section() {
-      @Override public void onSectionLoaded(UiGridBaseContentData uiGridBaseContentData) {
-        setView(uiGridBaseContentData);
-      }
 
-      @Override public void onSectionFails(Exception e) {
-        e.printStackTrace();
-      }
-    });
+    ContentManager contentManager = ContentManager.getInstance();
+
+    contentManager.getContent(section, imagesToDownload,
+        new ContentManager.ContentManagerCallback<UiGridBaseContentData>() {
+          @Override public void onSuccess(UiGridBaseContentData result) {
+            setView(result);
+          }
+
+          @Override public void onError(Exception exception) {
+            Log.e(TAG, "loadContent", exception);
+          }
+        });
   }
 
   public void setView(UiGridBaseContentData contentView) {

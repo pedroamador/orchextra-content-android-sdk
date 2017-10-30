@@ -7,10 +7,12 @@ import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmBuilder;
+import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.OcmEvent;
 import com.gigigo.orchextra.ocm.OcmStyleUiBuilder;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
+import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
 import com.gigigo.sample.main.MainActivity;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
@@ -96,8 +98,18 @@ public class ContentManager {
     });
   }
 
-  public void getContent() {
+  public void getContent(String section, int imagesToDownload,
+      final ContentManagerCallback<UiGridBaseContentData> callback) {
 
+    Ocm.generateSectionView(section, null, imagesToDownload, new OcmCallbacks.Section() {
+      @Override public void onSectionLoaded(UiGridBaseContentData uiGridBaseContentData) {
+        callback.onSuccess(uiGridBaseContentData);
+      }
+
+      @Override public void onSectionFails(Exception e) {
+        callback.onError(e);
+      }
+    });
   }
 
   public interface ContentManagerCallback<T> {
