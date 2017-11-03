@@ -18,7 +18,6 @@ import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
-import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
 import java.io.File;
@@ -27,7 +26,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
   private static final Boolean AUTO_INIT = true;
-  static final String COUNTRY = "it";
   private TabLayout tabLayout;
   private View loadingView;
   private View emptyView;
@@ -51,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override public void onTabReselected(TabLayout.Tab tab) {
           viewpager.setCurrentItem(tab.getPosition());
-          ((ScreenSlidePageFragment) pagerAdapter.getItem(viewpager.getCurrentItem())).reloadSection();
+          ((ScreenSlidePageFragment) pagerAdapter.getItem(
+              viewpager.getCurrentItem())).reloadSection();
         }
       };
 
@@ -60,6 +59,20 @@ public class MainActivity extends AppCompatActivity {
       Toast.makeText(getApplicationContext(), "Item needs permissions", Toast.LENGTH_SHORT).show();
     }
   };
+
+  public static boolean deleteDir(File dir) {
+    if (dir != null && dir.isDirectory()) {
+      String[] children = dir.list();
+      for (int i = 0; i < children.length; i++) {
+        boolean success = deleteDir(new File(dir, children[i]));
+        if (!success) {
+          return false;
+        }
+      }
+    }
+
+    return dir.delete();
+  }
 
   @Override protected void onResume() {
     super.onResume();
@@ -121,42 +134,17 @@ public class MainActivity extends AppCompatActivity {
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     errorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-    //fabChange.setOnClickListener(new View.OnClickListener() {
-    //  @Override public void onClick(View v) {
+        //fabChange.setOnClickListener(new View.OnClickListener() {
+        //  @Override public void onClick(View v) {
         startCredentials();
       }
     });
     networkErrorView.setOnClickListener(new View.OnClickListener() {
-        if (OCManager.getShowReadArticles() && adapter != null) {
-          //OCManager.transform+=1;
-          adapter.reloadSections();
-          //Toast.makeText(MainActivity.this, "Refresh grid from integratied app if readed articles are enabled transform number"
-          //    + OCManager.transform, Toast.LENGTH_LONG).show();
-        }
-      //}
-    //});
-
-    fabClean.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        //oldcode
-        //Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
-         clearDataAndGoToChangeCountryView();
-
-        //final String CLIENT_ID = "084c3b59bac4ed2e8a08698d3d28071f8bd4f3bf";
-        //final String CLIENTE_SECRET =
-        //    "gLURPc2Cpcc5nj8ck3DYBt/avOhaYy0mcFTxCsmsyfVa9kJrXOFx6Cxau/CUOX4vZrYS2Y5/9rUJDtSMNgc4rjTNT55dTFlk9q51hlNOAnjg9hjV1UIYZo9cGYS54UON";
-        //final String SCOPE = "private public video_files";
-        //
-        //final String VERTICAL_VIDEO="237059608";
-        //final String VIDEO_ID ="234291582";// "236232109";
-        //final String ACCESS_TOKEN = "50163590b4402cceefb2c78a7aba7093";
-        //
-        //Ocm.TestVimeoVideoFeature(MainActivity.this, ACCESS_TOKEN, VERTICAL_VIDEO);
+        //pagerAdapter.reloadSections();
       }
     });
   }
-
-  static String country = "gb";
 
   private void startCredentials() {
 
@@ -166,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     showLoading();
-    Ocm.setBusinessUnit(COUNTRY);
     Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
       @Override public void onCredentialReceiver(String accessToken) {
         //TODO Fix in Orchextra
@@ -183,14 +170,6 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.LENGTH_INDEFINITE).show();
       }
     });
-
-    Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
-      @Override public void onReceive(String customScheme) {
-       // Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
-        Orchextra.startScannerActivity();
-      }
-    });
-    Ocm.start();
   }
 
   //region clear all data
@@ -219,20 +198,6 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     }
-  }
-
-  public static boolean deleteDir(File dir) {
-    if (dir != null && dir.isDirectory()) {
-      String[] children = dir.list();
-      for (int i = 0; i < children.length; i++) {
-        boolean success = deleteDir(new File(dir, children[i]));
-        if (!success) {
-          return false;
-        }
-      }
-    }
-
-    return dir.delete();
   }
   //endregion
 
