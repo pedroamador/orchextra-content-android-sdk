@@ -6,13 +6,10 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
@@ -21,8 +18,8 @@ import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
 import com.gigigo.sample.ContentManager;
 import com.gigigo.sample.R;
-import com.gigigo.sample.main.adapter.ScreenSlidePagerAdapter;
 import com.gigigo.sample.Utils;
+import com.gigigo.sample.main.adapter.ScreenSlidePagerAdapter;
 import com.gigigo.sample.settings.SettingsActivity;
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +27,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-  private static final Boolean AUTO_INIT = true;
   private TabLayout tabLayout;
   private View loadingView;
   private View emptyView;
@@ -46,32 +42,6 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
-  public static boolean deleteDir(File dir) {
-    if (dir != null && dir.isDirectory()) {
-      String[] children = dir.list();
-      for (int i = 0; i < children.length; i++) {
-        boolean success = deleteDir(new File(dir, children[i]));
-        if (!success) {
-          return false;
-        }
-      }
-    }
-
-    return dir.delete();
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    //ReadedArticles
-    if (OCManager.getShowReadArticles()) {
-      //pagerAdapter.reloadSections();
-
-      //Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled transform number"
-      //    + OCManager.transform, Toast.LENGTH_LONG).show();
-      //OCManager.transform+=1;
-    }
-  }
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -79,31 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     Ocm.setOnDoRequiredLoginCallback(onDoRequiredLoginCallback);
 
-    if (AUTO_INIT) {
-      initDefaultOcm();
-    }
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    if (!AUTO_INIT) {
-      getMenuInflater().inflate(R.menu.menu_main, menu);
-    }
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-
-    switch (item.getItemId()) {
-      case R.id.action_init:
-        initDefaultOcm();
-        return true;
-      case R.id.action_clean:
-        Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
-        clearDataAndGoToChangeCountryView();
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
-    }
+    initDefaultOcm();
   }
 
   private void initViews() {
