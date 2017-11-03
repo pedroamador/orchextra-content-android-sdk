@@ -44,9 +44,21 @@ public final class ProjectData {
             "6bc18c500546f253699f61c11a62827679178400"));
 
     projectDataList.add(
+        new ProjectData("Orchextra Demo - {{staging}}", "3b1f7352079beaede1b234e798bdf05a0266a0ff",
+            "df22059fd20c5b4b6e6465ab6b044628ea9a0726"));
+
+    projectDataList.add(
         new ProjectData("ANDROID SDK - {{staging}}", "34a4654b9804eab82aae05b2a5f949eb2a9f412c",
             "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3"));
 
     return projectDataList;
+  }
+
+  @NonNull public static String getDefaultApiKey() {
+    return getDefaultProjectDataList().get(0).apiKey;
+  }
+
+  @NonNull public static String getDefaultApiSecret() {
+    return getDefaultProjectDataList().get(0).apiSecret;
   }
 }

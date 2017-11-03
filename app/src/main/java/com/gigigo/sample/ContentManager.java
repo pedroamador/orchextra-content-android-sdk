@@ -14,12 +14,11 @@ import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
 import com.gigigo.sample.main.MainActivity;
+import com.gigigo.sample.settings.ProjectData;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 public class ContentManager {
 
-  private static final String DEFAULT_API_KEY = "33ecdcbe03d60cb530e6ae13a531a3c9cf3c150e";
-  private static final String DEFAULT_API_SECRET = "be772ab61e2571230c596aa95237cc618023befb";
   private static final ContentManager instance = new ContentManager();
   private static final String COUNTRY = "it";
   private Handler handler;
@@ -39,7 +38,8 @@ public class ContentManager {
             .setShowReadArticles(true)
             .setTransformReadArticleMode(ImageTransformReadArticle.BITMAP_TRANSFORM)
             .setMaxReadArticles(100)
-            .setOrchextraCredentials(DEFAULT_API_KEY, DEFAULT_API_SECRET)
+            .setOrchextraCredentials(ProjectData.getDefaultApiKey(),
+                ProjectData.getDefaultApiSecret())
             .setContentLanguage("EN")
             .setVuforiaImpl(new ImageRecognitionVuforiaImpl())
             .setOnEventCallback(new OnEventCallback() {
@@ -60,7 +60,7 @@ public class ContentManager {
   }
 
   public void start(ContentManagerCallback<String> callback) {
-    start(DEFAULT_API_KEY, DEFAULT_API_SECRET, callback);
+    start(ProjectData.getDefaultApiKey(), ProjectData.getDefaultApiSecret(), callback);
   }
 
   public void start(String apiKey, String apiSecret,
