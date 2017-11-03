@@ -9,14 +9,12 @@ apply plugin: 'me.tatarka.retrolambda'
 apply from: 'variants.gradle'
 
 def CONCURRENT_INTERACTORS = "CONCURRENT_INTERACTORS"
-def RETROFIT_LOG = "RETROFIT_LOG"
-
-def API_URL = "API_URL";
-def OCM_SDK_VERSION = "OCM_SDK_VERSION";
-
+def API_URL = "API_URL"
+def NETWORK_LOG = "NETWORK_LOG"
+def OCM_SDK_VERSION = "OCM_SDK_VERSION"
 def YOUTUBE_DEVELOPER_KEY = "YOUTUBE_DEVELOPER_KEY"
-
 def VIMEO_ACCESS_TOKEN = "VIMEO_ACCESS_TOKEN"
+
 android {
   compileSdkVersion project.androidCompileSdkVersion
   buildToolsVersion project.androidBuildToolsVersion
@@ -30,37 +28,39 @@ android {
       abiFilters "armeabi-v7a"
     }
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    buildConfigField STRING, VIMEO_ACCESS_TOKEN, project.vimeoAccessToken
+    buildConfigField INT, CONCURRENT_INTERACTORS, project.concurrentInteractors
   }
+
   buildTypes {
-    staging {
-      debuggable true
-      //      testCoverageEnabled = true
-    }
     debug {
       debuggable true
-      //      testCoverageEnabled = true
+
+      buildConfigField STRING, API_URL, '"https://cm.s.orchextra.io/"'
+      buildConfigField STRING, OCM_SDK_VERSION, '"ANDROID_1.0.0"'
+      buildConfigField STRING, YOUTUBE_DEVELOPER_KEY, project.youtubeDevelopKey
+      buildConfigField BOOLEAN, NETWORK_LOG, "true"
     }
+
+    quality {
+      debuggable true
+
+      buildConfigField STRING, API_URL, '"https://cm.q.orchextra.io/"'
+      buildConfigField STRING, OCM_SDK_VERSION, '""'
+      buildConfigField STRING, YOUTUBE_DEVELOPER_KEY, project.youtubeDevelopKey
+      buildConfigField BOOLEAN, NETWORK_LOG, "true"
+    }
+
     release {
       debuggable false
       minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-    }
-  }
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-  project.android.libraryVariants.all { variant ->
-
-    variant.productFlavors.each { flavor ->
-
-      setVariantBuildConfigField(variant, project.apiOcm, API_URL, STRING)
-      setVariantBuildConfigField(variant, project.ocmSdkVersion, OCM_SDK_VERSION, STRING)
-      setVariantBuildConfigField(variant, project.concurrentInteractors,
-          CONCURRENT_INTERACTORS, INT)
-      setVariantBuildConfigField(variant, project.retrofitLog, RETROFIT_LOG, BOOLEAN)
-      setVariantBuildConfigField(variant, project.youtubeDeveloperKey,
-          YOUTUBE_DEVELOPER_KEY, STRING)
-      setVariantBuildConfigField(variant, project.vimeoAccessToken,
-          VIMEO_ACCESS_TOKEN, STRING)
-      println("--**********************************************************--")
+      buildConfigField STRING, API_URL, '"https://cm.orchextra.io/"'
+      buildConfigField STRING, OCM_SDK_VERSION, '""'
+      buildConfigField STRING, YOUTUBE_DEVELOPER_KEY, project.youtubeReleaseKey
+      buildConfigField BOOLEAN, NETWORK_LOG, "false"
     }
   }
 
@@ -78,26 +78,10 @@ android {
   testOptions {
     unitTests.returnDefaultValues = true
   }
-
-  productFlavors {
-    ocm {}
-  }
-
-  // true to publish all flavour artifacts
-  publishNonDefault true
-   //defaultPublishConfig "ocmStaging"
-  //  defaultPublishConfig "ocmDebug"
-  defaultPublishConfig "ocmRelease"
 }
 
 jacocoAndroidUnitTestReport {
   excludes += ['**/BuildConfig*.*']
-}
-
-configurations {
-  ocmStagingCompile
-  ocmDebugCompile
-  ocmReleaseCompile
 }
 
 dependencies {
@@ -128,9 +112,11 @@ dependencies {
 
   //Orchextra
   // compile project.libraries.oxvuforiaimplementation
-  ocmStagingCompile(project.libraries.orchextrasdkStaging) { transitive = true }
-  ocmDebugCompile(project.libraries.orchextrasdkDebug) { transitive = true }
-  ocmReleaseCompile(project.libraries.orchextrasdkRelease) { transitive = true }
+  //  debugCompile(project.libraries.orchextrasdkStaging) { transitive = true }
+  //  qualityCompile(project.libraries.orchextrasdkDebug) { transitive = true }
+  //  releaseCompile(project.libraries.orchextrasdkRelease) { transitive = true }
+
+  compile(project.libraries.orchextrasdkStaging) { transitive = true }
 
   //customs Views
   compile project.libraries.doubleViewPager

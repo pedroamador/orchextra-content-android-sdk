@@ -1,5 +1,4 @@
 <resources>
-  <string name="app_name" translatable="false">Orchextra</string>
   <string name="init_sdk" translatable="false">Init SDK</string>
   <string name="refresh" translatable="false">Refresh</string>
   <string name="init_clean" translatable="false">Clean</string>

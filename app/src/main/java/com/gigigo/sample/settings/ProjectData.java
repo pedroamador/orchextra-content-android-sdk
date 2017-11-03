@@ -55,10 +55,10 @@ public final class ProjectData {
   }
 
   @NonNull public static String getDefaultApiKey() {
-    return getDefaultProjectDataList().get(0).apiKey;
+    return getDefaultProjectDataList().get(3).apiKey;
   }
 
   @NonNull public static String getDefaultApiSecret() {
-    return getDefaultProjectDataList().get(0).apiSecret;
+    return getDefaultProjectDataList().get(3).apiSecret;
   }
 }
