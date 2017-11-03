@@ -4,7 +4,10 @@ apply from: 'sonarqube.gradle'
 apply from: 'common_methods.gradle'
 apply from: 'dependencies.gradle'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.github.dcendents.android-maven'
 apply from: 'variants.gradle'
+
+group = 'com.github.Orchextra'
 
 def CONCURRENT_INTERACTORS = "CONCURRENT_INTERACTORS"
 def API_URL = "API_URL"
@@ -62,8 +65,6 @@ android {
     }
   }
 
-  publishNonDefault true
-
   lintOptions {
     quiet true
     abortOnError false
@@ -86,56 +87,61 @@ jacocoAndroidUnitTestReport {
 
 dependencies {
   //TEST
-  testCompile project.testLibraries.junit
-  testCompile project.testLibraries.mockito
+  testImplementation project.testLibraries.junit
+  testImplementation project.testLibraries.mockito
 
-  compile fileTree(dir: 'libs', include: ['*.jar']) //youtube
+  implementation fileTree(dir: 'libs', include: ['*.jar']) //youtube
 
   //google Support/CustomTabs/playServices
-  compile project.libraries.androidSupportDesign
-  compile project.libraries.androidCustomtabs
+  implementation project.libraries.androidSupportDesign
+  implementation project.libraries.androidCustomtabs
 
-  compile project.libraries.playServicesBase
-  compile project.libraries.playServicesLocation
-  compile project.libraries.playServicesGcm
+  implementation project.libraries.playServicesBase
+  implementation project.libraries.playServicesLocation
+  implementation project.libraries.playServicesGcm
 
   //gigigo Lib
-  compile project.libraries.ggglib
-  compile project.libraries.gggJavaLib
+  implementation project.libraries.gggJavaLib
+  implementation project.libraries.ggglib
 
   //Dagger
-  compile project.libraries.dagger
+  implementation project.libraries.dagger
   annotationProcessor project.libraries.daggerCompiler
 
   //Image Loader Glide/Blur
-  compile project.libraries.imageloaderGlideBlur
+  api project.libraries.imageloaderGlideBlur
 
   //Orchextra
   // compile project.libraries.oxvuforiaimplementation
-  debugCompile(project.libraries.orchextrasdkStaging) { transitive = true }
-  qualityCompile(project.libraries.orchextrasdkDebug) { transitive = true }
-  releaseCompile(project.libraries.orchextrasdkRelease) { transitive = true }
+  debugImplementation(project.libraries.orchextrasdkStaging) {
+    transitive = true
+    exclude module: 'support-v4'
+  }
+  qualityImplementation(project.libraries.orchextrasdkDebug) {
+    transitive = true
+    exclude module: 'support-v4'
+  }
+  releaseImplementation(project.libraries.orchextrasdkRelease) {
+    transitive = true
+    exclude module: 'support-v4'
+  }
 
   //customs Views
-  compile project.libraries.doubleViewPager
-  compile project.libraries.autofitTextView
-  compile project.libraries.multipleGridRecyclerView
+  implementation project.libraries.doubleViewPager
+  implementation project.libraries.autofitTextView
+  implementation project.libraries.multipleGridRecyclerView
 
-  compile project.libraries.rxAndroid
-  compile project.libraries.rxJava
-  compile project.libraries.rxRetrofit
-  compile project.libraries.arrow
+  implementation project.libraries.rxAndroid
+  implementation project.libraries.rxJava
+  implementation project.libraries.rxRetrofit
+  implementation project.libraries.arrow
 
-  compile project.libraries.kache
+  implementation project.libraries.kache
 
-  compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
-
-  debugCompile project(path: ':vimeosdk', configuration: 'debug')
-  qualityCompile project(path: ':vimeosdk', configuration: 'quality')
-  releaseCompile project(path: ':vimeosdk', configuration: 'release')
+  api project(path: ':vimeosdk')
 
   //TEST
-  testCompile project.testLibraries.junit
-  testCompile project.testLibraries.assertj
-  testCompile project.testLibraries.mockito
+  testImplementation project.testLibraries.junit
+  testImplementation project.testLibraries.assertj
+  testImplementation project.testLibraries.mockito
 }

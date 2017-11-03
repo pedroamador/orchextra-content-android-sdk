@@ -11,9 +11,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'applivery-plugin'
 
 android {
+  signingConfigs {
+    config {}
+  }
   compileSdkVersion 26
-  buildToolsVersion "26.0.1"
-
+  buildToolsVersion '26.0.2'
   defaultConfig {
     applicationId "com.gigigo.showcase"
     minSdkVersion 18
@@ -54,21 +56,29 @@ android {
   }
 }
 
+configurations {
+  compile.exclude group: "org.jetbrains", module: "annotations"
+}
+
 dependencies {
 
-  compile 'com.android.support:appcompat-v7:25.3.1'
-  compile 'com.android.support:design:25.3.1'
-  compile 'com.android.support:support-v13:25.3.1'
+  implementation 'com.android.support:appcompat-v7:25.3.1'
+  implementation 'com.android.support:design:25.3.1'
+  implementation 'com.android.support:support-v13:25.3.1'
 
-  debugCompile project(path: ':ocmsdk', configuration: 'debug')
-  qualityCompile project(path: ':ocmsdk', configuration: 'quality')
-  releaseCompile project(path: ':ocmsdk', configuration: 'release')
+  implementation project(path: ':ocmsdk')
 
-  compile 'com.android.support:multidex:1.0.1'
-  compile 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
-  compile 'com.android.support:support-v4:26.1.0'
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+  implementation 'com.android.support:multidex:1.0.1'
+  implementation 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
+  implementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+  implementation 'com.android.support:support-v4:26.0.2'
+  implementation 'com.android.support:design:26.0.2'
+  implementation 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
+  implementation 'com.android.support:support-v4:26.1.0'
+
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+  qualityImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+  releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
 
 applivery {

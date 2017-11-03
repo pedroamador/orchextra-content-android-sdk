@@ -89,9 +89,13 @@ public class ScreenSlidePageFragment extends Fragment {
         ((ContentGridLayoutView) contentView).setViewPagerAutoSlideTime(3000);
       }
 
-      getChildFragmentManager().beginTransaction()
-          .replace(R.id.content_main_view, contentView)
-          .commit();
+      FragmentManager childFragmentManager = getChildFragmentManager();
+
+      if (!childFragmentManager.isDestroyed()) {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.content_main_view, contentView)
+            .commit();
+      }
     }
   }
 }

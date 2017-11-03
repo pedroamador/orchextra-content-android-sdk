@@ -12,7 +12,7 @@ import java.util.List;
 public class HorizontalViewPagerAdapter extends FragmentStatePagerAdapter {
 
   private final UiListedBaseContentData.ListedContentListener listedContentListener;
-  int mLoops = 1;
+  private int mLoops = 1;
   private List<Cell> cellDataList;
 
   public HorizontalViewPagerAdapter(FragmentManager fm,
@@ -22,13 +22,12 @@ public class HorizontalViewPagerAdapter extends FragmentStatePagerAdapter {
   }
 
   @Override public Fragment getItem(int position) {
-
     int realSize = 1;
     if (getCount() > 0) realSize = getCount() / mLoops;
 
     if (mLoops > 1) position = position % realSize;
     final int finalPosition = position;
-    CellCarouselContentData cell = (CellCarouselContentData) cellDataList.get(finalPosition);
+
     HorizontalItemPageFragment horizontalItemPageFragment =
         HorizontalItemPageFragment.newInstance();
     horizontalItemPageFragment.setOnClickHorizontalItem(
@@ -39,7 +38,11 @@ public class HorizontalViewPagerAdapter extends FragmentStatePagerAdapter {
             }
           }
         });
-    horizontalItemPageFragment.setCell(cell);
+
+    if (cellDataList.get(finalPosition) instanceof CellCarouselContentData) {
+      CellCarouselContentData cell = (CellCarouselContentData) cellDataList.get(finalPosition);
+      horizontalItemPageFragment.setCell(cell);
+    }
 
     return horizontalItemPageFragment;
   }
