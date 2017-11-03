@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -25,7 +25,6 @@ import com.gigigo.orchextra.core.controller.model.detail.DetailView;
 import com.gigigo.orchextra.core.data.rxCache.imageCache.loader.OcmImageLoader;
 import com.gigigo.orchextra.core.sdk.di.base.BaseInjectionActivity;
 import com.gigigo.orchextra.core.sdk.di.injector.Injector;
-import com.gigigo.orchextra.core.sdk.model.detail.viewtypes.youtube.YoutubeWebviewActivity;
 import com.gigigo.orchextra.core.sdk.utils.ImageGenerator;
 import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.callbacks.OnFinishViewListener;
@@ -166,7 +165,6 @@ public class DetailActivity extends BaseInjectionActivity<DetailActivityComponen
 
       OcmImageLoader.load(this, generateImageUrl)
           .override(width, height)
-          .centerCrop()
           .dontAnimate()
           .priority(Priority.HIGH)
           .listener(new RequestListener<Object, GlideDrawable>() {
@@ -188,11 +186,6 @@ public class DetailActivity extends BaseInjectionActivity<DetailActivityComponen
   }
 
   @Override protected void onDestroy() {
-
-
-    System.out.println("----onDestroy------------------------------------------article activity");
-
-
     unbindDrawables(parentContainer);
     System.gc();
     Glide.get((Context) presenter.getView()).clearMemory();
@@ -207,14 +200,12 @@ public class DetailActivity extends BaseInjectionActivity<DetailActivityComponen
       presenter.detachView();
     }
 
-
     this.finish();
 
     super.onDestroy();
   }
 
   private void unbindDrawables(View view) {
-
     List<View> viewList = new ArrayList<>();
 
     viewList.add(view);
@@ -237,15 +228,5 @@ public class DetailActivity extends BaseInjectionActivity<DetailActivityComponen
         ((ViewGroup) child).removeAllViews();
       }
     }
-
-    //if (view.getBackground() != null) {
-    //  view.getBackground().setCallback(null);
-    //}
-    //if (view instanceof ViewGroup) {
-    //  for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-    //    unbindDrawables(((ViewGroup) view).getChildAt(i));
-    //  }
-    //  ((ViewGroup) view).removeAllViews();
-    //}
   }
 }

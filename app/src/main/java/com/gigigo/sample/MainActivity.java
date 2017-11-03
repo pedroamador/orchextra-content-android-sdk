@@ -121,28 +121,42 @@ public class MainActivity extends AppCompatActivity {
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     errorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+    //fabChange.setOnClickListener(new View.OnClickListener() {
+    //  @Override public void onClick(View v) {
         startCredentials();
       }
     });
     networkErrorView.setOnClickListener(new View.OnClickListener() {
+        if (OCManager.getShowReadArticles() && adapter != null) {
+          //OCManager.transform+=1;
+          adapter.reloadSections();
+          //Toast.makeText(MainActivity.this, "Refresh grid from integratied app if readed articles are enabled transform number"
+          //    + OCManager.transform, Toast.LENGTH_LONG).show();
+        }
+      //}
+    //});
+
+    fabClean.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         //oldcode
         //Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
-        //clearDataAndGoToChangeCountryView();
+         clearDataAndGoToChangeCountryView();
 
-        final String CLIENT_ID = "084c3b59bac4ed2e8a08698d3d28071f8bd4f3bf";
-        final String CLIENTE_SECRET =
-            "gLURPc2Cpcc5nj8ck3DYBt/avOhaYy0mcFTxCsmsyfVa9kJrXOFx6Cxau/CUOX4vZrYS2Y5/9rUJDtSMNgc4rjTNT55dTFlk9q51hlNOAnjg9hjV1UIYZo9cGYS54UON";
-        final String SCOPE = "private public video_files";
-
-        final String VERTICAL_VIDEO="237059608";
-        final String VIDEO_ID ="234291582";// "236232109";
-        final String ACCESS_TOKEN = "50163590b4402cceefb2c78a7aba7093";
-
-        Ocm.TestVimeoVideoFeature(MainActivity.this, ACCESS_TOKEN, VERTICAL_VIDEO);
+        //final String CLIENT_ID = "084c3b59bac4ed2e8a08698d3d28071f8bd4f3bf";
+        //final String CLIENTE_SECRET =
+        //    "gLURPc2Cpcc5nj8ck3DYBt/avOhaYy0mcFTxCsmsyfVa9kJrXOFx6Cxau/CUOX4vZrYS2Y5/9rUJDtSMNgc4rjTNT55dTFlk9q51hlNOAnjg9hjV1UIYZo9cGYS54UON";
+        //final String SCOPE = "private public video_files";
+        //
+        //final String VERTICAL_VIDEO="237059608";
+        //final String VIDEO_ID ="234291582";// "236232109";
+        //final String ACCESS_TOKEN = "50163590b4402cceefb2c78a7aba7093";
+        //
+        //Ocm.TestVimeoVideoFeature(MainActivity.this, ACCESS_TOKEN, VERTICAL_VIDEO);
       }
     });
   }
+
+  static String country = "gb";
 
   private void startCredentials() {
 
