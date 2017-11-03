@@ -3,14 +3,6 @@ package com.gigigo.sample;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
-import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle;
-import com.gigigo.orchextra.ocm.Ocm;
-import com.gigigo.orchextra.ocm.OcmBuilder;
-import com.gigigo.orchextra.ocm.OcmEvent;
-import com.gigigo.orchextra.ocm.OcmStyleUiBuilder;
-import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
-import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
-import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 import com.squareup.leakcanary.LeakCanary;
 
 public class App extends MultiDexApplication {
@@ -77,24 +69,8 @@ public class App extends MultiDexApplication {
     LeakCanary.install(this);
     MultiDex.install(this);
 
-    OcmBuilder ocmBuilder = new OcmBuilder(this)
-        .setNotificationActivityClass(MainActivity.class)
-        .setShowReadArticles(true)
-        .setTransformReadArticleMode(ImageTransformReadArticle.BITMAP_TRANSFORM)
-        .setMaxReadArticles(100)
-        .setOrchextraCredentials(API_KEY, API_SECRET)
-        .setContentLanguage("EN")
-        .setVuforiaImpl(new ImageRecognitionVuforiaImpl())
-        .setOnEventCallback(onEventCallback);
-
-    Ocm.initialize(ocmBuilder);
-
-    OcmStyleUiBuilder ocmStyleUiBuilder =
-        new OcmStyleUiBuilder().setTitleToolbarEnabled(true).setEnabledStatusBar(true);
-
-    Ocm.setStyleUi(ocmStyleUiBuilder);
-
-    Ocm.setBusinessUnit("ro");
+    ContentManager contentManager = ContentManager.getInstance();
+    contentManager.init(this);
   }
 
   private void enableStrictMode() {

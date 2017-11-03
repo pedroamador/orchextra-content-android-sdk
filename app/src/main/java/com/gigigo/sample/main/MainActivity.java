@@ -1,26 +1,31 @@
-package com.gigigo.sample;
+package com.gigigo.sample.main;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ocm.OCManager;
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
-import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
+import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
+import com.gigigo.sample.ContentManager;
+import com.gigigo.sample.R;
+import com.gigigo.sample.main.adapter.ScreenSlidePagerAdapter;
+import com.gigigo.sample.Utils;
+import com.gigigo.sample.settings.SettingsActivity;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,27 +37,8 @@ public class MainActivity extends AppCompatActivity {
   private View errorView;
   private View networkErrorView;
   private ViewPager viewpager;
-  private ScreenSlidePagerAdapter pagerAdapter;
   private View newContentMainContainer;
-
-  private TabLayout.OnTabSelectedListener onTabSelectedListener =
-      new TabLayout.OnTabSelectedListener() {
-        @Override public void onTabSelected(TabLayout.Tab tab) {
-          viewpager.setCurrentItem(tab.getPosition());
-          ScreenSlidePageFragment frag =
-              ((ScreenSlidePageFragment) pagerAdapter.getItem(viewpager.getCurrentItem()));
-          frag.reloadSection();
-        }
-
-        @Override public void onTabUnselected(TabLayout.Tab tab) {
-        }
-
-        @Override public void onTabReselected(TabLayout.Tab tab) {
-          viewpager.setCurrentItem(tab.getPosition());
-          ((ScreenSlidePageFragment) pagerAdapter.getItem(
-              viewpager.getCurrentItem())).reloadSection();
-        }
-      };
+  private List<UiMenu> menuContent;
 
   private OnRequiredLoginCallback onDoRequiredLoginCallback = new OnRequiredLoginCallback() {
     @Override public void doRequiredLogin() {
@@ -77,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
   @Override protected void onResume() {
     super.onResume();
     //ReadedArticles
-    if (OCManager.getShowReadArticles() && pagerAdapter != null) {
+    if (OCManager.getShowReadArticles()) {
       //pagerAdapter.reloadSections();
 
       //Toast.makeText(this, "Refresh grid from integratied app if readed articles are enabled transform number"
@@ -94,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     Ocm.setOnDoRequiredLoginCallback(onDoRequiredLoginCallback);
 
     if (AUTO_INIT) {
-      startCredentials();
+      initDefaultOcm();
     }
   }
 
@@ -109,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     switch (item.getItemId()) {
       case R.id.action_init:
-        startCredentials();
+        initDefaultOcm();
         return true;
       case R.id.action_clean:
         Toast.makeText(MainActivity.this, "Delete all data webStorage", Toast.LENGTH_LONG).show();
@@ -129,47 +115,61 @@ public class MainActivity extends AppCompatActivity {
     errorView = findViewById(R.id.error_view);
     networkErrorView = findViewById(R.id.network_error_view);
 
-    pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+    ScreenSlidePagerAdapter pagerAdapter =
+        new ScreenSlidePagerAdapter(getSupportFragmentManager(), new ArrayList<UiMenu>());
     viewpager.setAdapter(pagerAdapter);
     viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     errorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        //fabChange.setOnClickListener(new View.OnClickListener() {
-        //  @Override public void onClick(View v) {
-        startCredentials();
+        getContent();
+      }
+    });
+    emptyView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        getContent();
       }
     });
     networkErrorView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        //pagerAdapter.reloadSections();
+        getContent();
+      }
+    });
+
+    ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+    settingsButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        SettingsActivity.openForResult(MainActivity.this);
       }
     });
   }
 
-  private void startCredentials() {
+  private void initDefaultOcm() {
 
-    if (!isOnline()) {
+    if (!Utils.isOnline(getApplicationContext())) {
       showNetworkErrorView();
       return;
     }
 
     showLoading();
-    Ocm.startWithCredentials(App.API_KEY, App.API_SECRET, new OcmCredentialCallback() {
-      @Override public void onCredentialReceiver(String accessToken) {
-        //TODO Fix in Orchextra
-        runOnUiThread(new Runnable() {
-          @Override public void run() {
-            getContent();
-          }
-        });
+    ContentManager contentManager = ContentManager.getInstance();
+    contentManager.start(new ContentManager.ContentManagerCallback<String>() {
+      @Override public void onSuccess(String result) {
+        getContent();
       }
 
-      @Override public void onCredentailError(String code) {
-        Snackbar.make(tabLayout,
-            "No Internet Connection: " + code + "\n check Credentials-Enviroment",
-            Snackbar.LENGTH_INDEFINITE).show();
+      @Override public void onError(Exception exception) {
+        Toast.makeText(MainActivity.this, "Credentails error: " + exception.getMessage(),
+            Toast.LENGTH_SHORT).show();
       }
     });
+
+    Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
+      @Override public void onReceive(String customScheme) {
+        Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
+        Orchextra.startScannerActivity();
+      }
+    });
+    Ocm.start();
   }
 
   //region clear all data
@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
   }
   //endregion
 
-  private void getContent() {
-    Ocm.getMenus(false, new OcmCallbacks.Menus() {
+  void getContent() {
+    Ocm.getMenus(true, new OcmCallbacks.Menus() {
       @Override public void onMenusLoaded(List<UiMenu> uiMenu) {
         if (uiMenu == null) {
           Toast.makeText(MainActivity.this, "menu is null", Toast.LENGTH_SHORT).show();
@@ -215,7 +215,12 @@ public class MainActivity extends AppCompatActivity {
             tabLayout.removeAllTabs();
             viewpager.setOffscreenPageLimit(uiMenu.size());
             onGoDetailView(uiMenu);
-            pagerAdapter.setDataItems(uiMenu);
+            menuContent = uiMenu;
+
+            ScreenSlidePagerAdapter pagerAdapter =
+                new ScreenSlidePagerAdapter(getSupportFragmentManager(), uiMenu);
+            viewpager.setAdapter(pagerAdapter);
+
             checkIfMenuHasChanged(uiMenu);
           }
         }
@@ -258,8 +263,10 @@ public class MainActivity extends AppCompatActivity {
         newContentMainContainer.setVisibility(View.GONE);
 
         showContentView();
-        pagerAdapter.setDataItems(newMenus);
+        menuContent = newMenus;
         viewpager.removeAllViews();
+        ScreenSlidePagerAdapter pagerAdapter =
+            new ScreenSlidePagerAdapter(getSupportFragmentManager(), newMenus);
         viewpager.setAdapter(pagerAdapter);
 
         tabLayout.removeAllTabs();
@@ -280,14 +287,20 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tab);
       }
     }
-
-    tabLayout.addOnTabSelectedListener(onTabSelectedListener);
   }
 
-  public boolean isOnline() {
-    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-    return netInfo != null && netInfo.isConnectedOrConnecting();
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == SettingsActivity.RESULT_CODE) {
+      if (resultCode == Activity.RESULT_OK) {
+        ContentManager contentManager = ContentManager.getInstance();
+        contentManager.clear();
+        getContent();
+      }
+    }
+  }
+
+  UiMenu getUiMenu(int position) {
+    return menuContent.get(position);
   }
 
   private void showLoading() {

@@ -1,8 +1,9 @@
-package com.gigigo.sample;
+package com.gigigo.sample.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import com.gigigo.sample.main.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
