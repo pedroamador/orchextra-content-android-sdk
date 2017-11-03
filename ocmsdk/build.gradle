@@ -1,11 +1,9 @@
 apply plugin: 'com.android.library'
 apply from: 'jacoco.gradle'
 apply from: 'sonarqube.gradle'
-
 apply from: 'common_methods.gradle'
 apply from: 'dependencies.gradle'
 apply plugin: 'me.tatarka.retrolambda'
-
 apply from: 'variants.gradle'
 
 def CONCURRENT_INTERACTORS = "CONCURRENT_INTERACTORS"
@@ -47,7 +45,7 @@ android {
       debuggable true
 
       buildConfigField STRING, API_URL, '"https://cm.q.orchextra.io/"'
-      buildConfigField STRING, OCM_SDK_VERSION, '""'
+      buildConfigField STRING, OCM_SDK_VERSION, '"ANDROID_1.0.0"'
       buildConfigField STRING, YOUTUBE_DEVELOPER_KEY, project.youtubeDevelopKey
       buildConfigField BOOLEAN, NETWORK_LOG, "true"
     }
@@ -58,11 +56,13 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
       buildConfigField STRING, API_URL, '"https://cm.orchextra.io/"'
-      buildConfigField STRING, OCM_SDK_VERSION, '""'
+      buildConfigField STRING, OCM_SDK_VERSION, '"ANDROID_1.0.0"'
       buildConfigField STRING, YOUTUBE_DEVELOPER_KEY, project.youtubeReleaseKey
       buildConfigField BOOLEAN, NETWORK_LOG, "false"
     }
   }
+
+  publishNonDefault true
 
   lintOptions {
     quiet true
@@ -112,11 +112,9 @@ dependencies {
 
   //Orchextra
   // compile project.libraries.oxvuforiaimplementation
-  //  debugCompile(project.libraries.orchextrasdkStaging) { transitive = true }
-  //  qualityCompile(project.libraries.orchextrasdkDebug) { transitive = true }
-  //  releaseCompile(project.libraries.orchextrasdkRelease) { transitive = true }
-
-  compile(project.libraries.orchextrasdkStaging) { transitive = true }
+  debugCompile(project.libraries.orchextrasdkStaging) { transitive = true }
+  qualityCompile(project.libraries.orchextrasdkDebug) { transitive = true }
+  releaseCompile(project.libraries.orchextrasdkRelease) { transitive = true }
 
   //customs Views
   compile project.libraries.doubleViewPager
@@ -132,7 +130,9 @@ dependencies {
 
   compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 
-  compile project(':vimeosdk')
+  debugCompile project(path: ':vimeosdk', configuration: 'debug')
+  qualityCompile project(path: ':vimeosdk', configuration: 'quality')
+  releaseCompile project(path: ':vimeosdk', configuration: 'release')
 
   //TEST
   testCompile project.testLibraries.junit

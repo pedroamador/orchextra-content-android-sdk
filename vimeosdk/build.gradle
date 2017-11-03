@@ -27,6 +27,8 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
+  publishNonDefault true
 }
 
 dependencies {
