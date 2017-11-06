@@ -119,12 +119,15 @@ dependencies {
   //Orchextra
   // implementation project.libraries.oxvuforiaimplementation
   debugApi(project.libraries.orchextrasdkStaging) {
+    transitive true
     exclude module: 'support-v4'
   }
   qualityApi(project.libraries.orchextrasdkDebug) {
+    transitive true
     exclude module: 'support-v4'
   }
   releaseApi(project.libraries.orchextrasdkRelease) {
+    transitive true
     exclude module: 'support-v4'
   }
 

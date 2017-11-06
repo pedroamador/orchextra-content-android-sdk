@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
@@ -21,7 +20,6 @@ import com.gigigo.sample.R;
 import com.gigigo.sample.Utils;
 import com.gigigo.sample.main.adapter.ScreenSlidePagerAdapter;
 import com.gigigo.sample.settings.SettingsActivity;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,35 +115,6 @@ public class MainActivity extends AppCompatActivity {
     });
     Ocm.start();
   }
-
-  //region clear all data
-  private void clearDataAndGoToChangeCountryView() {
-    clearApplicationData();
-    Orchextra.stop(); //asv V.I.Code
-    Ocm.clearData(true, true, new OCManagerCallbacks.Clear() {
-      @Override public void onDataClearedSuccessfull() {
-
-      }
-
-      @Override public void onDataClearFails(Exception e) {
-
-      }
-    });
-  }
-
-  public void clearApplicationData() {
-    File cache = getCacheDir();
-    File appDir = new File(cache.getParent());
-    if (appDir.exists()) {
-      String[] children = appDir.list();
-      for (String s : children) {
-        if (!s.equals("lib")) {
-          deleteDir(new File(appDir, s));
-        }
-      }
-    }
-  }
-  //endregion
 
   void getContent() {
     Ocm.getMenus(true, new OcmCallbacks.Menus() {
@@ -243,10 +212,6 @@ public class MainActivity extends AppCompatActivity {
         getContent();
       }
     }
-  }
-
-  UiMenu getUiMenu(int position) {
-    return menuContent.get(position);
   }
 
   private void showLoading() {

@@ -3,6 +3,7 @@ package com.gigigo.sample.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +82,7 @@ public class ScreenSlidePageFragment extends Fragment {
 
   public void setView(UiGridBaseContentData contentView) {
     if (contentView != null) {
-      contentView.setClipToPaddingBottomSize(ClipToPadding.PADDING_BIG);
+      contentView.setClipToPaddingBottomSize(ClipToPadding.PADDING_2, 0);
       contentView.setEmptyView(emptyView);
       contentView.setErrorView(errorView);
 
