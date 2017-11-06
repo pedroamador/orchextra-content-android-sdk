@@ -5,7 +5,6 @@ buildscript {
   repositories {
     google()
     jcenter()
-    mavenCentral()
     maven { url "https://jitpack.io" }
     maven { url "https://plugins.gradle.org/m2/" }
   }
@@ -22,7 +21,6 @@ buildscript {
 // Required because retrolambda is on maven central
 repositories {
   jcenter()
-  mavenCentral()
   maven { url "https://jitpack.io" }
   maven { url "https://plugins.gradle.org/m2/" }
 }
@@ -30,14 +28,9 @@ repositories {
 allprojects {
   repositories {
     jcenter()
-    mavenCentral()
     maven { url "https://jitpack.io" }
     maven { url "https://maven.google.com" }
   }
-  /*tasks.withType(JavaCompile) {
-    sourceCompatibility = "1.7"
-    targetCompatibility = "1.7"
-  }*/
 }
 
 sonarqube {
@@ -52,7 +45,7 @@ sonarqube {
   }
 }
 
-import org.gradle.internal.os.OperatingSystem;
+import org.gradle.internal.os.OperatingSystem
 
 def Flavor = "Ocm"
 

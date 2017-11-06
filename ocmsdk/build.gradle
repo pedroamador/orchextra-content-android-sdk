@@ -76,6 +76,8 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
+  publishNonDefault true
+
   testOptions {
     unitTests.returnDefaultValues = true
   }
@@ -101,8 +103,8 @@ dependencies {
   implementation project.libraries.playServicesGcm
 
   //gigigo Lib
-  implementation project.libraries.gggJavaLib
   implementation project.libraries.ggglib
+  implementation project.libraries.gggJavaLib
 
   //Dagger
   implementation project.libraries.dagger
@@ -111,18 +113,18 @@ dependencies {
   //Image Loader Glide/Blur
   api project.libraries.imageloaderGlideBlur
 
+ implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+ implementation 'com.github.GigigoGreenLabs.imgRecogModule:imagerecognitioninterface:2.6'
+
   //Orchextra
-  // compile project.libraries.oxvuforiaimplementation
-  debugImplementation(project.libraries.orchextrasdkStaging) {
-    transitive = true
+  // implementation project.libraries.oxvuforiaimplementation
+  debugApi(project.libraries.orchextrasdkStaging) {
     exclude module: 'support-v4'
   }
-  qualityImplementation(project.libraries.orchextrasdkDebug) {
-    transitive = true
+  qualityApi(project.libraries.orchextrasdkDebug) {
     exclude module: 'support-v4'
   }
-  releaseImplementation(project.libraries.orchextrasdkRelease) {
-    transitive = true
+  releaseApi(project.libraries.orchextrasdkRelease) {
     exclude module: 'support-v4'
   }
 
@@ -138,7 +140,9 @@ dependencies {
 
   implementation project.libraries.kache
 
-  api project(path: ':vimeosdk')
+  implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+
+  api project(':vimeosdk')
 
   //TEST
   testImplementation project.testLibraries.junit

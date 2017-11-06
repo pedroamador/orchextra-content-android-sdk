@@ -19,7 +19,7 @@ android {
   defaultConfig {
     applicationId "com.gigigo.showcase"
     minSdkVersion 18
-    targetSdkVersion 25
+    targetSdkVersion 26
     versionCode computeVersionCode()
     versionName "1.0." + computeVersionCode()
 
@@ -62,17 +62,17 @@ configurations {
 
 dependencies {
 
-  implementation 'com.android.support:appcompat-v7:25.3.1'
-  implementation 'com.android.support:design:25.3.1'
-  implementation 'com.android.support:support-v13:25.3.1'
+  implementation 'com.android.support:appcompat-v7:26.1.0'
+  implementation 'com.android.support:design:26.1.0'
+  implementation 'com.android.support:support-v13:26.1.0'
+  implementation 'com.android.support:support-v4:26.1.0'
+  implementation 'com.android.support:design:26.1.0'
 
   implementation project(path: ':ocmsdk')
 
-  implementation 'com.android.support:multidex:1.0.1'
+  implementation 'com.android.support:multidex:1.0.2'
   implementation 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
-  implementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-  implementation 'com.android.support:support-v4:26.0.2'
-  implementation 'com.android.support:design:26.0.2'
+  implementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
   implementation 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
   implementation 'com.android.support:support-v4:26.1.0'
 
