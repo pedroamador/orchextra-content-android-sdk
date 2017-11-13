@@ -47,8 +47,8 @@ public final class ProjectData {
               "6bc18c500546f253699f61c11a62827679178400"));
     } else if (BuildConfig.BUILD_TYPE == "quality") {
 
-      projectDataList.add(new ProjectData("Orchextra Demo - {{staging}}",
-          "3b1f7352079beaede1b234e798bdf05a0266a0ff", "df22059fd20c5b4b6e6465ab6b044628ea9a0726"));
+      projectDataList.add(new ProjectData("[UAT][ES] ORCHEXTRA DEMO",
+          "f01b8a0912540ba0c358dfc7dedca4f3b4aab2a5", "df36979bd7f844d0fa1a0cf0add796aa6735f90e"));
     } else {
 
       projectDataList.add(new ProjectData("Orchextra Demo - {{staging}}",

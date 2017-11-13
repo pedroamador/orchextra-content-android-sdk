@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.gigigo.sample.ContentManager;
 import com.gigigo.sample.R;
@@ -23,6 +26,8 @@ public class SettingsActivity extends AppCompatActivity {
   public static final int RESULT_CODE = 0x23;
   private EditText apiKeyEditText;
   private EditText apiSecretEditText;
+  private SwitchCompat typeSwitch;
+  private Spinner levelSpinner;
   private List<ProjectData> projectDataList;
   private boolean doubleTap = false;
   private int currentProject = -1;
@@ -37,10 +42,17 @@ public class SettingsActivity extends AppCompatActivity {
   private void initView() {
     setTitle("");
     initToolbar();
-    apiKeyEditText = (EditText) findViewById(R.id.apiKeyEditText);
-    apiSecretEditText = (EditText) findViewById(R.id.apiSecretEditText);
+    apiKeyEditText = findViewById(R.id.apiKeyEditText);
+    apiSecretEditText = findViewById(R.id.apiSecretEditText);
+    typeSwitch = findViewById(R.id.typeSwitch);
+    levelSpinner = findViewById(R.id.levelSpinner);
 
-    Button startButton = (Button) findViewById(R.id.startButton);
+    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.levels_array,
+        android.R.layout.simple_spinner_item);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    levelSpinner.setAdapter(adapter);
+
+    Button startButton = findViewById(R.id.startButton);
     startButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         startOrchextra();
@@ -135,7 +147,7 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   private void initToolbar() {
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
