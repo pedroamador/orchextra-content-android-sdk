@@ -3,6 +3,7 @@ package com.gigigo.sample;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle;
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
@@ -16,6 +17,7 @@ import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
 import com.gigigo.sample.main.MainActivity;
 import com.gigigo.sample.settings.ProjectData;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
+import java.util.Map;
 
 public class ContentManager {
 
@@ -110,6 +112,15 @@ public class ContentManager {
         callback.onError(e);
       }
     });
+  }
+
+  public Map<String, String> getCustomFields() {
+    return Orchextra.getUserCustomFields();
+  }
+
+  public void setUserCustomFields(Map<String, String> customFields) {
+    Orchextra.setUserCustomFields(customFields);
+    Orchextra.commitConfiguration();
   }
 
   public interface ContentManagerCallback<T> {

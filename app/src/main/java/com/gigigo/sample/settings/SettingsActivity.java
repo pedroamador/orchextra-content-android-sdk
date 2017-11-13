@@ -18,7 +18,9 @@ import android.widget.Toast;
 import com.gigigo.sample.ContentManager;
 import com.gigigo.sample.R;
 import com.gigigo.sample.Utils;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -31,12 +33,16 @@ public class SettingsActivity extends AppCompatActivity {
   private List<ProjectData> projectDataList;
   private boolean doubleTap = false;
   private int currentProject = -1;
+  Boolean isFinihsed = true;
+  ContentManager contentManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
+    contentManager = ContentManager.getInstance();
     initView();
     projectDataList = ProjectData.getDefaultProjectDataList();
+    isFinihsed = false;
   }
 
   private void initView() {
@@ -110,21 +116,37 @@ public class SettingsActivity extends AppCompatActivity {
       return;
     }
 
-    showLoading();
-    ContentManager contentManager = ContentManager.getInstance();
-    contentManager.start(apiKey, apiSecret, new ContentManager.ContentManagerCallback<String>() {
-      @Override public void onSuccess(String result) {
-        hideLoading();
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-      }
+    ContentManager.ContentManagerCallback callback =
+        new ContentManager.ContentManagerCallback<String>() {
+          @Override public void onSuccess(String result) {
+            if (!isFinihsed) {
+              contentManager.setUserCustomFields(getCurrentCustomFields());
+              hideLoading();
+              Intent returnIntent = new Intent();
+              setResult(Activity.RESULT_OK, returnIntent);
+              finish();
+            }
+            isFinihsed = true;
+          }
 
-      @Override public void onError(Exception exception) {
-        hideLoading();
-        showError("Credentials are not correct", "Apikey and Apisecret are invalid");
-      }
-    });
+          @Override public void onError(Exception exception) {
+            hideLoading();
+            showError("Credentials are not correct", "Apikey and Apisecret are invalid");
+          }
+        };
+
+    showLoading();
+    contentManager.start(apiKey, apiSecret, callback);
+  }
+
+  private Map<String, String> getCurrentCustomFields() {
+
+    Map<String, String> customFields = new HashMap<>();
+
+    customFields.put("Type", typeSwitch.isChecked() ? "B" : "A");
+    customFields.put("Level", levelSpinner.getSelectedItem().toString());
+
+    return customFields;
   }
 
   private void showLoading() {
