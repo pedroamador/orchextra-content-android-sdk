@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initViews() {
-    tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-    viewpager = (ViewPager) findViewById(R.id.viewpager);
+    tabLayout = findViewById(R.id.tabLayout);
+    viewpager = findViewById(R.id.viewpager);
     newContentMainContainer = findViewById(R.id.newContentMainContainer);
     loadingView = findViewById(R.id.loading_view);
     emptyView = findViewById(R.id.empty_view);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+    ImageButton settingsButton = findViewById(R.id.settingsButton);
     settingsButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         SettingsActivity.openForResult(MainActivity.this);

@@ -143,8 +143,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     Map<String, String> customFields = new HashMap<>();
 
-    customFields.put("Type", typeSwitch.isChecked() ? "B" : "A");
-    customFields.put("Level", levelSpinner.getSelectedItem().toString());
+    customFields.put("type", typeSwitch.isChecked() ? "B" : "A");
+    customFields.put("level", levelSpinner.getSelectedItem().toString());
 
     return customFields;
   }

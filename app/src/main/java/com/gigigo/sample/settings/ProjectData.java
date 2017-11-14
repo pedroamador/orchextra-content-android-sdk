@@ -49,6 +49,9 @@ public final class ProjectData {
 
       projectDataList.add(new ProjectData("[UAT][ES] ORCHEXTRA DEMO",
           "f01b8a0912540ba0c358dfc7dedca4f3b4aab2a5", "df36979bd7f844d0fa1a0cf0add796aa6735f90e"));
+
+      projectDataList.add(new ProjectData("[UAT][ES] PUSH NOTIFICATION TEST",
+          "a332a27f4c136f4bf3d6958035cffdf2ee13f805", "54949ba59875b6465f292d760a389d04213af799"));
     } else {
 
       projectDataList.add(new ProjectData("Orchextra Demo - {{staging}}",
