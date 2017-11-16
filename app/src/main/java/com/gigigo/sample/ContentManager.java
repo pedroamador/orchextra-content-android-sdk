@@ -46,6 +46,7 @@ public class ContentManager {
                 ProjectData.getDefaultApiSecret())
             .setContentLanguage("EN")
             .setVuforiaImpl(new ImageRecognitionVuforiaImpl())
+            .setOxSenderId("327008883283")
             .setOnEventCallback(new OnEventCallback() {
               @Override public void doEvent(OcmEvent event, Object data) {
               }
@@ -121,7 +122,7 @@ public class ContentManager {
   }
 
   public void setUserCustomFields(Map<String, String> customFields) {
-    Orchextra.bindUser(getCrmUser("test"));
+    Orchextra.bindUser(getCrmUser("test2"));
     Orchextra.setUserCustomFields(customFields);
     Orchextra.commitConfiguration();
   }
