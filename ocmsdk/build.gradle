@@ -9,7 +9,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.Orchextra'
-version ='ocmVersion'
+version = 'ocmVersion'
 
 
 apply from: 'variants.gradle'
@@ -130,19 +130,18 @@ jacocoAndroidUnitTestReport {
 //  ocmDebugImplementation
 //}
 
-if( android.productFlavors.size() > 0 ) {
+if (android.productFlavors.size() > 0) {
   android.libraryVariants.all { variant ->
     // Publish a main artifact, otherwise the maven pom is not generated
     //if( variant.name == android.defaultPublishConfig ) {
     def bundleTask = tasks["bundle${name.capitalize()}"]
     artifacts {
-      println('BUNDLE!'+bundleTask.archivePath)
-      println('classifier!'+variant.name)
-      println('builtBy!'+bundleTask.name)
+      println('BUNDLE!' + bundleTask.archivePath)
+      println('classifier!' + variant.name)
+      println('builtBy!' + bundleTask.name)
       archives(bundleTask.archivePath) {
         classifier variant.name
         builtBy bundleTask
-
       }
     }
   }
@@ -159,9 +158,9 @@ task finalize {
 
   println('finally!')
 }
-finalize.dependsOn(ocmsdk:install)
+finalize.dependsOn(ocmsdk: install)
 //install.finalizedBy(finalize)
-install.dependsOn(ocmsdk:build)
+install.dependsOn(ocmsdk: build)
 
 dependencies {
   //TEST
@@ -169,6 +168,11 @@ dependencies {
   testImplementation project.testLibraries.mockito
 
   implementation fileTree(dir: 'libs', include: ['*.jar']) //youtube
+
+  api 'com.gigigo.orchextra:core:3.0-RC7-S'
+  api 'com.gigigo.orchextra:geofence:3.0-RC7-S'
+  api 'com.gigigo.orchextra:indoorpositioning:3.0-RC7-S'
+  api 'com.gigigo.orchextra:scanner:3.0-RC7-S'
 
   //google Support/CustomTabs/playServices
   api project.libraries.androidSupportDesign
@@ -212,7 +216,7 @@ dependencies {
      exclude module: 'support-v4'
    }
  */
-/*asv old compiles ox gradle 2.3.3*/
+  /*asv old compiles ox gradle 2.3.3*/
   stagingApi(project.libraries.orchextrasdkStaging) {
     transitive = true
     exclude module: 'support-v4'
@@ -225,7 +229,7 @@ dependencies {
     transitive = true
     exclude module: 'support-v4'
   }
-//asv new ox with gradle 3.0.0
+  //asv new ox with gradle 3.0.0
 
   //api('com.github.Orchextra.orchextra-android-sdk:orchextrasdk-control:525Test')
 
