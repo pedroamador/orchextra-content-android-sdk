@@ -17,7 +17,7 @@ import com.gigigo.orchextra.core.data.rxCache.imageCache.ImagesService;
  *
  * Put the following in your manifest
  *
- * <receiver android:name=".WifiReceiver" android:exported="false" >
+ * <receiver android:name=".WifiReceiver" android:exported="false" ></receiver>
  * <intent-filter>
  * <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
  * </intent-filter>

@@ -212,7 +212,7 @@ public class WebViewContentData extends UiGridBaseContentData {
     webView.setWebViewClient(new WebViewClient() {
       @Override public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        //asv el padding se puede hacer así xo no es correcto para todas las subpantallas que navegan la promo
+        //asv el padding se puede hacer asi xo no es correcto para todas las subpantallas que navegan la promo
         //"javascript:(function(){ document.body.style.paddingTop = '55px'})();"
         //webView.loadUrl("javascript:(function(){ document.body.style.marginBottom = '155px'})();");
         //    webView.loadUrl("javascript:document.body.style.marginBottom=\"555px\"; void 0");

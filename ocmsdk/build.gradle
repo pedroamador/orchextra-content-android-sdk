@@ -8,21 +8,42 @@ apply plugin: 'me.tatarka.retrolambda'
 
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'com.github.Orchextra'
-version = 'ocmVersion'
+group = rootProject.ext.group
+version = rootProject.ext.version
 
+ext {
+  bintrayRepo = 'maven'
+  bintrayName = 'com.gigigo.orchextra:content'
+
+  publishedGroupId = 'com.gigigo.orchextra'
+  libraryName = 'content'
+  artifact = 'ocmsdk'
+
+  libraryDescription = 'Orchextra content sdk'
+
+  siteUrl = 'https://github.com/Orchextra/orchextra-content-android-sdk'
+  gitUrl = 'https://github.com/Orchextra/orchextra-content-android-sdk.git'
+
+  libraryVersion = rootProject.ext.version
+
+  developerId = 'gigigo-desarrollo'
+  developerName = 'Android Gigigo'
+  developerEmail = 'gigigo.desarrollo@gmail.com'
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
+}
 
 apply from: 'variants.gradle'
 
 def CONCURRENT_INTERACTORS = "CONCURRENT_INTERACTORS"
 def RETROFIT_LOG = "RETROFIT_LOG"
-
-def API_URL = "API_URL";
-def OCM_SDK_VERSION = "OCM_SDK_VERSION";
-
+def API_URL = "API_URL"
+def OCM_SDK_VERSION = "OCM_SDK_VERSION"
 def YOUTUBE_DEVELOPER_KEY = "YOUTUBE_DEVELOPER_KEY"
-
 def VIMEO_ACCESS_TOKEN = "VIMEO_ACCESS_TOKEN"
+
 android {
   compileSdkVersion project.androidCompileSdkVersion
   buildToolsVersion project.androidBuildToolsVersion
@@ -122,6 +143,14 @@ android {
 
 jacocoAndroidUnitTestReport {
   excludes += ['**/BuildConfig*.*']
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+  allprojects {
+    tasks.withType(Javadoc) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
 }
 
 //configurations {
@@ -262,3 +291,6 @@ dependencies {
   testImplementation project.testLibraries.assertj
   testImplementation project.testLibraries.mockito
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

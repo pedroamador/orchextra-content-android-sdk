@@ -23,7 +23,7 @@ public class OxManagerImpl implements OxManager {
 
   //cambio para el inicio selectivo, MEJORAR,
   //necesitamos un contexto para q la funcion setNewOrchextracredentials pueda comprobar las preferences
-  //lo suyo es no guardarlo en las preferences, de momneto así y una mejora sencilla seria añadir el contexto a
+  //lo suyo es no guardarlo en las preferences, de momneto asi y una mejora sencilla seria anadir el contexto a
   //la funcion de setNewOrchextracredentials, para no mantener el application cuando no es necesario
   private CustomSchemeReceiver onOxCustomSchemeReceiver =
       customScheme -> callOnCustomSchemeReceiver(customScheme);

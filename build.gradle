@@ -16,7 +16,14 @@ buildscript {
     classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
     classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
   }
+}
+
+ext {
+  group = 'com.gigigo.orchextra'
+  version = '3.0-RC7-S'
 }
 
 // Required because retrolambda is on maven central
@@ -31,6 +38,7 @@ allprojects {
   repositories {
     jcenter()
     mavenCentral()
+    maven { url "http://jcenter.bintray.com" }
     maven { url "https://jitpack.io" }
     maven { url "https://maven.google.com" }
     maven { url "https://dl.bintray.com/gigigo-desarrollo/maven" }
@@ -53,7 +61,7 @@ sonarqube {
   }
 }
 
-import org.gradle.internal.os.OperatingSystem;
+import org.gradle.internal.os.OperatingSystem
 
 def Flavor = "Ocm"
 
@@ -72,3 +80,12 @@ task clean(type: Delete) {
   delete rootProject.buildDir
 }
 
+task deployLib(type: Exec) {
+  workingDir "./"
+  def command = "./gradlew"
+  if (OperatingSystem.current().isWindows()) {
+    command = command + ".bat"
+  }
+
+  commandLine command, "install", 'bintrayUpload'
+}

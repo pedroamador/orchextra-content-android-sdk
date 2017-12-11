@@ -62,7 +62,7 @@ public class YoutubeWebviewActivity extends BaseActivity {
 
 
 
-    //String test = "<html><body><iframe src='http://www.youtube.com/embed/HSlD79sqHp4?rel=0&amp;autoplay=1' frameborder='0″' width='100%' height=100%'/></body></html>";
+    //String test = "<html><body><iframe src='http://www.youtube.com/embed/HSlD79sqHp4?rel=0&amp;autoplay=1' frameborder='0' width='100%' height=100%'/></body></html>";
 
 
     final WebView webviewYoutubeContainer = (WebView) findViewById(R.id.webviewYoutubeContainer);
