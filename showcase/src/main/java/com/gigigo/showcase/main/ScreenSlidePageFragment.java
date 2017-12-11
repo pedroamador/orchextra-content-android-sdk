@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.gigigo.orchextra.core.sdk.model.grid.ContentGridLayoutView;
 import com.gigigo.orchextra.core.sdk.model.grid.dto.ClipToPadding;
+import com.gigigo.orchextra.ocm.dto.UiMenu;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
 import com.gigigo.showcase.ContentManager;
 import com.gigigo.showcase.R;
@@ -17,17 +18,16 @@ import com.gigigo.showcase.R;
 public class ScreenSlidePageFragment extends Fragment {
 
   private static final String TAG = "ScreenSlidePageFragment";
-  private static final String EXTRA_SCREEN_SLIDE_SECTION = "EXTRA_SCREEN_SLIDE_SECTION";
   private static final String EXTRA_IMAGES_TO_DOWNLOAD = "EXTRA_IMAGES_TO_DOWNLOAD";
 
   private View emptyView;
   private View errorView;
+  private UiMenu itemMenu;
 
-  public static ScreenSlidePageFragment newInstance(String section, int imagesToDownload) {
+  public static ScreenSlidePageFragment newInstance(int imagesToDownload) {
     ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
 
     Bundle args = new Bundle();
-    args.putString(EXTRA_SCREEN_SLIDE_SECTION, section);
     args.putInt(EXTRA_IMAGES_TO_DOWNLOAD, imagesToDownload);
     fragment.setArguments(args);
 
@@ -59,16 +59,15 @@ public class ScreenSlidePageFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
 
     int imagesToDownload = getArguments().getInt(EXTRA_IMAGES_TO_DOWNLOAD);
-    String section = getArguments().getString(EXTRA_SCREEN_SLIDE_SECTION);
 
-    loadContent(section, imagesToDownload);
+    loadContent(itemMenu, imagesToDownload);
   }
 
-  private void loadContent(String section, int imagesToDownload) {
+  private void loadContent(UiMenu itemMenu, int imagesToDownload) {
 
     ContentManager contentManager = ContentManager.getInstance();
 
-    contentManager.getContent(section, imagesToDownload,
+    contentManager.getContent(itemMenu, imagesToDownload,
         new ContentManager.ContentManagerCallback<UiGridBaseContentData>() {
           @Override public void onSuccess(UiGridBaseContentData result) {
             setView(result);
@@ -98,5 +97,9 @@ public class ScreenSlidePageFragment extends Fragment {
             .commit();
       }
     }
+  }
+
+  public void setItemMenu(UiMenu itemMenu) {
+    this.itemMenu = itemMenu;
   }
 }

@@ -19,8 +19,11 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
   @Override public Fragment getItem(int position) {
     UiMenu menu = menuContent.get(position);
 
-    return ScreenSlidePageFragment.newInstance(menu.getElementUrl(),
-        getNumberOfImagesToDownload(position));
+    ScreenSlidePageFragment screenSlidePageFragment =
+        ScreenSlidePageFragment.newInstance(getNumberOfImagesToDownload(position));
+    screenSlidePageFragment.setItemMenu(menu);
+
+    return screenSlidePageFragment;
   }
 
   @Override public int getCount() {

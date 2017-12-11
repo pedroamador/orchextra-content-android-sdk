@@ -14,10 +14,10 @@ import com.gigigo.orchextra.ocm.OcmEvent;
 import com.gigigo.orchextra.ocm.OcmStyleUiBuilder;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
+import com.gigigo.orchextra.ocm.dto.UiMenu;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
 import com.gigigo.showcase.main.MainActivity;
 import com.gigigo.showcase.settings.ProjectData;
-import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 import java.util.GregorianCalendar;
 import java.util.Map;
 
@@ -45,7 +45,6 @@ public class ContentManager {
             .setOrchextraCredentials(ProjectData.getDefaultApiKey(),
                 ProjectData.getDefaultApiSecret())
             .setContentLanguage("EN")
-            .setVuforiaImpl(new ImageRecognitionVuforiaImpl())
             .setOxSenderId("327008883283")
             .setOnEventCallback(new OnEventCallback() {
               @Override public void doEvent(OcmEvent event, Object data) {
@@ -103,10 +102,10 @@ public class ContentManager {
     });
   }
 
-  public void getContent(String section, int imagesToDownload,
+  public void getContent(UiMenu itemMenu, int imagesToDownload,
       final ContentManagerCallback<UiGridBaseContentData> callback) {
 
-    Ocm.generateSectionView(section, null, imagesToDownload, new OcmCallbacks.Section() {
+    Ocm.generateSectionView(itemMenu, null, imagesToDownload, new OcmCallbacks.Section() {
       @Override public void onSectionLoaded(UiGridBaseContentData uiGridBaseContentData) {
         callback.onSuccess(uiGridBaseContentData);
       }

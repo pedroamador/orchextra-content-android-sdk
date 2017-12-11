@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.core.domain.entities.menus.MenuRequest;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   void getContent() {
-    Ocm.getMenus(true, new OcmCallbacks.Menus() {
+    Ocm.getMenus(MenuRequest.FORCE_CLOUD, new OcmCallbacks.Menus() {
       @Override public void onMenusLoaded(UiMenuData menus) {
 
         List<UiMenu> uiMenu = menus.getUiMenuList();
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void checkIfMenuHasChanged(final List<UiMenu> oldMenus) {
-    Ocm.getMenus(true, new OcmCallbacks.Menus() {
+    Ocm.getMenus(MenuRequest.FORCE_CLOUD, new OcmCallbacks.Menus() {
       @Override public void onMenusLoaded(UiMenuData menus) {
 
         List<UiMenu> newMenus = menus.getUiMenuList();
