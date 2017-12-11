@@ -18,8 +18,8 @@ import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.federatedAuth.FAUtils;
 import com.gigigo.orchextra.ocmsdk.BuildConfig;
 import com.gigigo.orchextra.ocmsdk.R;
+import com.gigigo.orchextra.wrapper.Ox3ManagerImp;
 import com.gigigo.orchextra.wrapper.OxManager;
-import com.gigigo.orchextra.wrapper.OxManagerImpl;
 import gigigo.com.vimeolibs.VimeoBuilder;
 import gigigo.com.vimeolibs.VimeoCallback;
 import gigigo.com.vimeolibs.VimeoExoPlayerActivity;
@@ -35,7 +35,7 @@ public class ActionHandler {
   public ActionHandler(OcmContextProvider ocmContextProvider) {
     this.ocmContextProvider = ocmContextProvider;
     this.connectionUtils = new ConnectionUtilsImp(ocmContextProvider.getApplicationContext());
-    this.orchextra = new OxManagerImpl();
+    this.orchextra = new Ox3ManagerImp();
   }
 
   public void processDeepLink(String uri) {

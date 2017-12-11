@@ -169,10 +169,14 @@ dependencies {
 
   implementation fileTree(dir: 'libs', include: ['*.jar']) //youtube
 
-  api 'com.gigigo.orchextra:core:3.0-RC7-S'
-  api 'com.gigigo.orchextra:geofence:3.0-RC7-S'
-  api 'com.gigigo.orchextra:indoorpositioning:3.0-RC7-S'
-  api 'com.gigigo.orchextra:scanner:3.0-RC7-S'
+  implementation 'com.gigigo.orchextra:core:3.0-RC7-S'
+  implementation 'com.gigigo.orchextra:geofence:3.0-RC7-S'
+  implementation 'com.gigigo.orchextra:indoorpositioning:3.0-RC7-S'
+  implementation 'com.gigigo.orchextra:scanner:3.0-RC7-S'
+
+  implementation 'com.j256.ormlite:ormlite-core:5.0'
+  implementation 'com.j256.ormlite:ormlite-android:5.0'
+  implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
 
   //google Support/CustomTabs/playServices
   api project.libraries.androidSupportDesign
@@ -229,6 +233,9 @@ dependencies {
     transitive = true
     exclude module: 'support-v4'
   }
+
+  implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
   //asv new ox with gradle 3.0.0
 
   //api('com.github.Orchextra.orchextra-android-sdk:orchextrasdk-control:525Test')

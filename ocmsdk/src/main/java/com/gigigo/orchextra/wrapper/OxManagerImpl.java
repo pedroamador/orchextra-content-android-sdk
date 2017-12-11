@@ -11,7 +11,6 @@ import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import orchextra.javax.inject.Inject;
 
 /**
  * Created by alex on 01/12/2017.
@@ -29,7 +28,7 @@ public class OxManagerImpl implements OxManager {
   private CustomSchemeReceiver onOxCustomSchemeReceiver =
       customScheme -> callOnCustomSchemeReceiver(customScheme);
 
-  @Inject
+  //@Inject
   public OxManagerImpl() {
     genders = new HashMap<>();
     genders.put(CrmUser.Gender.GenderFemale, com.gigigo.orchextra.CrmUser.Gender.GenderFemale);
@@ -88,23 +87,23 @@ public class OxManagerImpl implements OxManager {
               config.getVuforia().setContextProvider(contextProvider);
             }
 
-            @Override
-            public void startImageRecognition(
+            @Override public void startImageRecognition(
                 ImageRecognitionCredentials imageRecognitionCredentials) {
-              config.getVuforia().startImageRecognition(
-                  new com.gigigo.orchextra.wrapper.ImageRecognitionCredentials() {
-                    @Override public String getClientAccessKey() {
-                      return imageRecognitionCredentials.getClientAccessKey();
-                    }
+              config.getVuforia()
+                  .startImageRecognition(
+                      new com.gigigo.orchextra.wrapper.ImageRecognitionCredentials() {
+                        @Override public String getClientAccessKey() {
+                          return imageRecognitionCredentials.getClientAccessKey();
+                        }
 
-                    @Override public String getLicensekey() {
-                      return imageRecognitionCredentials.getLicensekey();
-                    }
+                        @Override public String getLicensekey() {
+                          return imageRecognitionCredentials.getLicensekey();
+                        }
 
-                    @Override public String getClientSecretKey() {
-                      return imageRecognitionCredentials.getClientSecretKey();
-                    }
-                  });
+                        @Override public String getClientSecretKey() {
+                          return imageRecognitionCredentials.getClientSecretKey();
+                        }
+                      });
             }
           });
     }
@@ -119,8 +118,9 @@ public class OxManagerImpl implements OxManager {
   }
 
   @Override public void bindUser(CrmUser crmUser) {
-    com.gigigo.orchextra.CrmUser crmUserOx = new com.gigigo.orchextra.CrmUser(crmUser.getCrmId(),
-        crmUser.getBirthdate(), genders.get(crmUser.getGender()));
+    com.gigigo.orchextra.CrmUser crmUserOx =
+        new com.gigigo.orchextra.CrmUser(crmUser.getCrmId(), crmUser.getBirthdate(),
+            genders.get(crmUser.getGender()));
 
     Orchextra.bindUser(crmUserOx);
     Orchextra.commitConfiguration();
