@@ -23,7 +23,7 @@ buildscript {
 
 ext {
   group = 'com.gigigo.orchextra'
-  version = '3.0-RC7-S'
+  version = '3.0-RC8-S'
 }
 
 // Required because retrolambda is on maven central

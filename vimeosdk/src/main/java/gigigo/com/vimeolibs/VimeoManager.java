@@ -21,14 +21,14 @@ public class VimeoManager {
   private static VimeoClient mApiClient;
 
   //flow open vimeo video
-  //1º get videoid
-  //2º instanciate VimeoManeger(accesotken)
-  //3º Se llama a getVideoVimeoInfo y en el resultado el callback se recibe el VimeoInfo
-  //4º hide loading se llama a VimeoExoPlayerActivity.open(vimeoinfo)
+  //1 get videoid
+  //2 instanciate VimeoManeger(accesotken)
+  //3 Se llama a getVideoVimeoInfo y en el resultado el callback se recibe el VimeoInfo
+  //4 hide loading se llama a VimeoExoPlayerActivity.open(vimeoinfo)
   //flow update accessToken
-  //1ºget new accesstoken in ocm ocnfig
-  //2ºdecrupt accesstoken use then
-  //3º keep encrypt in prferences or wherever
+  //1 get new accesstoken in ocm ocnfig
+  //2 decrupt accesstoken use then
+  //3 keep encrypt in prferences or wherever
 
   public VimeoManager(VimeoBuilder builder) {
     Configuration.Builder configBuilder;

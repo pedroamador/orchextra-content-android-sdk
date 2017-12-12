@@ -1,7 +1,32 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'com.github.Orchextra'
+group = rootProject.ext.group
+version = rootProject.ext.version
+
+ext {
+  bintrayRepo = 'maven'
+  bintrayName = 'com.gigigo.orchextra:vimeosdk'
+
+  publishedGroupId = 'com.gigigo.orchextra'
+  libraryName = 'vimeosdk'
+  artifact = 'vimeosdk'
+
+  libraryDescription = 'vimeosdk'
+
+  siteUrl = 'https://github.com/Orchextra/orchextra-content-android-sdk'
+  gitUrl = 'https://github.com/Orchextra/orchextra-content-android-sdk.git'
+
+  libraryVersion = rootProject.ext.version
+
+  developerId = 'gigigo-desarrollo'
+  developerName = 'Android Gigigo'
+  developerEmail = 'gigigo.desarrollo@gmail.com'
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
+}
 
 android {
   compileSdkVersion 26
@@ -48,6 +73,15 @@ android {
   // publishNonDefault true
   defaultPublishConfig "ocmRelease"
 }
+
+if (JavaVersion.current().isJava8Compatible()) {
+  allprojects {
+    tasks.withType(Javadoc) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
+}
+
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -61,3 +95,6 @@ dependencies {
   //todo this mustbe only interface and the impl(glide or whatever)on the VimeoBuilder
   implementation 'com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-glide-blur:2.01'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

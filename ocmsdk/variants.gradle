@@ -5,7 +5,7 @@ project.ext {
 
   ocmSdkVersion = [debug: 'ANDROID_1.0.0']
 
-  apiOcm = [release: 'https://cm.orchextra.io/',
+  apiOcm = [release: 'https://cm.s.orchextra.io/',
             debug  : 'https://cm.q.orchextra.io/',
             staging: 'https://cm.s.orchextra.io/'
   ]
