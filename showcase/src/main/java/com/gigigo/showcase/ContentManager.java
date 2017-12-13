@@ -3,8 +3,6 @@ package com.gigigo.showcase;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
-import com.gigigo.orchextra.CrmUser;
-import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.core.controller.model.grid.ImageTransformReadArticle;
 import com.gigigo.orchextra.ocm.OCManagerCallbacks;
 import com.gigigo.orchextra.ocm.Ocm;
@@ -16,6 +14,7 @@ import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnEventCallback;
 import com.gigigo.orchextra.ocm.dto.UiMenu;
 import com.gigigo.orchextra.ocm.views.UiGridBaseContentData;
+import com.gigigo.orchextra.wrapper.CrmUser;
 import com.gigigo.showcase.main.MainActivity;
 import com.gigigo.showcase.settings.ProjectData;
 import java.util.GregorianCalendar;
@@ -117,13 +116,14 @@ public class ContentManager {
   }
 
   public Map<String, String> getCustomFields() {
-    return Orchextra.getUserCustomFields();
+    //return Orchextra.getUserCustomFields();
+    return null;
   }
 
   public void setUserCustomFields(Map<String, String> customFields) {
-    Orchextra.bindUser(getCrmUser("test2"));
-    Orchextra.setUserCustomFields(customFields);
-    Orchextra.commitConfiguration();
+    //Orchextra.bindUser(getCrmUser("test2"));
+    //Orchextra.setUserCustomFields(customFields);
+    //Orchextra.commitConfiguration();
   }
 
   private CrmUser getCrmUser(String id) {

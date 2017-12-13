@@ -6,9 +6,9 @@ version = rootProject.ext.version
 
 ext {
   bintrayRepo = 'maven'
-  bintrayName = 'com.gigigo.orchextra:vimeosdk'
+  bintrayName = 'com.gigigo.ocm:vimeosdk'
 
-  publishedGroupId = 'com.gigigo.orchextra'
+  publishedGroupId = 'com.gigigo.ocm'
   libraryName = 'vimeosdk'
   artifact = 'vimeosdk'
 

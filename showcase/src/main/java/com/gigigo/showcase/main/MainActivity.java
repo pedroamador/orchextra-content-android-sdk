@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.core.domain.entities.menus.MenuRequest;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
       @Override public void onReceive(String customScheme) {
         Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
-        Orchextra.startScannerActivity();
+        //Orchextra.startScannerActivity();
       }
     });
     Ocm.start();

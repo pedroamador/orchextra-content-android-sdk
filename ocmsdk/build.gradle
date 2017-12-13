@@ -13,9 +13,9 @@ version = rootProject.ext.version
 
 ext {
   bintrayRepo = 'maven'
-  bintrayName = 'com.gigigo.orchextra:content'
+  bintrayName = 'com.gigigo.ocm:content'
 
-  publishedGroupId = 'com.gigigo.orchextra'
+  publishedGroupId = 'com.gigigo.ocm'
   libraryName = 'content'
   artifact = 'ocmsdk'
 
@@ -125,20 +125,7 @@ android {
     }
   }
 
-
-  //true to publish all flavour artifacts
-  // publishNonDefault true
   defaultPublishConfig "ocmRelease"
-  //defaultPublishConfig "ocmDebug"
-  //defaultPublishConfig {"ocmRelease","ocmDebug","ocmStaging"}
-
-  // publishNonDefault is deprecated and has no effect anymore. All variants are now published.
-  // true to publish all flavour artifacts
-  //publishNonDefault true
-  //defaultPublishConfig "ocmStaging"
-  //  defaultPublishConfig "ocmDebug"
-  // default build flavour
-  //defaultPublishConfig "ocmDebug"
 }
 
 jacocoAndroidUnitTestReport {
@@ -198,14 +185,10 @@ dependencies {
 
   implementation fileTree(dir: 'libs', include: ['*.jar']) //youtube
 
-  implementation 'com.gigigo.orchextra:core:3.0-RC7-S'
-  implementation 'com.gigigo.orchextra:geofence:3.0-RC7-S'
-  implementation 'com.gigigo.orchextra:indoorpositioning:3.0-RC7-S'
-  implementation 'com.gigigo.orchextra:scanner:3.0-RC7-S'
-
-  implementation 'com.j256.ormlite:ormlite-core:5.0'
-  implementation 'com.j256.ormlite:ormlite-android:5.0'
-  implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
+  api 'com.gigigo.orchextra:core:3.0-RC13-S'
+  api 'com.gigigo.orchextra:geofence:3.0-RC13-S'
+  api 'com.gigigo.orchextra:indoorpositioning:3.0-RC13-S'
+  api 'com.gigigo.orchextra:scanner:3.0-RC13-S'
 
   //google Support/CustomTabs/playServices
   api project.libraries.androidSupportDesign
@@ -227,50 +210,22 @@ dependencies {
   api project.libraries.imageloaderGlideBlur
 
   //Orchextra
-  //   implementation project.libraries.oxvuforiaimplementation
-  //  ocmStagingImplementation(project.libraries.orchextrasdkStaging) { transitive = true
-  //    exclude module: 'support-v4'  }
-  //  ocmDebugImplementation(project.libraries.orchextrasdkDebug) { transitive = true
-  //    exclude module: 'support-v4' }
-  //  ocmReleaseImplementation(project.libraries.orchextrasdkRelease) { transitive = true
-  //    exclude module: 'support-v4' }
-  // implementation project.libraries.oxvuforiaimplementation
-  /*
-   ocmStagingCompile(project.libraries.orchextrasdkStaging) {
-     transitive = true
-     exclude module: 'support-v4'
-   }
-   ocmDebugCompile(project.libraries.orchextrasdkDebug) {
-     transitive = true
-     exclude module: 'support-v4'
-   }
-   ocmReleaseCompile(project.libraries.orchextrasdkRelease) {
-     transitive = true
-     exclude module: 'support-v4'
-   }
- */
-  /*asv old compiles ox gradle 2.3.3*/
-  stagingApi(project.libraries.orchextrasdkStaging) {
-    transitive = true
-    exclude module: 'support-v4'
-  }
-  debugApi(project.libraries.orchextrasdkDebug) {
-    transitive = true
-    exclude module: 'support-v4'
-  }
-  releaseApi(project.libraries.orchextrasdkRelease) {
-    transitive = true
-    exclude module: 'support-v4'
-  }
+  //  stagingApi(project.libraries.orchextrasdkStaging) {
+  //    transitive = true
+  //    exclude module: 'support-v4'
+  //  }
+  //  debugApi(project.libraries.orchextrasdkDebug) {
+  //    transitive = true
+  //    exclude module: 'support-v4'
+  //  }
+  //  releaseApi(project.libraries.orchextrasdkRelease) {
+  //    transitive = true
+  //    exclude module: 'support-v4'
+  //  }
 
   implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
-  //asv new ox with gradle 3.0.0
-
-  //api('com.github.Orchextra.orchextra-android-sdk:orchextrasdk-control:525Test')
-
   //customs Views
-
   api project.libraries.doubleViewPager
   api project.libraries.autofitTextView
   api project.libraries.multipleGridRecyclerView

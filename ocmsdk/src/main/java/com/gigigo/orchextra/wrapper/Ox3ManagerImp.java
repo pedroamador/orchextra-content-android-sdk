@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.wrapper;
 
 import android.app.Application;
+import android.util.Log;
 import com.gigigo.orchextra.core.OrchextraOptions;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
-import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import java.util.ArrayList;
@@ -16,16 +16,16 @@ public class Ox3ManagerImp implements OxManager {
   private static final String TAG = "Ox3ManagerImp";
   private com.gigigo.orchextra.core.Orchextra orchextra;
   private OnCustomSchemeReceiver onCustomSchemeReceiver;
-  private HashMap<CrmUser.Gender, com.gigigo.orchextra.CrmUser.Gender> genders;
+  private HashMap<CrmUser.Gender, String> genders;
   private OrchextraCompletionCallback orchextraCompletionCallback;
   private Application app;
   private Config config;
 
   @Inject public Ox3ManagerImp() {
     genders = new HashMap<>();
-    genders.put(CrmUser.Gender.GenderFemale, com.gigigo.orchextra.CrmUser.Gender.GenderFemale);
-    genders.put(CrmUser.Gender.GenderMale, com.gigigo.orchextra.CrmUser.Gender.GenderMale);
-    genders.put(CrmUser.Gender.GenderND, com.gigigo.orchextra.CrmUser.Gender.GenderND);
+    genders.put(CrmUser.Gender.GenderFemale, "female");
+    genders.put(CrmUser.Gender.GenderMale, "male");
+    genders.put(CrmUser.Gender.GenderND, "nd");
 
     this.orchextra = com.gigigo.orchextra.core.Orchextra.INSTANCE;
   }
@@ -52,8 +52,8 @@ public class Ox3ManagerImp implements OxManager {
       if (isReady) {
         orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create(app));
         orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(app));
-        orchextra.getTriggerManager()
-            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(app));
+        //orchextra.getTriggerManager()
+        //    .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(app));
         orchextra.setNotificationActivityClass(config.getNotificationActivityClass());
 
         orchextraCompletionCallback.onSuccess();
@@ -97,7 +97,7 @@ public class Ox3ManagerImp implements OxManager {
   }
 
   @Override public void start() {
-    initOx();
+    Log.wtf(TAG, "Ox3ManagerImp#start()");
   }
 
   @Override public void stop() {
@@ -108,6 +108,7 @@ public class Ox3ManagerImp implements OxManager {
   public void updateSDKCredentials(String apiKey, String apiSecret, boolean forceCallback) {
     this.config.apiKey = apiKey;
     this.config.apiSecret = apiSecret;
+    initOx();
   }
 
   private void initOx() {
