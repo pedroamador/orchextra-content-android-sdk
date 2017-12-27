@@ -63,7 +63,7 @@ public class Ox3ManagerImp implements OxManager {
       }
     });
 
-    orchextra.setErrorListener(error -> orchextraCompletionCallback.onError(error.getMessage()));
+    orchextra.setErrorListener(error -> orchextraCompletionCallback.onError(Integer.toString(error.getCode())));
     orchextra.setCustomActionListener(
         customSchema -> onCustomSchemeReceiver.onReceive(customSchema));
   }
