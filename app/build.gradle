@@ -59,6 +59,10 @@ configurations {
 
 dependencies {
   api project(path: ':ocmsdk')
+  api 'com.gigigo.orchextra:core:3.0-RC13-S'
+  api 'com.gigigo.orchextra:geofence:3.0-RC13-S'
+  api 'com.gigigo.orchextra:indoorpositioning:3.0-RC13-S'
+  api 'com.gigigo.orchextra:scanner:3.0-RC13-S'
   api 'com.android.support:multidex:1.0.2'
 
   /*New dependencies*/

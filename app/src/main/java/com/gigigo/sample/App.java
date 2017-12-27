@@ -73,17 +73,22 @@ public class App extends MultiDexApplication {
   };
 
   @Override public void onCreate() {
+    System.out.println("appOn1");
     enableStrictMode();
+    System.out.println("appOn2");
     super.onCreate();
+    System.out.println("appOn3");
     if (LeakCanary.isInAnalyzerProcess(this)) {
       //This process is dedicated to LeakCanary for heap analysis.
       //You should not init your app in this process.
       return;
     }
+    System.out.println("appOn4");
     LeakCanary.install(this);
     //// Normal app init code...
-
+    System.out.println("appOn5");
     MultiDex.install(this);
+    System.out.println("appOn6");
     //region normal Filters., perfect 4 documentation
 /*
     switch (transform) {
@@ -141,8 +146,9 @@ public class App extends MultiDexApplication {
         .setOrchextraCredentials(BuildConfig.API_KEY, BuildConfig.API_SECRET)
         .setContentLanguage("EN")
         .setOnEventCallback(onEventCallback);
-
+    System.out.println("appOn7");
     Ocm.initialize(ocmBuilder);
+    System.out.println("appOn8");
 
     OcmStyleUiBuilder ocmStyleUiBuilder =
         new OcmStyleUiBuilder().setTitleFont("fonts/Gotham-Ultra.ttf")
@@ -150,9 +156,11 @@ public class App extends MultiDexApplication {
             .setMediumFont("fonts/Gotham-Medium.ttf")
             .setTitleToolbarEnabled(false)
             .setEnabledStatusBar(false);
+    System.out.println("appOn9");
     Ocm.setStyleUi(ocmStyleUiBuilder);
-
+    System.out.println("appOn10");
     Ocm.setBusinessUnit("it");
+    System.out.println("appOn11");
   }
 
   private void enableStrictMode() {
