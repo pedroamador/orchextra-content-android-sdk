@@ -152,6 +152,7 @@ public class ContentViewPresenter extends Presenter<ContentView> {
 
             @Override public void onGetSectionFails(Exception e) {
               renderError();
+              OCManager.notifyOnLoadDataContentSectionFinished(uiMenu);
             }
           });
     } else {
