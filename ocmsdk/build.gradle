@@ -256,20 +256,13 @@ dependencies {
 
   api project.libraries.gpuImage//4 readarticles
 
-  implementation project.libraries.lifecycleExtensions
-  implementation project.libraries.viewModel
-  implementation project.libraries.liveData
-  // ReactiveStreams support for LiveData
-  implementation project.libraries.lifecycleReactStreams
-  // Java8 support for Lifecycles
-  implementation project.libraries.lifecycleSupportForJava8
-
-
-  implementation project.libraries.roomRuntime
-  annotationProcessor project.libraries.roomCompiler
-
-  // RxJava support for Room
-  implementation project.libraries.roomRxJava
+  // Architecture components
+  implementation deps.lifecycle.runtime
+  implementation deps.lifecycle.extensions
+  kapt deps.lifecycle.compiler
+  implementation deps.room.runtime
+  kapt deps.room.compiler
+  implementation deps.room.rxjava2
 
   api project(':vimeosdk')
 
@@ -278,10 +271,11 @@ dependencies {
   testImplementation project.testLibraries.assertj
   testImplementation project.testLibraries.mockito
 
-  // Test helpers for LiveData
-  testImplementation project.testLibraries.liveDataTesting
+  // Dependencies for local unit tests
+  testImplementation deps.arch_core.testing
 
-  // Test helpers for Room
-  testImplementation project.testLibraries.roomTesting
+  // Android Testing Support Library's runner and rules
+  androidTestCompile deps.room.testing
+  androidTestCompile deps.arch_core.testing
 
 }

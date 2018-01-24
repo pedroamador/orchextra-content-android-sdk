@@ -1,3 +1,28 @@
+ext.deps = [:]
+def versions = [:]
+versions.arch = hasProperty("ARCH_VERSION") ? getProperty("ARCH_VERSION") : "1.0.0"
+
+def room = [:]
+room.arch = "android.arch.persistence.room"
+room.runtime = "$room.arch:runtime:$versions.arch"
+room.compiler = "$room.arch:compiler:$versions.arch"
+room.rxjava2 = "$room.arch:rxjava2:$versions.arch"
+room.testing = "$room.arch:testing:$versions.arch"
+deps.room = room
+
+def lifecycle = [:]
+lifecycle.arch = "android.arch.lifecycle"
+lifecycle.runtime = "$lifecycle.arch:runtime:$versions.arch"
+lifecycle.extensions = "$lifecycle.arch:extensions:$versions.arch"
+lifecycle.java8 = "$lifecycle.arch:common-java8:$versions.arch"
+lifecycle.compiler = "$lifecycle.arch:compiler:$versions.arch"
+deps.lifecycle = lifecycle
+
+def arch_core = [:]
+arch_core.testing = "android.arch.core:core-testing:$versions.arch"
+deps.arch_core = arch_core
+ext.deps = deps
+
 project.ext {
 
   androidCompileSdkVersion = 26
@@ -51,17 +76,7 @@ project.ext {
 
                gpuImage                : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
 
-               loggingInterceptor      : 'com.squareup.okhttp3:logging-interceptor:3.8.0',
-
-               lifecycleExtensions     : "$archLifecycle:extensions:$archLifecycleVersion",
-               viewModel               : "$archLifecycle:viewmodel:$archLifecycleVersion",
-               liveData                : "$archLifecycle:livedata:$archLifecycleVersion",
-               lifecycleReactStreams   : "$archLifecycle:reactivestreams:$archLifecycleVersion",
-               lifecycleSupportForJava8: "$archLifecycle:common-java8:$archLifecycleVersion",
-
-               roomRuntime             : "$archPersistence:runtime:$archPersistenceVersion",
-               roomCompiler            : "$archPersistence:compiler:$archPersistenceVersion",
-               roomRxJava              : "$archPersistence:rxjava2:$archPersistenceVersion"]
+               loggingInterceptor      : 'com.squareup.okhttp3:logging-interceptor:3.8.0']
 
 
   testLibraries = [mockito          : 'org.mockito:mockito-core:2.0.31-beta',
@@ -71,7 +86,5 @@ project.ext {
                    androidTestRules : 'com.android.support.test:rules:0.4.1',
                    espresso         : 'com.android.support.test.espresso:espresso-core:2.2.1',
                    mockWebServer    : 'com.squareup.okhttp:mockwebserver:2.6.0',
-                   assertj          : 'org.assertj:assertj-core:1.7.1',
-                   roomTesting      : "$archPersistence:testing:$archPersistenceVersion",
-                   liveDataTesting  : "android.arch.core:core-testing:$archLifecycleVersion"]
+                   assertj          : 'org.assertj:assertj-core:1.7.1']
 }
