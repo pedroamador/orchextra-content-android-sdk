@@ -4,7 +4,12 @@ project.ext {
   androidMinSdkVersion = 18
   androidBuildToolsVersion = '26.0.2'
   androidTargetSdkVersion = 26
-  supportVersion = '26.0.2' //asv dont touch the box(dontcallmewhite)
+  supportVersion = '26.1.0' //asv dont touch the box(dontcallmewhite)
+
+  archLifecycleVersion = "1.1.0"
+  archLifecycle = "android.arch.lifecycle"
+  archPersistenceVersion = "1.0.0"
+  archPersistence = "android.arch.persistence.room"
 
   libraries = [androidSupportDesign    : "com.android.support:design:${supportVersion}",
                androidCustomtabs       : "com.android.support:customtabs:${supportVersion}",
@@ -46,7 +51,17 @@ project.ext {
 
                gpuImage                : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
 
-               loggingInterceptor      : 'com.squareup.okhttp3:logging-interceptor:3.8.0']
+               loggingInterceptor      : 'com.squareup.okhttp3:logging-interceptor:3.8.0',
+
+               lifecycleExtensions     : "$archLifecycle:extensions:$archLifecycleVersion",
+               viewModel               : "$archLifecycle:viewmodel:$archLifecycleVersion",
+               liveData                : "$archLifecycle:livedata:$archLifecycleVersion",
+               lifecycleReactStreams   : "$archLifecycle:reactivestreams:$archLifecycleVersion",
+               lifecycleSupportForJava8: "$archLifecycle:common-java8:$archLifecycleVersion",
+
+               roomRuntime             : "$archPersistence:runtime:$archPersistenceVersion",
+               roomCompiler            : "$archPersistence:compiler:$archPersistenceVersion",
+               roomRxJava              : "$archPersistence:rxjava2:$archPersistenceVersion"]
 
 
   testLibraries = [mockito          : 'org.mockito:mockito-core:2.0.31-beta',
@@ -56,5 +71,7 @@ project.ext {
                    androidTestRules : 'com.android.support.test:rules:0.4.1',
                    espresso         : 'com.android.support.test.espresso:espresso-core:2.2.1',
                    mockWebServer    : 'com.squareup.okhttp:mockwebserver:2.6.0',
-                   assertj          : 'org.assertj:assertj-core:1.7.1']
+                   assertj          : 'org.assertj:assertj-core:1.7.1',
+                   roomTesting      : "$archPersistence:testing:$archPersistenceVersion",
+                   liveDataTesting  : "android.arch.core:core-testing:$archLifecycleVersion"]
 }
