@@ -5,7 +5,6 @@ import com.gigigo.orchextra.core.data.rxCache.OcmCacheImp
 import com.google.gson.annotations.SerializedName
 import com.mskn73.kache.Kacheable
 
-//@KacheLife(expiresTime = 1000 * 60 * 60 * 24) // 1 day
 class ApiMenuContentData(
     var isFromCloud: Boolean = false,
     @SerializedName("menus") val menuContentList: List<ApiMenuContent>?,

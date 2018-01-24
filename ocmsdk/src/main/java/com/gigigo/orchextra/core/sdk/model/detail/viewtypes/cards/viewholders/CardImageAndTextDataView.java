@@ -49,7 +49,7 @@ public class CardImageAndTextDataView extends CardDataView {
   }
 
   private void initViews(View view) {
-    //contraintLayoutContainer = (ConstraintLayout) view.findViewById(R.id.contraintLayoutContainer);
+    //contraintLayoutContainer = (ConstraintLayout) view.findViewById(R._id.contraintLayoutContainer);
     cardImagePlaceholder = (ImageView) view.findViewById(R.id.card_image_placeholder);
     cardRichText = (TextView) view.findViewById(R.id.card_rich_text);
   }
@@ -86,18 +86,18 @@ public class CardImageAndTextDataView extends CardDataView {
     //ConstraintSet constraintSet = new ConstraintSet();
     //constraintSet.clone(contraintLayoutContainer);
     //
-    //constraintSet.connect(firstItem.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID,
+    //constraintSet.connect(firstItem.get_id(), ConstraintSet.TOP, ConstraintSet.PARENT_ID,
     //    ConstraintSet.TOP);
-    //constraintSet.connect(firstItem.getId(), ConstraintSet.BOTTOM, secondItem.getId(),
+    //constraintSet.connect(firstItem.get_id(), ConstraintSet.BOTTOM, secondItem.get_id(),
     //    ConstraintSet.TOP);
     //
-    //constraintSet.connect(secondItem.getId(), ConstraintSet.TOP, firstItem.getId(),
+    //constraintSet.connect(secondItem.get_id(), ConstraintSet.TOP, firstItem.get_id(),
     //    ConstraintSet.BOTTOM);
-    //constraintSet.connect(secondItem.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID,
+    //constraintSet.connect(secondItem.get_id(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID,
     //    ConstraintSet.BOTTOM);
     //
-    //constraintSet.setVerticalWeight(firstItem.getId(), ratioFirstItem);
-    //constraintSet.setVerticalWeight(secondItem.getId(), ratioSecondItem);
+    //constraintSet.setVerticalWeight(firstItem.get_id(), ratioFirstItem);
+    //constraintSet.setVerticalWeight(secondItem.get_id(), ratioSecondItem);
     //
     //constraintSet.applyTo(contraintLayoutContainer);
   }

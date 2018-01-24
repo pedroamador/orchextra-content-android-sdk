@@ -131,7 +131,7 @@ public class WebViewContentData extends UiGridBaseContentData {
     webView = (WebView) mView.findViewById(R.id.ocm_webView);
     progress = mView.findViewById(R.id.webview_progress);
 
-    //webviewClipToPaddingContainer = mView.findViewById(R.id.webviewClipToPaddingContainer);
+    //webviewClipToPaddingContainer = mView.findViewById(R._id.webviewClipToPaddingContainer);
     // webView.setmScrollView((ScrollView) webviewClipToPaddingContainer);
 
     showProgressView(false); //avoid double loading

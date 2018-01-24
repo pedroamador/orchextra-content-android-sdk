@@ -5,7 +5,7 @@
   android:background="@color/oc_bg_article_content_color">
 
   <!--<ScrollView-->
-  <!--android:id="@+id/webviewClipToPaddingContainer"-->
+  <!--andr_idd:id_id@+id/webviewClipToPaddingContainer"-->
   <!--android:layout_width="match_parent"-->
   <!--android:layout_height="match_parent"-->
   <!--android:background="@color/oc_bg_article_content_color"-->
@@ -19,7 +19,7 @@
   <!--android:paddingBottom="54dp"-->
   <!--&gt;-->
   <!--<com.gigigo.orchextra.core.sdk.ui.views.TouchyWebView-->
-  <!--android:id="@+id/ocm_webView"-->
+  <!--andr_idd:id_id@+id/ocm_webView"-->
   <!--android:layout_width="match_parent"-->
   <!--android:layout_height="wrap_content"-->
   <!--/>-->
@@ -33,7 +33,7 @@
 
 
   <!--<com.gigigo.orchextra.core.sdk.ui.views.NestedWebView-->
-  <!--android:id="@+id/ocm_webView"-->
+  <!--andr_idd:id_id@+id/ocm_webView"-->
   <!--android:layout_width="match_parent"-->
   <!--android:layout_height="match_parent"-->
   <!--android:layout_marginBottom="54dp"-->

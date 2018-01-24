@@ -21,7 +21,7 @@ public class ApiMenuContentMapper
   @Override public MenuContent externalClassToModel(ApiMenuContent data) {
     MenuContent model = new MenuContent();
 
-    model.setId(data.getId());
+    model.setId(data.get_id());
     model.setSlug(data.getSlug());
 
     List<Element> menuItemList = new ArrayList<>();

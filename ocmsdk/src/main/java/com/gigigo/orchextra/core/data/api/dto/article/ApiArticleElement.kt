@@ -1,6 +1,8 @@
 package com.gigigo.orchextra.core.data.api.dto.article
 
+import android.arch.persistence.room.ColumnInfo
+
 class ApiArticleElement(
     val type: String?,
-    val customProperties: Map<String, Any>?,
+    @ColumnInfo(name = "custom_properties") val customProperties: Map<String, Any>?,
     val render: ApiArticleElementRender?)
