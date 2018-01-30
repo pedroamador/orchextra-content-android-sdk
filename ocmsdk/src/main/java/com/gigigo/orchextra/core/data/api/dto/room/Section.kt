@@ -21,6 +21,4 @@ class Section(
     @NonNull val slug: String,
     @ColumnInfo(name = "label") val sectionView: String,
     @ColumnInfo(name = "custom_properties") val customProperties: Map<String, Any>?,
-    // TODO: N:M relation
-    val tags: List<String>?,
     val segmentation: ApiElementSegmentation?)
