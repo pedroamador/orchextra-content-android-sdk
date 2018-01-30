@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.core.data.api.dto.elements
+package com.gigigo.orchextra.core.data.api.dto.room
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
