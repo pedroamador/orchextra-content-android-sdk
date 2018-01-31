@@ -5,8 +5,7 @@ import android.arch.persistence.room.Relation
 
 data class MenuWithSections(
 
-    @Embedded
-    val menu: Menu,
+    @Embedded val menu: Menu,
 
     @Relation(
         parentColumn = "id",

@@ -6,7 +6,7 @@ import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.NonNull
 
-@Entity(tableName = "section_view",
+@Entity(tableName = "section_render",
 
     foreignKeys = [
       (ForeignKey(
@@ -14,9 +14,12 @@ import android.support.annotation.NonNull
           parentColumns = arrayOf("id"),
           childColumns = arrayOf("section_id"),
           onDelete = ForeignKey.CASCADE))])
-class SectionView(
+class SectionRender(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @NonNull @ColumnInfo(name = "section_id") val sectionId: Long,
-    val text: String,
-    @ColumnInfo(name = "image_url") val imageUrl: String?,
-    @ColumnInfo(name = "image_thumb") val imageThumb: String?)
+    // TODO: This field is not mandatory
+    @ColumnInfo(name = "content_url") val contentUrl: String?,
+    // TODO: This field is not mandatory
+    val linked: Boolean?,
+    // TODO: This field is not mandatory
+    val url: String?)

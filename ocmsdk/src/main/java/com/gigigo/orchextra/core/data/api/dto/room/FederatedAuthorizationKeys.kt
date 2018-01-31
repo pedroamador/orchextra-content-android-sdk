@@ -6,17 +6,15 @@ import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.NonNull
 
-@Entity(tableName = "section_view",
+@Entity(tableName = "federated_authorization_keys",
 
     foreignKeys = [
       (ForeignKey(
-          entity = Section::class,
+          entity = FederatedAuthorization::class,
           parentColumns = arrayOf("id"),
-          childColumns = arrayOf("section_id"),
+          childColumns = arrayOf("federated_authorization_id"),
           onDelete = ForeignKey.CASCADE))])
-class SectionView(
+class FederatedAuthorizationKeys(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    @NonNull @ColumnInfo(name = "section_id") val sectionId: Long,
-    val text: String,
-    @ColumnInfo(name = "image_url") val imageUrl: String?,
-    @ColumnInfo(name = "image_thumb") val imageThumb: String?)
+    @NonNull @ColumnInfo(name = "federated_authorization_id") val federatedAuthorizationId: Long,
+    @NonNull @ColumnInfo(name = "site_name") val siteName: String)

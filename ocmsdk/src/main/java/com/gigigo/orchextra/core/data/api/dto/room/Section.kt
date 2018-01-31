@@ -14,14 +14,11 @@ import android.support.annotation.NonNull
           entity = Menu::class,
           parentColumns = arrayOf("id"),
           childColumns = arrayOf("menu_id"),
-          onDelete = CASCADE)),
-      (ForeignKey(
-          entity = SectionView::class,
-          parentColumns = arrayOf("id"),
-          childColumns = arrayOf("section_view_id")))])
+          onDelete = CASCADE))])
 class Section(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @NonNull @ColumnInfo(name = "menu_id") val menuId: Long,
     @NonNull @ColumnInfo(name = "element_url") val elementUrl: String,
     @NonNull val slug: String,
-    @NonNull @ColumnInfo(name = "section_view_id") val sectionViewId: Long)
+    @NonNull val type: String,
+    @NonNull @ColumnInfo(name = "updated_at") val updatedAt: Long)
