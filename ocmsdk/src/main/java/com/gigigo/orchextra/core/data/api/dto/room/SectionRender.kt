@@ -17,9 +17,6 @@ import android.support.annotation.NonNull
 class SectionRender(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @NonNull @ColumnInfo(name = "section_id") val sectionId: Long,
-    // TODO: This field is not mandatory
-    @ColumnInfo(name = "content_url") val contentUrl: String?,
-    // TODO: This field is not mandatory
-    val linked: Boolean?,
-    // TODO: This field is not mandatory
-    val url: String?)
+    @ColumnInfo(name = "content_url") val contentUrl: String = "",
+    val linked: Boolean = false,
+    val url: String = "")
