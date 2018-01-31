@@ -8,7 +8,7 @@ data class MenuWithSections(
     val menu: Menu,
     @Relation(
         parentColumn = "id",
-        entityColumn = "section_id",
-        entity = MenuSection::class
-    ) val sectionIdList: List<Long>
+        entityColumn = "menu_id",
+        entity = Section::class
+    ) val sections: List<Section>
 )
