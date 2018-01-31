@@ -14,7 +14,7 @@ import com.gigigo.orchextra.core.data.api.dto.elements.ApiElementSegmentation
       (ForeignKey(
           entity = Menu::class,
           parentColumns = arrayOf("id"),
-          childColumns = arrayOf("menuId"),
+          childColumns = arrayOf("menu_id"),
           onDelete = CASCADE)),
       (ForeignKey(
           entity = SectionView::class,
