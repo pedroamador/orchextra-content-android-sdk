@@ -17,6 +17,4 @@ import android.support.annotation.NonNull
 class SectionView(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @NonNull @ColumnInfo(name = "section_id") val sectionId: Long,
-    @NonNull val text: String,
-    @ColumnInfo(name = "image_url") val imageUrl: String = "",
-    @ColumnInfo(name = "image_thumb") val imageThumb: String = "")
+    @NonNull val text: String)

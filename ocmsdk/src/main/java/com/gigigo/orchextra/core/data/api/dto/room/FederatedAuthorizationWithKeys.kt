@@ -5,7 +5,7 @@ import android.arch.persistence.room.Relation
 
 data class FederatedAuthorizationWithKeys(
 
-    @Embedded val id: FederatedAuthorization,
+    @Embedded val federatedAuthorization: FederatedAuthorization,
 
     @Relation(
         parentColumn = "id",

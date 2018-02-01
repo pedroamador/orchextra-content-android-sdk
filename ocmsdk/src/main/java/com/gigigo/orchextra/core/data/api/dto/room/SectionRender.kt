@@ -19,4 +19,12 @@ class SectionRender(
     @NonNull @ColumnInfo(name = "section_id") val sectionId: Long,
     @ColumnInfo(name = "content_url") val contentUrl: String = "",
     val linked: Boolean = false,
-    val url: String = "")
+    val url: String = "",
+    @ColumnInfo(name = "image_url") val imageUrl: String = "",
+    @ColumnInfo(name = "image_thumb") val imageThumb: String = "",
+    val type: String = "",
+    val size: String = "",
+    @ColumnInfo(name = "element_url") val elementUrl: String = "",
+    val text: String = "",
+    @ColumnInfo(name = "text_color") val textColor: String = "",
+    @ColumnInfo(name = "background_color") val bgColor: String = "")
