@@ -11,4 +11,4 @@ data class SectionRenderWithFederatedAuthorization(
         parentColumn = "id",
         entityColumn = "section_render_id",
         entity = FederatedAuthorization::class
-    ) val federatedAuth: FederatedAuthorizationKeys)
+    ) val federatedAuth: FederatedAuthorization)
