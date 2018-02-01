@@ -30,5 +30,11 @@ data class SectionWithInfo(
     @Relation(
         parentColumn = "id",
         entityColumn = "section_id",
+        entity = SectionShare::class
+    ) val share: SectionShare,
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "section_id",
         entity = SectionRender::class
     ) val render: SectionRender)
