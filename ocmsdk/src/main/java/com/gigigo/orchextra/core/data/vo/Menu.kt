@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.core.data.api.dto.room
+package com.gigigo.orchextra.core.data.vo
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index

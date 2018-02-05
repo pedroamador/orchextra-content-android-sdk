@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.core.data.api.dto.room
+package com.gigigo.orchextra.core.data.vo
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
@@ -6,7 +6,7 @@ import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.NonNull
 
-@Entity(tableName = "custom_property",
+@Entity(tableName = "section_view",
 
     foreignKeys = [
       (ForeignKey(
@@ -14,8 +14,7 @@ import android.support.annotation.NonNull
           parentColumns = arrayOf("id"),
           childColumns = arrayOf("section_id"),
           onDelete = ForeignKey.CASCADE))])
-class CustomProperty(
+class SectionView(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @NonNull @ColumnInfo(name = "section_id") val sectionId: Long,
-    @NonNull val name: String,
-    @NonNull val value: String)
+    @NonNull val text: String)
