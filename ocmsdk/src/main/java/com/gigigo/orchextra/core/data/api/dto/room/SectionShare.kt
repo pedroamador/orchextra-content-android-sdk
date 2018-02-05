@@ -19,4 +19,4 @@ class SectionShare(
     @NonNull @ColumnInfo(name = "section_id") val sectionId: Long,
     @NonNull val url: String,
     val text: String = "",
-    val shareLandingUrl: String = "")
+    @ColumnInfo(name = "share_landing_url") val shareLandingUrl: String = "")
