@@ -4,49 +4,60 @@ project.ext {
   androidMinSdkVersion = 18
   androidBuildToolsVersion = '26.0.2'
   androidTargetSdkVersion = 26
-  supportVersion = '26.0.2'
+  supportVersion = '26.1.0'
+  oxVersion = '3.0-RC13'
 
-  libraries = [androidSupportDesign    : "com.android.support:design:${supportVersion}",
-               androidCustomtabs       : "com.android.support:customtabs:${supportVersion}",
+  libraries = [androidSupportDesign      : "com.android.support:design:${supportVersion}",
+               androidCustomtabs         : "com.android.support:customtabs:${supportVersion}",
 
-               daggerCompiler          : "com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2",
-               dagger                  : "com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2",
+               daggerCompiler            : "com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2",
+               dagger                    : "com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2",
 
-               gggJavaLib              : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:4.4', //2c184f2ed7
-               ggglogger               : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglogger:4.4',
-               ggglib                  : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:4.4',
+               gggJavaLib                : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:4.4', //2c184f2ed7
+               ggglogger                 : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglogger:4.4',
+               ggglib                    : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:4.4',
 
-               orchextrasdkStaging     : 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:533Test:play11Staging@aar',
-               orchextrasdkDebug       : 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:533Test:play11Debug@aar',
-               orchextrasdkRelease     : 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:533Test:play11Release@aar',
+               oxCoreStaging             : "com.gigigo.orchextra:core:${oxVersion}-S",
+               oxCoreDebug               : "com.gigigo.orchextra:core:${oxVersion}-S",
+               oxCoreRelease             : "com.gigigo.orchextra:core:${oxVersion}-S",
 
-               gpuImage                : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
-               playServicesBase        : "com.google.android.gms:play-services-base:11.4.2",
-               playServicesLocation    : "com.google.android.gms:play-services-location:11.4.2",
-               playServicesGcm         : "com.google.android.gms:play-services-gcm:11.4.2",
+               oxGeofenceStaging         : "com.gigigo.orchextra:geofence:${oxVersion}-S",
+               oxGeofenceDebug           : "com.gigigo.orchextra:geofence:${oxVersion}-S",
+               oxGeofenceRelease         : "com.gigigo.orchextra:geofence:${oxVersion}-S",
 
-               imageloaderGlideBlur    : 'com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-glide-blur:2.01',
+               oxIndoorpositioningStaging: "com.gigigo.orchextra:indoorpositioning:${oxVersion}-S",
+               oxIndoorpositioningDebug  : "com.gigigo.orchextra:indoorpositioning:${oxVersion}-S",
+               oxIndoorpositioningRelease: "com.gigigo.orchextra:indoorpositioning:${oxVersion}-S",
 
-               multipleGridRecyclerView: 'com.github.Gigigo-Android-Devs:gigigo-multipleGridRecyclerView-library-android:2.5.7',
+               oxScannerStaging          : "com.gigigo.orchextra:scanner:${oxVersion}-S",
+               oxScannerDebug            : "com.gigigo.orchextra:scanner:${oxVersion}-S",
+               oxScannerRelease          : "com.gigigo.orchextra:scanner:${oxVersion}-S",
 
-               //               oxvuforiaimplementation    : 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6',
+               gpuImage                  : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
+               playServicesBase          : "com.google.android.gms:play-services-base:11.4.2",
+               playServicesLocation      : "com.google.android.gms:play-services-location:11.4.2",
+               playServicesGcm           : "com.google.android.gms:play-services-gcm:11.4.2",
 
-               doubleViewPager         : 'com.github.nuborisar:customViewPager:0.8RC',
-               autofitTextView         : 'com.github.GigigoGreenLabs:AutoFitTextView:0.11RC',
+               imageloaderGlideBlur      : 'com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-glide-blur:2.01',
 
-               rxAndroid               : 'io.reactivex.rxjava2:rxandroid:2.0.1',
-               rxJava                  : 'io.reactivex.rxjava2:rxjava:2.1.0',
-               rxRetrofit              : 'com.squareup.retrofit2:adapter-rxjava2:2.3.0',
-               arrow                   : 'com.fernandocejas:arrow:1.0.0',
+               multipleGridRecyclerView  : 'com.github.Gigigo-Android-Devs:gigigo-multipleGridRecyclerView-library-android:2.5.7',
 
-               kache                   : 'com.github.mskn73:kache:0.4',
+               doubleViewPager           : 'com.github.nuborisar:customViewPager:0.8RC',
+               autofitTextView           : 'com.github.GigigoGreenLabs:AutoFitTextView:0.11RC',
 
-               vimeoNetworking         : 'com.vimeo.networking:vimeo-networking:1.1.1',
-               exoplayer               : 'com.google.android.exoplayer:exoplayer:r2.5.3',
+               rxAndroid                 : 'io.reactivex.rxjava2:rxandroid:2.0.1',
+               rxJava                    : 'io.reactivex.rxjava2:rxjava:2.1.0',
+               rxRetrofit                : 'com.squareup.retrofit2:adapter-rxjava2:2.3.0',
+               arrow                     : 'com.fernandocejas:arrow:1.0.0',
 
-               gpuImage                : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
+               kache                     : 'com.github.mskn73:kache:0.4',
 
-               loggingInterceptor      : 'com.squareup.okhttp3:logging-interceptor:3.8.0']
+               vimeoNetworking           : 'com.vimeo.networking:vimeo-networking:1.1.1',
+               exoplayer                 : 'com.google.android.exoplayer:exoplayer:r2.5.3',
+
+               gpuImage                  : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
+
+               loggingInterceptor        : 'com.squareup.okhttp3:logging-interceptor:3.8.0']
 
 
   testLibraries = [mockito          : 'org.mockito:mockito-core:2.0.31-beta',
