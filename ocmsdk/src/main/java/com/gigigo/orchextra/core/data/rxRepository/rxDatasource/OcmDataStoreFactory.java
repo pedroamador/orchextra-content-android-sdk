@@ -2,6 +2,7 @@ package com.gigigo.orchextra.core.data.rxRepository.rxDatasource;
 
 import android.util.Log;
 import com.gigigo.orchextra.core.data.rxCache.OcmCache;
+import com.gigigo.orchextra.core.domain.entities.DataRequest;
 import com.gigigo.orchextra.core.domain.entities.ocm.OxSession;
 import com.gigigo.orchextra.core.domain.utils.ConnectionUtils;
 import orchextra.javax.inject.Inject;
@@ -29,23 +30,47 @@ import orchextra.javax.inject.Singleton;
     this.session = session;
   }
 
-  public OcmDataStore getDataStoreForMenus(boolean force) {
+  public OcmDataStore getDataStoreForVersion() {
+    if (session.getToken() == null) {
+      return getDiskDataStore();
+    }
+
+    OcmCache ocmCache = diskDataStore.getOcmCache();
+
+    if (ocmCache.isVersionCached() && !ocmCache.isVersionExpired()) {
+      Log.i(TAG, "DISK  - Version");
+      return getDiskDataStore();
+    } else {
+      Log.i(TAG, "CLOUD - Version");
+      return getCloudDataStore();
+    }
+  }
+
+  public OcmDataStore getDataStoreForMenus(DataRequest forceSource) {
     OcmDataStore ocmDataStore;
 
     if (!connectionUtils.hasConnection()) return getDiskDataStore();
 
-    if (force) {
-      Log.i(TAG, "CLOUD - Menus");
-      ocmDataStore = getCloudDataStore();
-    } else {
-      OcmCache cache = diskDataStore.getOcmCache();
-      if (cache.isMenuCached() && !cache.isMenuExpired()) {
-        Log.i(TAG, "DISK  - Menus");
+    switch (forceSource) {
+      case FORCE_CACHE:
+        Log.i(TAG, "FORCE DISK - Menus");
         ocmDataStore = getDiskDataStore();
-      } else {
-        Log.i(TAG, "CLOUD - Menus");
+        break;
+      case FORCE_CLOUD:
+        Log.i(TAG, "FORCE CLOUD - Menus");
         ocmDataStore = getCloudDataStore();
-      }
+        break;
+       default:
+      case DEFAULT:
+        OcmCache cache = diskDataStore.getOcmCache();
+        if (cache.isMenuCached() && !cache.isMenuExpired()) {
+          Log.i(TAG, "DISK  - Menus");
+          ocmDataStore = getDiskDataStore();
+        } else {
+          Log.i(TAG, "CLOUD - Menus");
+          ocmDataStore = getCloudDataStore();
+        }
+        break;
     }
 
     return ocmDataStore;
@@ -101,21 +126,5 @@ import orchextra.javax.inject.Singleton;
 
   public OcmDataStore getDiskDataStore() {
     return diskDataStore;
-  }
-
-  public OcmDataStore getDataStoreForVersion() {
-    if (session.getToken() == null) {
-      return getDiskDataStore();
-    }
-
-    OcmCache ocmCache = diskDataStore.getOcmCache();
-
-    if (ocmCache.isVersionCached() && !ocmCache.isVersionExpired()) {
-      Log.i(TAG, "DISK  - Version");
-      return getDiskDataStore();
-    } else {
-      Log.i(TAG, "CLOUD - Version");
-      return getCloudDataStore();
-    }
   }
 }

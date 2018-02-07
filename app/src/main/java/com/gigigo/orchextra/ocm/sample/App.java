@@ -68,7 +68,7 @@ public class App extends MultiDexApplication {
         return new CropSquareTransformation(mApplication);
       case 5:
         return new RoundedCornersTransformation(mApplication, 25,
-            25);//return new MaskTransformation(mApplication, 50); //fails
+            25);//return new MaskTransformation(mApplication, 50); //onVersionFails
       case 6:
         return new RoundedCornersTransformation(mApplication, 25, 25);
       case 7:

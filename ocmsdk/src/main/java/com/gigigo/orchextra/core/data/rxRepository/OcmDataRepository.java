@@ -7,6 +7,7 @@ import com.gigigo.orchextra.core.data.api.mappers.version.ApiVersionMapper;
 import com.gigigo.orchextra.core.data.rxRepository.rxDatasource.OcmDataStore;
 import com.gigigo.orchextra.core.data.rxRepository.rxDatasource.OcmDataStoreFactory;
 import com.gigigo.orchextra.core.data.rxRepository.rxDatasource.OcmDiskDataStore;
+import com.gigigo.orchextra.core.domain.entities.DataRequest;
 import com.gigigo.orchextra.core.domain.entities.contentdata.ContentData;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCache;
 import com.gigigo.orchextra.core.domain.entities.elements.ElementData;
@@ -47,8 +48,8 @@ import orchextra.javax.inject.Singleton;
         .map(apiVersionMapper::externalClassToModel);
   }
 
-  @Override public Observable<MenuContentData> getMenu(boolean forceReload) {
-    OcmDataStore ocmDataStore = ocmDataStoreFactory.getDataStoreForMenus(forceReload);
+  @Override public Observable<MenuContentData> getMenu(DataRequest forceSource) {
+    OcmDataStore ocmDataStore = ocmDataStoreFactory.getDataStoreForMenus(forceSource);
     return ocmDataStore.getMenuEntity().map(apiMenuContentListResponseMapper::externalClassToModel);
   }
 

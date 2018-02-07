@@ -114,7 +114,7 @@ public class OcmControllerImp implements OcmController {
       @Override public void onGetMenusFails(Exception e) {
         getMenusCallback.onGetMenusLoaded(null);
       }
-    }), GetMenus.Params.forForceReload(false));
+    }), GetMenus.Params.forForceSource(com.gigigo.orchextra.core.domain.entities.DataRequest.DEFAULT));
   }
 
   private void retrieveMenus(MenuObserver observer, GetMenus.Params params) {
@@ -135,6 +135,12 @@ public class OcmControllerImp implements OcmController {
   }
 
   private void retrieveMenus(boolean forceReload, GetMenusControllerCallback getMenusCallback) {
+    com.gigigo.orchextra.core.domain.entities.DataRequest forceSource = com.gigigo.orchextra.core.domain.entities.DataRequest.DEFAULT;
+    if(forceReload)
+      forceSource = com.gigigo.orchextra.core.domain.entities.DataRequest.FORCE_CLOUD;
+    else
+      forceSource = com.gigigo.orchextra.core.domain.entities.DataRequest.FORCE_CACHE;
+
     retrieveMenus(new MenuObserver(new GetMenusControllerCallback() {
       @Override public void onGetMenusLoaded(UiMenuData menus) {
         if (menus.isFromCloud()) {
@@ -155,7 +161,7 @@ public class OcmControllerImp implements OcmController {
       @Override public void onGetMenusFails(Exception e) {
 
       }
-    }), GetMenus.Params.forForceReload(forceReload));
+    }), GetMenus.Params.forForceSource(forceSource));
   }
 
   private boolean hasToForceReloadBecauseVersionChanged(VersionData versionData) {
@@ -416,6 +422,9 @@ public class OcmControllerImp implements OcmController {
 
   //performance https://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html
   //leak with this kind inner class
+
+
+
 
 
   //region observers

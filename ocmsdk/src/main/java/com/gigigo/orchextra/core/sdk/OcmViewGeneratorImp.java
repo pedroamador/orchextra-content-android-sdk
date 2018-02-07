@@ -6,6 +6,7 @@ import com.gigigo.orchextra.core.controller.model.detail.DetailElementsViewPrese
 import com.gigigo.orchextra.core.controller.views.UiBaseContentData;
 import com.gigigo.orchextra.core.data.rxException.ApiMenuNotFoundException;
 import com.gigigo.orchextra.core.domain.OcmController;
+import com.gigigo.orchextra.core.domain.OcmControllerKt;
 import com.gigigo.orchextra.core.domain.entities.article.base.ArticleElement;
 import com.gigigo.orchextra.core.domain.entities.article.base.ArticleElementRender;
 import com.gigigo.orchextra.core.domain.entities.elementcache.ElementCache;
@@ -47,11 +48,13 @@ import orchextra.javax.inject.Provider;
 public class OcmViewGeneratorImp implements OcmViewGenerator {
 
   private final OcmController ocmController;
+  private final OcmControllerKt ocmControllerKt;
   private final Provider<DetailElementsViewPresenter> detailElementsViewPresenterProvider;
 
-  public OcmViewGeneratorImp(OcmController ocmController,
+  public OcmViewGeneratorImp(OcmController ocmController, OcmControllerKt ocmControllerKt,
       Provider<DetailElementsViewPresenter> detailElementsViewPresenterProvider) {
     this.ocmController = ocmController;
+    this.ocmControllerKt = ocmControllerKt;
     this.detailElementsViewPresenterProvider = detailElementsViewPresenterProvider;
   }
 
@@ -63,6 +66,18 @@ public class OcmViewGeneratorImp implements OcmViewGenerator {
       }
 
       @Override public void onGetMenusFails(Exception e) {
+        getMenusViewGeneratorCallback.onGetMenusFails(new ApiMenuNotFoundException(e));
+      }
+    });
+  }
+
+  @Override public void updateContent(final GetMenusViewGeneratorCallback getMenusViewGeneratorCallback) {
+    ocmControllerKt.updateContent(new OcmControllerKt.GetMenusControllerCallback() {
+      @Override public void onMenusLoaded(UiMenuData menus) {
+        getMenusViewGeneratorCallback.onGetMenusLoaded(menus);
+      }
+
+      @Override public void onMenusFails(Exception e) {
         getMenusViewGeneratorCallback.onGetMenusFails(new ApiMenuNotFoundException(e));
       }
     });

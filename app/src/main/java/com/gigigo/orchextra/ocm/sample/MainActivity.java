@@ -152,11 +152,6 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     });
-
-    //ReadedArticles
-    //if (OCManager.getShowReadArticles() && adapter != null) {
-    //  adapter.reloadSections();
-    //}
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -191,18 +186,6 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    //fabChange.setOnClickListener(new View.OnClickListener() {
-    //  @Override public void onClick(View v) {
-    //    startCredentials();
-    //if (OCManager.getShowReadArticles() && adapter != null) {
-    //OCManager.transform+=1;
-    //adapter.reloadSections();
-    //Toast.makeText(MainActivity.this, "Refresh grid from integratied app if readed articles are enabled transform number"
-    //    + OCManager.transform, Toast.LENGTH_LONG).show();
-    //}
-    //}
-    //});
-
     newContentMainContainer = findViewById(R.id.newContentMainContainer);
 
     adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -218,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             //TODO Fix in Orchextra
             runOnUiThread(new Runnable() {
               @Override public void run() {
-                getContent();
+                getContentKt();
               }
             });
           }
@@ -239,23 +222,22 @@ public class MainActivity extends AppCompatActivity {
     Ocm.start();//likewoah
   }
 
-  public void clearApplicationData() {
-    File cache = getCacheDir();
-    File appDir = new File(cache.getParent());
-    if (appDir.exists()) {
-      String[] children = appDir.list();
-      for (String s : children) {
-        if (!s.equals("lib")) {
-          deleteDir(new File(appDir, s));
-        }
-      }
-    }
-  }
-
   private List<UiMenu> copy(List<UiMenu> list) {
     List<UiMenu> copyList = new ArrayList<>();
     copyList.addAll(list);
     return copyList;
+  }
+
+  private void getContentKt() {
+    Ocm.updateContent(new OcmCallbacks.Menus() {
+      @Override public void onMenusLoaded(UiMenuData menus) {
+        Toast.makeText(MainActivity.this, menus.toString(), Toast.LENGTH_SHORT).show();
+      }
+
+      @Override public void onMenusFails(Throwable e) {
+        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+      }
+    });
   }
 
   private void getContent() {

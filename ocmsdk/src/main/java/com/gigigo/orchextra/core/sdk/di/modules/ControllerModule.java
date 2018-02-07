@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.core.sdk.di.modules;
 
 import com.gigigo.orchextra.core.controller.OcmControllerImp;
+import com.gigigo.orchextra.core.controller.OcmControllerImpKt;
 import com.gigigo.orchextra.core.data.rxCache.OcmCache;
 import com.gigigo.orchextra.core.data.rxCache.OcmCacheImp;
 import com.gigigo.orchextra.core.data.rxCache.imageCache.OcmImageCache;
@@ -8,6 +9,7 @@ import com.gigigo.orchextra.core.data.rxCache.imageCache.OcmImageCacheImp;
 import com.gigigo.orchextra.core.data.rxExecutor.JobExecutor;
 import com.gigigo.orchextra.core.data.rxRepository.OcmDataRepository;
 import com.gigigo.orchextra.core.domain.OcmController;
+import com.gigigo.orchextra.core.domain.OcmControllerKt;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxExecutor.ThreadExecutor;
 import com.gigigo.orchextra.core.domain.rxInteractor.ClearCache;
@@ -35,6 +37,13 @@ import orchextra.javax.inject.Singleton;
     return new OcmControllerImp(getVersion, getMenus, getSection, getDetail, searchElements,
         clearCache, connectionUtils, ocmPreferences);
   }
+
+  @Provides OcmControllerKt provideOcmControllerKt(GetVersion getVersion, GetMenus getMenus,
+      GetSection getSection, OcmPreferences ocmPreferences) {
+
+    return new OcmControllerImpKt(getVersion, getMenus, getSection, ocmPreferences);
+  }
+
 
   @Provides @Singleton ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
     return jobExecutor;

@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
+import com.gigigo.orchextra.core.domain.entities.DataRequest;
 import com.gigigo.orchextra.core.domain.entities.menus.MenuContentData;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxRepository.OcmRepository;
@@ -21,19 +22,19 @@ public class GetMenus extends UseCase<MenuContentData, GetMenus.Params> {
   }
 
   @Override Observable<MenuContentData> buildUseCaseObservable(Params params) {
-    return this.ocmRepository.getMenu(params.forceReload);
+    return this.ocmRepository.getMenu(params.forceSource);
   }
 
   public static final class Params {
 
-    private final boolean forceReload;
+    private final DataRequest forceSource;
 
-    private Params(boolean forceReload) {
-      this.forceReload = forceReload;
+    private Params(DataRequest source) {
+      this.forceSource = source;
     }
 
-    public static Params forForceReload(boolean forceReload) {
-      return new Params(forceReload);
+    public static Params forForceSource(DataRequest source) {
+      return new Params(source);
     }
   }
 }

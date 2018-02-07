@@ -30,8 +30,6 @@
   <color name="oc_youtube_layout_container_color">#000</color>
 
   <!-- Grid -->
-  <color name="oc_padlock_gradient_start">#807f7f</color>
-  <color name="oc_padlock_gradient_end">#807f7f</color>
   <color name="oc_background_grid_color">#807f7f</color>
   <color name="oc_background_search_grid_color">#807f7f</color>
 

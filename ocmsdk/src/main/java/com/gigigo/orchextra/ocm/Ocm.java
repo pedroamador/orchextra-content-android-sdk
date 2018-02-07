@@ -196,6 +196,18 @@ public final class Ocm {
     });
   }
 
+  public static void updateContent(OcmCallbacks.Menus menusCallback) {
+    OCManager.updateContent(new OCManagerCallbacks.Menus() {
+      @Override public void onMenusLoaded(UiMenuData menus) {
+        menusCallback.onMenusLoaded(menus);
+      }
+
+      @Override public void onMenusFails(Throwable e) {
+        menusCallback.onMenusFails(e);
+      }
+    });
+  }
+
   /**
    * Clear cached data
    *

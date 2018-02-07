@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.core.domain.rxInteractor;
 
+import com.gigigo.orchextra.core.domain.entities.DataRequest;
 import com.gigigo.orchextra.core.domain.rxExecutor.PostExecutionThread;
 import com.gigigo.orchextra.core.domain.rxRepository.OcmRepository;
 import org.junit.Before;
@@ -31,9 +32,9 @@ import static org.mockito.Mockito.verifyZeroInteractions;
   }
 
   @Test public void testGetMenusUseCaseObservableHappyCase() {
-    getMenus.buildUseCaseObservable(GetMenus.Params.forForceReload(FORCE_RELOAD));
+    getMenus.buildUseCaseObservable(GetMenus.Params.forForceSource(DataRequest.DEFAULT));
 
-    verify(mockOcmRepository).getMenu(FORCE_RELOAD);
+    verify(mockOcmRepository).getMenu(DataRequest.DEFAULT);
     verifyNoMoreInteractions(mockOcmRepository);
     verifyZeroInteractions(mockPostExecutionThread);
     verifyZeroInteractions(mockThreadExecutor);

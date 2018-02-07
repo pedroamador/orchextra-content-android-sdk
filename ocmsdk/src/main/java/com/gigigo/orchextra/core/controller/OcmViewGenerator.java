@@ -35,6 +35,8 @@ public interface OcmViewGenerator {
 
   void getMenu(DataRequest menuRequest, GetMenusViewGeneratorCallback getMenusViewGeneratorCallback);
 
+  void updateContent(GetMenusViewGeneratorCallback getMenusViewGeneratorCallback);
+
   // Callbacks
   interface GetMenusViewGeneratorCallback {
     void onGetMenusLoaded(UiMenuData menus);

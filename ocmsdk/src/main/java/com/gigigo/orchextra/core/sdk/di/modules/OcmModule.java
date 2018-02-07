@@ -4,6 +4,7 @@ import android.app.Application;
 import com.gigigo.orchextra.core.controller.OcmViewGenerator;
 import com.gigigo.orchextra.core.controller.model.detail.DetailElementsViewPresenter;
 import com.gigigo.orchextra.core.domain.OcmController;
+import com.gigigo.orchextra.core.domain.OcmControllerKt;
 import com.gigigo.orchextra.core.domain.entities.ocm.Authoritation;
 import com.gigigo.orchextra.core.domain.rxInteractor.PriorityScheduler;
 import com.gigigo.orchextra.core.sdk.OcmSchemeHandler;
@@ -42,9 +43,9 @@ import orchextra.javax.inject.Singleton;
     return ocmSdkLifecycle;
   }
 
-  @Singleton @Provides OcmViewGenerator provideOcmViewGenerator(OcmController ocmController,
+  @Singleton @Provides OcmViewGenerator provideOcmViewGenerator(OcmController ocmController, OcmControllerKt ocmControllerKt,
       Provider<DetailElementsViewPresenter> detailElementsViewPresenterProvides) {
-    return new OcmViewGeneratorImp(ocmController, detailElementsViewPresenterProvides);
+    return new OcmViewGeneratorImp(ocmController, ocmControllerKt, detailElementsViewPresenterProvides);
   }
 
   @Singleton @Provides Authoritation provideAuthoritation() {

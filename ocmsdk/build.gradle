@@ -263,4 +263,5 @@ dependencies {
   testImplementation project.testLibraries.junit
   testImplementation project.testLibraries.assertj
   testImplementation project.testLibraries.mockito
+  compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.10'
 }

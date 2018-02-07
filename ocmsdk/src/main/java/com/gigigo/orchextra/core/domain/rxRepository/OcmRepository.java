@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.core.domain.rxRepository;
 
+import com.gigigo.orchextra.core.domain.entities.DataRequest;
 import com.gigigo.orchextra.core.domain.entities.contentdata.ContentData;
 import com.gigigo.orchextra.core.domain.entities.elements.ElementData;
 import com.gigigo.orchextra.core.domain.entities.menus.MenuContentData;
@@ -14,7 +15,7 @@ public interface OcmRepository {
 
   Observable<VersionData> getVersion();
 
-  Observable<MenuContentData> getMenu(boolean forceReload);
+  Observable<MenuContentData> getMenu(DataRequest forceSource);
 
   Observable<ContentData> getSectionElements(boolean forceReload, String elementUrl,
       int numberOfElementsToDownload);

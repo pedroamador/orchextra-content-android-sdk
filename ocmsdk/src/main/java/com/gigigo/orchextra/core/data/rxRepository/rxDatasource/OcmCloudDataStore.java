@@ -16,6 +16,7 @@ import com.gigigo.orchextra.core.data.rxCache.OcmCache;
 import com.gigigo.orchextra.core.data.rxCache.imageCache.ImageData;
 import com.gigigo.orchextra.core.data.rxCache.imageCache.ImagesService;
 import com.gigigo.orchextra.core.data.rxCache.imageCache.OcmImageCache;
+import com.gigigo.orchextra.core.domain.entities.DataRequest;
 import com.gigigo.orchextra.core.receiver.WifiReceiver;
 import com.gigigo.orchextra.core.sdk.di.injector.Injector;
 import com.gigigo.orchextra.ocm.OCManager;
@@ -53,7 +54,7 @@ import orchextra.javax.inject.Singleton;
 
     final long time = System.currentTimeMillis();
 
-    return ocmApiService.getMenuDataRx()
+    Observable<ApiMenuContentData> menuObservable = ocmApiService.getMenuDataRx()
         .map(dataResponse -> dataResponse.getResult())
         .doOnNext(ocmCache::putMenus)
         .doOnNext(apiMenuContentData -> addSectionsToCache(apiMenuContentData))
@@ -61,6 +62,8 @@ import orchextra.javax.inject.Singleton;
           apiMenuContentData.setFromCloud(true);
           Log.v("TT - MenuEntity", (System.currentTimeMillis() - time) / 1000 + "");
         });
+
+    return menuObservable;
   }
 
   @Override public Observable<ApiSectionContentData> getSectionEntity(String contentUrl,
@@ -72,7 +75,8 @@ import orchextra.javax.inject.Singleton;
         .map(dataResponse -> dataResponse.getResult())
         .doOnNext(apiSectionContentData -> apiSectionContentData.setKey(contentUrl))
         .doOnNext(ocmCache::putSection)
-        .doOnNext(apiSectionContentData -> addSectionsImagesToCache(apiSectionContentData, numberOfElementsToDownload))
+        .doOnNext(apiSectionContentData -> addSectionsImagesToCache(apiSectionContentData,
+            numberOfElementsToDownload))
         .doOnNext(apiSectionContentData -> {
           apiSectionContentData.setFromCloud(true);
           Log.v("TT - SectionEntity", (System.currentTimeMillis() - time) / 1000 + "");
@@ -80,7 +84,8 @@ import orchextra.javax.inject.Singleton;
   }
 
   private void addSectionsToCache(ApiMenuContentData apiMenuContentData) {
-    Iterator<ApiMenuContent> menuContentIterator = apiMenuContentData.getMenuContentList().iterator();
+    Iterator<ApiMenuContent> menuContentIterator =
+        apiMenuContentData.getMenuContentList().iterator();
     while (menuContentIterator.hasNext()) {
       Iterator<ApiElement> elementIterator = menuContentIterator.next().getElements().iterator();
       while (elementIterator.hasNext()) {

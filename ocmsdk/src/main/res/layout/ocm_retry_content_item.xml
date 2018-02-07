@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ocm_more_content_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/oc_background_retry_content_layout"
@@ -18,7 +17,6 @@
       />
 
   <LinearLayout
-      android:id="@+id/ocm_more_text_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@+id/ocm_more_logo_image_view"
@@ -27,7 +25,6 @@
       android:orientation="vertical"
       >
     <com.gigigo.orchextra.core.sdk.ui.views.textviews.OcmTitleTextView
-        android:id="@+id/ocm_empty_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="14dp"
@@ -39,7 +36,6 @@
         android:textSize="@dimen/oc_retry_content_text1_size"
         />
     <com.gigigo.orchextra.core.sdk.ui.views.textviews.OcmTitleTextView
-        android:id="@+id/ocm_empty_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"

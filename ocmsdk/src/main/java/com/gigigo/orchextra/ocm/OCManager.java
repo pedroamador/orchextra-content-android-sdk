@@ -204,6 +204,28 @@ Add Comment C
     }
   }
 
+  static void updateContent(final OCManagerCallbacks.Menus menusCallback) {
+    final long time = System.currentTimeMillis();
+    if (instance != null) {
+      instance.ocmViewGenerator.updateContent(new OcmViewGenerator.GetMenusViewGeneratorCallback() {
+            @Override public void onGetMenusLoaded(UiMenuData menus) {
+              Log.v("TT - LOADED menus", (System.currentTimeMillis() - time) / 1000 + "");
+              if (menus != null
+                  && menus.getUiMenuList() != null
+                  && menus.getUiMenuList().size() > 0) {
+                instance.uiMenuToNotifyWhenSectionIsLoaded = menus.getUiMenuList().get(0);
+              }
+
+              menusCallback.onMenusLoaded(menus);
+            }
+
+            @Override public void onGetMenusFails(Throwable e) {
+              menusCallback.onMenusFails(e);
+            }
+          });
+    }
+  }
+
   static void generateSectionView(UiMenu uiMenu, String filter, int imagesToDownload,
       final OCManagerCallbacks.Section sectionCallback) {
     final long time = System.currentTimeMillis();
