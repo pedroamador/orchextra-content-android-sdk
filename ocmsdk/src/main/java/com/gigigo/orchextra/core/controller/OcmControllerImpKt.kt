@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.core.controller
 
 import android.util.Log
+import com.fernandocejas.arrow.functions.Predicates.not
 import com.gigigo.orchextra.core.controller.OcmControllerImpKt.Companion
 import com.gigigo.orchextra.core.data.rxException.ApiMenuNotFoundException
 import com.gigigo.orchextra.core.data.rxException.ApiSectionNotFoundException
@@ -59,12 +60,12 @@ class OcmControllerImpKt(
   }
 
   private fun versionHasChanged(versionData: VersionData): Boolean =
-      true //ocmPreferences.version != versionData.version
+      ocmPreferences.version != versionData.version
 
 
   private fun loadMenuSections() {
     getMenus.execute(MenuObserver(object : GetMenusControllerCallback {
-      override fun onMenusLoaded(uiMenuData: UiMenuData) {
+      override fun onMenusLoaded(uiMenuData: UiMenuData?) {
         checkMenus(uiMenuData)
       }
 
@@ -77,29 +78,30 @@ class OcmControllerImpKt(
 
   private fun checkMenus(cachedMenuData: UiMenuData? = null) {
     getMenus.execute(MenuObserver(object : GetMenusControllerCallback {
-      override fun onMenusLoaded(uiMenuData: UiMenuData) {
+      override fun onMenusLoaded(uiMenuData: UiMenuData?) {
         if (menusHasChanged(cachedMenuData,uiMenuData)) {
           //DISPLAY NEW CONTENT AVAILABLE BUTTON
-          displayNewContentAvailableButton()
+          displayNewContentAvailableButton(uiMenuData)
         } else {
-          loadSections()
+          loadSections(uiMenuData)
         }
       }
 
       override fun onMenusFails(exception: Exception) {
         //DISPLAY NEW CONTENT AVAILABLE BUTTON
-        displayNewContentAvailableButton()
+        displayNewContentAvailableButton(cachedMenuData)
       }
 
     }), GetMenus.Params.forForceSource(FORCE_CLOUD), HIGH)
   }
 
-  private fun menusHasChanged(cachedMenuData: UiMenuData?, uiMenuData: UiMenuData): Boolean {
-    return uiMenuData.uiMenuList?.equals(cachedMenuData?.uiMenuList) ?: true
+  private fun menusHasChanged(cachedMenuData: UiMenuData?, uiMenuData: UiMenuData?): Boolean {
+    return uiMenuData?.uiMenuList?.equals(cachedMenuData?.uiMenuList) == false
   }
 
 
-  private fun loadSections() {
+  private fun loadSections(uiMenuData: UiMenuData? = null) {
+    menuCallback.onMenusLoaded(uiMenuData)
     // getSection.execute()
 
   }
@@ -118,13 +120,12 @@ class OcmControllerImpKt(
       true
 
 
-  private fun displayNewContentAvailableButton() {
-
+  private fun displayNewContentAvailableButton(uiMenuData: UiMenuData? = null) {
+    menuCallback.onMenusLoaded(uiMenuData)
   }
 
-  private fun doNothing() {
-    TODO(
-        "not implemented") //To change body of created functions use File | Settings | File Templates.
+  private fun doNothing(uiMenuData: UiMenuData? = null) {
+    menuCallback.onMenusLoaded(uiMenuData)
   }
 
   companion object {
@@ -197,11 +198,11 @@ class MenuObserver(
   }
 
   override fun onNext(menuContentData: MenuContentData) {
-    getMenusCallback?.onMenusLoaded(OcmControllerImpKt.transformMenu(menuContentData))
+    getMenusCallback.onMenusLoaded(OcmControllerImpKt.transformMenu(menuContentData))
   }
 
   override fun onError(e: Throwable) {
-    getMenusCallback?.onMenusFails(ApiMenuNotFoundException(e))
+    getMenusCallback.onMenusFails(ApiMenuNotFoundException(e))
     e.printStackTrace()
   }
 }

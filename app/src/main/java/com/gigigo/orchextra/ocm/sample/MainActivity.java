@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         List<ViewCustomizationType> viewCustomizationType = new ArrayList<>();
         viewCustomizationType.add(new Disabled());
 
-        if (customProperties.containsKey("requiredAuth") && customProperties.containsValue("logged")) {
+        if (customProperties.containsKey("requiredAuth") && customProperties.containsValue(
+            "logged")) {
           View view = getLayoutInflater().inflate(R.layout.padlock_view, null);
           viewCustomizationType.add(new ViewLayer(view));
         }
@@ -120,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     }
-
   };
 
   private List<UiMenu> oldUiMenuList;
@@ -229,9 +229,16 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void getContentKt() {
+    Ocm.setOnLoadDataContentSectionFinished(new OnLoadContentSectionFinishedCallback() {
+      @Override public void onLoadContentSectionFinished() {
+
+      }
+    });
+
     Ocm.updateContent(new OcmCallbacks.Menus() {
       @Override public void onMenusLoaded(UiMenuData menus) {
         Toast.makeText(MainActivity.this, menus.toString(), Toast.LENGTH_SHORT).show();
+        onGoDetailView(menus.getUiMenuList());
       }
 
       @Override public void onMenusFails(Throwable e) {
