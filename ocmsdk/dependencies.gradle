@@ -5,7 +5,7 @@ project.ext {
   androidBuildToolsVersion = '26.0.2'
   androidTargetSdkVersion = 26
   supportVersion = '26.1.0'
-  oxVersion = '3.0-RC13'
+  oxVersion = '3.0-RC17'
 
   libraries = [androidSupportDesign      : "com.android.support:design:${supportVersion}",
                androidCustomtabs         : "com.android.support:customtabs:${supportVersion}",
@@ -18,20 +18,20 @@ project.ext {
                ggglib                    : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:4.4',
 
                oxCoreStaging             : "com.gigigo.orchextra:core:${oxVersion}-S",
-               oxCoreDebug               : "com.gigigo.orchextra:core:${oxVersion}-S",
-               oxCoreRelease             : "com.gigigo.orchextra:core:${oxVersion}-S",
+               oxCoreDebug               : "com.gigigo.orchextra:core:${oxVersion}-Q",
+               oxCoreRelease             : "com.gigigo.orchextra:core:${oxVersion}",
 
                oxGeofenceStaging         : "com.gigigo.orchextra:geofence:${oxVersion}-S",
-               oxGeofenceDebug           : "com.gigigo.orchextra:geofence:${oxVersion}-S",
-               oxGeofenceRelease         : "com.gigigo.orchextra:geofence:${oxVersion}-S",
+               oxGeofenceDebug           : "com.gigigo.orchextra:geofence:${oxVersion}-Q",
+               oxGeofenceRelease         : "com.gigigo.orchextra:geofence:${oxVersion}",
 
                oxIndoorpositioningStaging: "com.gigigo.orchextra:indoorpositioning:${oxVersion}-S",
-               oxIndoorpositioningDebug  : "com.gigigo.orchextra:indoorpositioning:${oxVersion}-S",
-               oxIndoorpositioningRelease: "com.gigigo.orchextra:indoorpositioning:${oxVersion}-S",
+               oxIndoorpositioningDebug  : "com.gigigo.orchextra:indoorpositioning:${oxVersion}-Q",
+               oxIndoorpositioningRelease: "com.gigigo.orchextra:indoorpositioning:${oxVersion}",
 
                oxScannerStaging          : "com.gigigo.orchextra:scanner:${oxVersion}-S",
-               oxScannerDebug            : "com.gigigo.orchextra:scanner:${oxVersion}-S",
-               oxScannerRelease          : "com.gigigo.orchextra:scanner:${oxVersion}-S",
+               oxScannerDebug            : "com.gigigo.orchextra:scanner:${oxVersion}-Q",
+               oxScannerRelease          : "com.gigigo.orchextra:scanner:${oxVersion}",
 
                gpuImage                  : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
                playServicesBase          : "com.google.android.gms:play-services-base:11.4.2",
