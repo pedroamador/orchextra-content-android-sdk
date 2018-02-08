@@ -5,7 +5,7 @@ package com.gigigo.orchextra.wrapper;
  */
 
 public class OxManagerImpl {
-  //implements OxManager {
+  //implements OxManagerOld {
   //
   //private OnCustomSchemeReceiver onCustomSchemeReceiver;
   //private HashMap<CrmUser.Gender, com.gigigo.orchextra.CrmUser.Gender> genders;

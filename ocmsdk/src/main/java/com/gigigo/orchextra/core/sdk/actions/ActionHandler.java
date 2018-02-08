@@ -19,7 +19,6 @@ import com.gigigo.orchextra.ocm.federatedAuth.FAUtils;
 import com.gigigo.orchextra.ocmsdk.BuildConfig;
 import com.gigigo.orchextra.ocmsdk.R;
 import com.gigigo.orchextra.wrapper.OxManager;
-import com.gigigo.orchextra.wrapper.OxManagerImpl;
 import gigigo.com.vimeolibs.VimeoBuilder;
 import gigigo.com.vimeolibs.VimeoCallback;
 import gigigo.com.vimeolibs.VimeoExoPlayerActivity;
@@ -28,14 +27,14 @@ import gigigo.com.vimeolibs.VimeoManager;
 
 public class ActionHandler {
 
-  OxManager orchextra;
+  private final OxManager oxManager;
   private final OcmContextProvider ocmContextProvider;
   private final ConnectionUtils connectionUtils;
 
-  public ActionHandler(OcmContextProvider ocmContextProvider) {
+  public ActionHandler(OcmContextProvider ocmContextProvider, OxManager oxManager) {
     this.ocmContextProvider = ocmContextProvider;
+    this.oxManager = oxManager;
     this.connectionUtils = new ConnectionUtilsImp(ocmContextProvider.getApplicationContext());
-    this.orchextra = new OxManagerImpl();
   }
 
   public void processDeepLink(String uri) {
@@ -79,11 +78,11 @@ public class ActionHandler {
   }
 
   public void launchOxVuforia() {
-    orchextra.startImageRecognition();
+    oxManager.startImageRecognition();
   }
 
   public void lauchOxScan() {
-    orchextra.startScanner();
+    oxManager.startScanner();
   }
 
   public void launchExternalBrowser(final String url, FederatedAuthorization federatedAuth) {

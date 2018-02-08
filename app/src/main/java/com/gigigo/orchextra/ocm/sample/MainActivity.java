@@ -8,13 +8,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.core.domain.entities.menus.DataRequest;
 import com.gigigo.orchextra.ocm.Ocm;
 import com.gigigo.orchextra.ocm.OcmCallbacks;
 import com.gigigo.orchextra.ocm.callbacks.OcmCredentialCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnChangedMenuCallback;
-import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
 import com.gigigo.orchextra.ocm.callbacks.OnLoadContentSectionFinishedCallback;
 import com.gigigo.orchextra.ocm.callbacks.OnRequiredLoginCallback;
 import com.gigigo.orchextra.ocm.customProperties.Disabled;
@@ -81,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         List<ViewCustomizationType> viewCustomizationType = new ArrayList<>();
         viewCustomizationType.add(new Disabled());
 
-        if (customProperties.containsKey("requiredAuth") && customProperties.containsValue("logged")) {
+        if (customProperties.containsKey("requiredAuth") && customProperties.containsValue(
+            "logged")) {
           View view = getLayoutInflater().inflate(R.layout.padlock_view, null);
           viewCustomizationType.add(new ViewLayer(view));
         }
@@ -120,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     }
-
   };
 
   private List<UiMenu> oldUiMenuList;
@@ -230,13 +228,9 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    Ocm.setOnCustomSchemeReceiver(new OnCustomSchemeReceiver() {
-      @Override public void onReceive(String customScheme) {
-        // Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show();
-        Orchextra.startScannerActivity();
-      }
-    });
-    Ocm.start();//likewoah
+    Ocm.setOnCustomSchemeReceiver(
+        customScheme -> Toast.makeText(MainActivity.this, customScheme, Toast.LENGTH_SHORT).show());
+    Ocm.start();
   }
 
   public void clearApplicationData() {

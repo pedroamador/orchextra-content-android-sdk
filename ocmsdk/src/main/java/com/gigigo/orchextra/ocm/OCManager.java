@@ -15,7 +15,6 @@ import com.gigigo.orchextra.core.domain.entities.ocm.OxSession;
 import com.gigigo.orchextra.core.sdk.OcmSchemeHandler;
 import com.gigigo.orchextra.core.sdk.OcmStyleUi;
 import com.gigigo.orchextra.core.sdk.application.OcmContextProvider;
-import com.gigigo.orchextra.core.sdk.application.OcmSdkLifecycle;
 import com.gigigo.orchextra.core.sdk.di.components.DaggerOcmComponent;
 import com.gigigo.orchextra.core.sdk.di.components.OcmComponent;
 import com.gigigo.orchextra.core.sdk.di.injector.Injector;
@@ -39,6 +38,7 @@ import com.gigigo.orchextra.ocm.views.UiSearchBaseContentData;
 import com.gigigo.orchextra.wrapper.CrmUser;
 import com.gigigo.orchextra.wrapper.ImageRecognition;
 import com.gigigo.orchextra.wrapper.OrchextraCompletionCallback;
+import com.gigigo.orchextra.wrapper.OxConfig;
 import com.gigigo.orchextra.wrapper.OxManager;
 import java.io.File;
 import java.io.FileInputStream;
@@ -141,7 +141,6 @@ Add Comment C
   //region serialize list of read articles slugs
   private final String READ_ARTICLES_FILE = "read_articles_file.ocm";
   @Inject OxManager oxManager;
-  @Inject OcmSdkLifecycle ocmSdkLifecycle;
   @Inject OcmContextProvider ocmContextProvider;
   @Inject OcmViewGenerator ocmViewGenerator;
   @Inject OxSession oxSession;
@@ -641,7 +640,6 @@ Add Comment C
 
   private void initOcm(Application app) {
     initDependencyInjection(app);
-    initLifecyle(app);
   }
 
   private void initDependencyInjection(Application app) {
@@ -652,10 +650,6 @@ Add Comment C
     ocmComponent.injectOcm(OCManager.instance);
   }
 
-  private void initLifecyle(Application app) {
-    app.registerActivityLifecycleCallbacks(ocmSdkLifecycle);
-  }
-
   private void initOrchextra(Application app, String oxKey, String oxSecret,
       Class notificationActivityClass, String senderId) {
     initOrchextra(app, oxKey, oxSecret, notificationActivityClass, senderId, null);
@@ -663,16 +657,10 @@ Add Comment C
 
   private void initOrchextra(Application app, String oxKey, String oxSecret,
       Class notificationActivityClass, String senderId, ImageRecognition vuforia) {
-    System.out.println("appOn6.6.1");
-    OxManager.Config config = new OxManager.Config.Builder().setApiKey(oxKey)
-        .setApiSecret(oxSecret)
-        .setNotificationActivityClass(notificationActivityClass)
-        .setSenderId(senderId)
-        .setVuforia(vuforia)
-        .setOrchextraCompletionCallback(mOrchextraCompletionCallback)
-        .build();
-    System.out.println("appOn6.6.2");
-    instance.oxManager.init(app, config);
+
+    OxConfig config = new OxConfig(oxKey, oxSecret, senderId, notificationActivityClass);
+
+    instance.oxManager.init(app, config, mOrchextraCompletionCallback);
   }
 
   public ArrayList<String> readReadArticles() {

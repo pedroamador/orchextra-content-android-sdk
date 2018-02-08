@@ -7,7 +7,7 @@ import com.gigigo.orchextra.ocm.callbacks.OnCustomSchemeReceiver;
  * Created by alex on 01/12/2017.
  */
 
-public interface OxManager {
+public interface OxManagerOld {
 
   void startImageRecognition();
 

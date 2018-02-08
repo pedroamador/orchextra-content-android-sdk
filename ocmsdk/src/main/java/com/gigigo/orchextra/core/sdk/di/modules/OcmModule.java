@@ -14,8 +14,8 @@ import com.gigigo.orchextra.core.sdk.actions.ActionHandler;
 import com.gigigo.orchextra.core.sdk.application.OcmContextProvider;
 import com.gigigo.orchextra.core.sdk.application.OcmContextProviderImpl;
 import com.gigigo.orchextra.core.sdk.application.OcmSdkLifecycle;
+import com.gigigo.orchextra.wrapper.Ox3ManagerImpl;
 import com.gigigo.orchextra.wrapper.OxManager;
-import com.gigigo.orchextra.wrapper.OxManagerImpl;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 import orchextra.javax.inject.Provider;
@@ -33,8 +33,8 @@ import orchextra.javax.inject.Singleton;
     return new OcmContextProviderImpl(app.getApplicationContext());
   }
 
-  @Singleton @Provides OcmSdkLifecycle provideOcmSdkLifecycle(
-      OcmContextProvider ocmContextProvider, PriorityScheduler priorityScheduler) {
+  @Singleton @Provides OcmSdkLifecycle provideOcmSdkLifecycle(OcmContextProvider ocmContextProvider,
+      PriorityScheduler priorityScheduler) {
     OcmSdkLifecycle ocmSdkLifecycle = new OcmSdkLifecycle(priorityScheduler);
 
     ocmContextProvider.setOcmActivityLifecycle(ocmSdkLifecycle);
@@ -51,8 +51,9 @@ import orchextra.javax.inject.Singleton;
     return new Authoritation();
   }
 
-  @Singleton @Provides ActionHandler provideActionHandler(OcmContextProvider ocmContextProvider) {
-    return new ActionHandler(ocmContextProvider);
+  @Singleton @Provides ActionHandler provideActionHandler(OcmContextProvider ocmContextProvider,
+      OxManager oxManager) {
+    return new ActionHandler(ocmContextProvider, oxManager);
   }
 
   @Singleton @Provides OcmSchemeHandler provideOcmSchemeHandler(OcmContextProvider contextProvider,
@@ -64,7 +65,7 @@ import orchextra.javax.inject.Singleton;
     return new OcmStyleUiImp();
   }
 
-  @Singleton @Provides OxManager provideOxManager(){
-    return new OxManagerImpl();
+  @Singleton @Provides OxManager provideOxManager() {
+    return new Ox3ManagerImpl();
   }
 }
